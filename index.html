@@ -300,7 +300,7 @@
 </div>
 <script>
 
-const TODAY = new Date("2026-05-27");
+const TODAY = new Date();
 
 const IL_YEAR = 2026; // Always current — year picker removed; historical view via cert event drill-down
 let _ACTIVE_PANEL_ID = null;
@@ -782,6 +782,7 @@ const PORTFOLIO = [
         }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9262520720",mor:{date:"2025-02-21",score:"Satisfactory",next:null},nspire:{date:"2025-04-09",score:"85",next:"Mid 2027"}},
     program:"Both",
     hud:{
       contractNumber:"CA39L000015", // HAP Contract confirmed (20-yr renewal eff. 3/1/2017 – 2/28/2037)
@@ -1200,6 +1201,7 @@ const PORTFOLIO = [
         }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9261066370",mor:{date:"2025-05-02",score:"Satisfactory",next:null},nspire:{date:"2023-06-22",score:"82c",next:"Late 2025/Early 2026"}},
     program:"Both",
     hud:{
       contractNumber:"CA168023144", // HAP CA168023144 per UA Monitor notes
@@ -1240,7 +1242,7 @@ const PORTFOLIO = [
       {date:"2023-06-01", type:"3-Year Utility Study",  values:{"2BR":43,"3BR":89}},
       {date:"2024-06-01", type:"OCAF Adjustment",       values:{"2BR":43,"3BR":89}},
       {date:"2025-06-01", type:"OCAF Adjustment",       values:{"2BR":55,"3BR":113}},
-      {date:"2026-06-01", type:"3-Year Utility Study",  values:null, pending:true},
+      {date:"2026-06-01", type:"3-Year Utility Study",  values:{"2BR":64,"3BR":102}},
     ],
     placedInService:"2018-12-11",
     regulatoryAgreements:[
@@ -1442,15 +1444,28 @@ const PORTFOLIO = [
           utilityAllowances:null,
           hudContractRents:null
         }
+      },
+      {
+        effectiveDate:"2026-06-01",
+        trigger:"hud_contract",
+        label:"FY2026 HUD OCAF Rent Increase + UA Study — Effective 6/1/2026",
+        source:"HUD OCAF automatic rent increase (factor: 1.027) effective 6/1/2026; CA16L000054 / L.A. LOMOD Corporation; UA study dated 4/8/2026 (SCE electric — HUD 3-Year Study); 2BR UA $55→$64, 3BR UA $113→$102 (per executed HUD-92458)",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"2BR":64,"3BR":102},
+          hudContractRents:{"2BR (24u)":2741,"2BR (71u)":2768,"3BR (53u)":3636,"2BR Non-S8 (1u)":2291,"3BR Non-S8 (1u)":1629}
+        }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9261066354",mor:{date:"2022-12-28",score:"Superior",next:null},nspire:{date:"2019-04-23",score:"84c",next:"Mid 2026"}},
     program:"Both",
     hud:{
       contractNumber:"CA16L000054", // L.A. LOMOD HAP CA16L000054
       contractRents:{
-        "2BR (24u)":2669, // HUD-92458 effective 6/1/2025
-        "2BR (71u)":2695,
-        "3BR (53u)":3540,
+        "2BR (24u)":2741, // HUD-92458 effective 6/1/2026
+        "2BR (71u)":2768,
+        "3BR (53u)":3636,
         "2BR Non-S8 (1u)":2291,
         "3BR Non-S8 (1u)":1629
       },
@@ -1469,7 +1484,7 @@ const PORTFOLIO = [
         "60%":{"2BR":2045,"3BR":2363},
         "50%":{"2BR":1704,"3BR":1969}
       },
-      utilityAllowances:{"2BR":55,"3BR":113},
+      utilityAllowances:{"2BR":64,"3BR":102},
       uaBreakdown:{
         "2BR":{ heating:null, cooking:null, waterHeating:null, lights:null, ac:null, waterSewer:null, trash:null },
         "3BR":{ heating:null, cooking:null, waterHeating:null, lights:null, ac:null, waterSewer:null, trash:null }
@@ -1714,53 +1729,27 @@ const PORTFOLIO = [
     ],
     certHistory:[
       {
-        effectiveDate:"2022-04-18",
-        trigger:"income_limits",
-        label:"FY2022 LIHTC Income & Rent Limits — San Diego-MSA (MTSP/HERA Special)",
-        source:"HUD FY2022 MTSP Release effective 4/18/2022, San Diego-MSA; TCAC CA-2008-950. NOTE: HCD income limits for City tiers (15u @50%-HCD and 64u @60%-HCD) not documented for FY2022 — verify from historical rent matrix. LIHTC 60% values from tracker San Diego-MSA data (may be HERA Special — confirm vs. actual rent schedule).",
-        snapshot:{
-          incomeLimits:{
-            "60%-LIHTC":{"1":54660,"2":62460,"3":70260,"4":78060},
-            "50%-HCD":null,
-            "60%-HCD":null
-          },
-          grossRentLimits:{
-            "60%-LIHTC":{"2BR":1756},
-            "50%-HCD":null,
-            "60%-HCD":null
-          },
-          utilityAllowances:null,
-          hudContractRents:null
-        }
-      },
-      {
-        effectiveDate:"2023-05-15",
-        trigger:"income_limits",
-        label:"FY2023 LIHTC Income & Rent Limits — San Diego-MSA (MTSP/HERA Special)",
-        source:"HUD FY2023 MTSP Release effective 5/15/2023, San Diego-MSA; TCAC CA-2008-950. NOTE: HCD limits for City tiers not documented for FY2023 — verify from historical rent matrix.",
-        snapshot:{
-          incomeLimits:{
-            "60%-LIHTC":{"1":57900,"2":66180,"3":74460,"4":82680},
-            "50%-HCD":null,
-            "60%-HCD":null
-          },
-          grossRentLimits:{
-            "60%-LIHTC":{"2BR":1861},
-            "50%-HCD":null,
-            "60%-HCD":null
-          },
-          utilityAllowances:null,
-          hudContractRents:null
-        }
-      },
-      {
         effectiveDate:"2023-08-01",
         trigger:"utility_allowance",
-        label:"UA Schedule Update — City of Oceanside Housing Authority (effective 8/1/2023, implemented 11/1/2023)",
-        source:"Shadow Way Rent and Income Matrix effective 4/23/2025 (WinnResidential); City of Oceanside Housing Authority UA Schedule effective 8/1/2023",
+        label:"FY2023 Income & Rent Limits + UA Update — All Three Tiers (8/1/2023)",
+        source:"HCD FY2023 State Income Limits effective 6/6/2023 (San Diego County AMI $116,800; City RA 50%/60% = pct × AMI × household-size factor); HUD FY2023 MTSP effective 5/15/2023 (San Diego-Carlsbad MSA; HERA Special / TCAC CA-2008-950); City of Oceanside Housing Authority UA $140 effective 8/1/2023, implemented 11/1/2023. HCD tiers derived from AMI × pct × size factor (confirmed formula via FY2025 rent matrix); LIHTC 60% from existing tracker confirmed data. NOTE: UA implemented 11/1/2023 per WinnResidential rent matrix — prior residents charged $0 UA.",
         snapshot:{
-          incomeLimits:null,
-          grossRentLimits:null,
+          incomeLimits:{
+            "50%-HCD":{"1":40900,"2":46700,"3":52550,"4":58400,"5":63100,"6":67750},
+            "60%-HCD":{"1":49050,"2":56050,"3":63100,"4":70100,"5":75700,"6":81300},
+            "60%-LIHTC":{"1":57900,"2":66180,"3":74460,"4":82680}
+          },
+          grossRentLimits:{
+            "50%-HCD":{"2BR":1314},
+            "60%-HCD":{"2BR":1576},
+            "60%-LIHTC":{"2BR":1861}
+          },
+          rentsByAgreement:{
+            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":1861}},
+            "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1576}},
+            "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1314}}
+          },
+          incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
           utilityAllowances:{"2BR":140},
           hudContractRents:null,
           uaBreakdown:{
@@ -1771,19 +1760,25 @@ const PORTFOLIO = [
       {
         effectiveDate:"2024-04-01",
         trigger:"income_limits",
-        label:"FY2024 LIHTC Income & Rent Limits — San Diego-MSA (MTSP)",
-        source:"HUD FY2024 MTSP Release effective ~4/1/2024, San Diego-MSA; TCAC CA-2008-950. NOTE: HCD limits for City tiers not documented for FY2024 — verify from historical rent matrix.",
+        label:"FY2024 Income & Rent Limits — All Three Tiers",
+        source:"HCD FY2024 State Income Limits effective 5/9/2024 (San Diego County AMI $119,500; City RA tiers derived: 50% = $59,750 4p, 60% = $71,700 4p); HUD FY2024 MTSP effective ~4/1/2024 (San Diego-Carlsbad MSA; TCAC CA-2008-950); City of Oceanside Housing Authority UA $140 (no change). HCD tiers calculated via AMI × pct × household-size factor (same formula confirmed per FY2025 rent matrix).",
         snapshot:{
           incomeLimits:{
-            "60%-LIHTC":{"1":63660,"2":72720,"3":81840,"4":90900},
-            "50%-HCD":null,
-            "60%-HCD":null
+            "50%-HCD":{"1":41800,"2":47800,"3":53800,"4":59750,"5":64500,"6":69300},
+            "60%-HCD":{"1":50200,"2":57350,"3":64550,"4":71700,"5":77450,"6":83200},
+            "60%-LIHTC":{"1":63660,"2":72720,"3":81840,"4":90900}
           },
           grossRentLimits:{
-            "60%-LIHTC":{"2BR":2046},
-            "50%-HCD":null,
-            "60%-HCD":null
+            "50%-HCD":{"2BR":1344},
+            "60%-HCD":{"2BR":1613},
+            "60%-LIHTC":{"2BR":2046}
           },
+          rentsByAgreement:{
+            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":2046}},
+            "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1613}},
+            "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1344}}
+          },
+          incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
           utilityAllowances:{"2BR":140},
           hudContractRents:null
         }
@@ -1791,8 +1786,8 @@ const PORTFOLIO = [
       {
         effectiveDate:"2025-04-01",
         trigger:"income_limits",
-        label:"FY2025 Income & Rent Limits — San Diego-MSA (LIHTC/MTSP 4/1/2025; HCD 4/23/2025) — CONFIRMED",
-        source:"Shadow Way Rent and Income Matrix effective 4/23/2025 (WinnResidential / MRK Partners); TCAC CA-2008-950; City of Oceanside Housing Authority UA $140 effective 8/1/2023 (impl 11/1/2023). All three income tiers and UA breakdown confirmed.",
+        label:"FY2025 Income & Rent Limits — All Three Tiers — CONFIRMED",
+        source:"Shadow Way Rent and Income Matrix effective 4/23/2025 (WinnResidential / MRK Partners); HCD FY2025 State Income Limits effective 4/23/2025 (San Diego County AMI $130,800); HUD FY2025 MTSP effective 4/1/2025 (San Diego-Carlsbad MSA; TCAC CA-2008-950); City of Oceanside Housing Authority UA $140 (no change). All three income tiers, gross rents, net rents, and UA breakdown CONFIRMED against executed rent matrix.",
         snapshot:{
           incomeLimits:{
             "50%-HCD":{"1":45775,"2":52325,"3":58850,"4":65400,"5":70625,"6":75875},
@@ -1804,17 +1799,49 @@ const PORTFOLIO = [
             "60%-HCD":{"2BR":1765},
             "60%-LIHTC":{"2BR":2233}
           },
+          rentsByAgreement:{
+            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":2233}},
+            "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1765}},
+            "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1471}}
+          },
+          incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
           utilityAllowances:{"2BR":140},
           hudContractRents:null,
           uaBreakdown:{
             "2BR":{ heating:43, cooking:7, waterHeating:0, lights:0, otherElectric:74, ac:16, waterSewer:0, trash:0, otherGas:0 }
           }
         }
+      },
+      {
+        effectiveDate:"2026-05-29",
+        trigger:"income_limits",
+        label:"FY2026 Income & Rent Limits — All Three Tiers",
+        source:"HCD FY2026 State Income Limits effective 5/29/2026 (San Diego County AMI $130,900; City RA tiers: 50% = $65,450 4p → 2BR gross rent $1,472; 60% = $78,550 4p → 2BR gross rent $1,767); LIHTC/MTSP 60% estimated at $104,940 4p (= 1.2 × HCD VLI $87,450; pattern confirmed FY2024 and FY2025 — CONFIRM vs. TCAC FY2026 income limit table when available); City of Oceanside Housing Authority UA $140 (no change pending next scheduled update).",
+        snapshot:{
+          incomeLimits:{
+            "50%-HCD":{"1":45800,"2":52350,"3":58900,"4":65450,"5":70700,"6":75950},
+            "60%-HCD":{"1":54950,"2":62850,"3":70700,"4":78550,"5":84800,"6":91100},
+            "60%-LIHTC":{"1":73450,"2":83950,"3":94450,"4":104940,"5":113350,"6":121750}
+          },
+          grossRentLimits:{
+            "50%-HCD":{"2BR":1472},
+            "60%-HCD":{"2BR":1767},
+            "60%-LIHTC":{"2BR":2361}
+          },
+          rentsByAgreement:{
+            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":2361}},
+            "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1767}},
+            "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1472}}
+          },
+          incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
+          utilityAllowances:{"2BR":140},
+          hudContractRents:null
+        }
       }
     ],
     program:"LIHTC",
     lihtc:{
-      amiYear:2025,
+      amiYear:2026,
       multipleBuildings:true,
       tcacNumber:"CA-2008-950",
       bins:["CA-2008-95001","CA-2008-95002","CA-2008-95003","CA-2008-95004","CA-2008-95005",
@@ -1830,31 +1857,37 @@ const PORTFOLIO = [
       //   (1) HCD 50% → 15 units (City "1+1" / Very Low Income)
       //   (2) HCD 60% → 64 units (City "1+1" / Lower Income)
       //   (3) LIHTC/MTSP 60% → 65 units (City / Low Income per TCAC)
-      // HCD limits (California state) are lower than LIHTC/MTSP federal limits.
+      // HCD limits = pct × HCD AMI × household-size factor (straight percentage, NOT hold-harmless VLI)
+      // LIHTC/MTSP 60% = 1.2 × HCD VLI (confirmed for FY2024 and FY2025; FY2026 estimated pending TCAC table)
       setAsides:[{pct:50,unitCount:15},{pct:60,unitCount:128}],
       incomeLimits:{
-        // FY2025 CONFIRMED from Shadow Way Rent Matrix 4/23/2025
-        "50%-HCD":{"1":45775,"2":52325,"3":58850,"4":65400,"5":70625,"6":75875},
-        "60%-HCD":{"1":54930,"2":62790,"3":70620,"4":78480,"5":84750,"6":91050},
-        "60%":{"1":69480,"2":79380,"3":89340,"4":99240,"5":107220,"6":115140}
+        // FY2026 — HCD confirmed (AMI $130,900); LIHTC est. (pending TCAC FY2026 income limits)
+        "50%-HCD":{"1":45800,"2":52350,"3":58900,"4":65450,"5":70700,"6":75950},
+        "60%-HCD":{"1":54950,"2":62850,"3":70700,"4":78550,"5":84800,"6":91100},
+        "60%-LIHTC":{"1":73450,"2":83950,"3":94450,"4":104940,"5":113350,"6":121750}
       },
       grossRentLimits:{
-        // FY2025 CONFIRMED from rent matrix — all 2BR units
-        // Formulas: HCD 50% = floor(58850×0.30/12)=1471; HCD 60% = floor(70620×0.30/12)=1765; LIHTC 60% = floor(89340×0.30/12)=2233
-        "50%-HCD":{"2BR":1471},
-        "60%-HCD":{"2BR":1765},
-        "60%":{"2BR":2233}
+        // FY2026 2BR gross rents — HCD: floor(AMI×pct×0.90×0.30/12); LIHTC: floor(94450×0.30/12)
+        "50%-HCD":{"2BR":1472},
+        "60%-HCD":{"2BR":1767},
+        "60%-LIHTC":{"2BR":2361}
       },
+      rentsByAgreement:{
+        "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":2361}},
+        "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1767}},
+        "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1472}}
+      },
+      incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
       utilityAllowances:{"2BR":140},
       uaBreakdown:{
         // City of Oceanside Housing Authority — effective 8/1/2023, implemented 11/1/2023 — CONFIRMED
         "2BR":{ heating:43, cooking:7, waterHeating:0, lights:0, otherElectric:74, ac:16, waterSewer:0, trash:0, otherGas:0 }
       },
       actualRents:{
-        // Net rents (gross − UA $140) per rent matrix 4/23/2025
-        "2BR (50%-HCD, 15u)":1331,
-        "2BR (60%-HCD, 64u)":1625,
-        "2BR (60%-LIHTC, 65u)":2093,
+        // Net rents (gross − UA $140) FY2026 — LIHTC est.
+        "2BR (50%-HCD, 15u)":1332,
+        "2BR (60%-HCD, 64u)":1627,
+        "2BR (60%-LIHTC, 65u)":2221,
         "2BR (Exempt, 1u)":null
       }
     },
@@ -2135,6 +2168,7 @@ const PORTFOLIO = [
       { type:"HUD Mark-to-Market Use Agreement", with:"HUD / U.S. Department of Housing and Urban Development", programType:"HUD Section 8", ref:null, effectiveDate:"2012-12-01", recordedDate:null, recordingNo:null, compliancePeriod:"Through 2035-02-23 (MTM Rider)", complianceEnd:"2035-02-23", setAsides:"100% HUD restricted (Non-Elderly designation)", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Federal%20-%20Fort%20Lauderdale%2C%20FL/Govt%20Agencies/HUD/Use%20Transfer%20(Federal%20to%20Phoenix)/z-Archive/Federal%20-%20Assignment%20and%20Amendment%20of%20MTM%20Use%20Agreement%20(Federal%20to%20Phoenix)%204863-0093-3057%20v.5.doc" }
     ],
     certHistory:[],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9261248092",mor:{date:"2024-01-12",score:"Satisfactory",next:null},nspire:{date:"2023-05-01",score:"65C",next:null}},
     program:"Unknown",
     lihtc:null, hud:null
   },
@@ -2215,6 +2249,7 @@ const PORTFOLIO = [
         }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9261181015",mor:{date:null,score:"N/A",next:null},nspire:{date:"2023-08-18",score:"90c",next:"Expected 2026"}},
     program:"LIHTC",
     lihtc:{
       amiYear:2026,
@@ -2357,6 +2392,7 @@ const PORTFOLIO = [
         }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9261066296",mor:{date:"2022-12-28",score:"Satisfactory",next:"Dec 2025"},nspire:{date:"2022-02-07",score:"99b",next:null}},
     program:"Both",
     hud:{
       contractNumber:"FL290053013",
@@ -2383,6 +2419,7 @@ const PORTFOLIO = [
     totalUnits:233, unitMix:{studio:0,"1BR":156,"2BR":77},
     uaType:"Engineered",
     certHistory:[],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9266437197",mor:{date:null,score:"N/A",next:null},nspire:{date:null,score:null,next:"March 2026"}},
     program:"LIHTC",
     lihtc:{
       amiYear:2026,
@@ -2470,6 +2507,7 @@ const PORTFOLIO = [
         }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9261066333",mor:{date:null,score:"N/A",next:null},nspire:{date:"2024-12-12",score:"89",next:"Early 2027"}},
     program:"LIHTC",
     lihtc:{
       amiYear:2026,
@@ -2717,6 +2755,7 @@ const PORTFOLIO = [
         }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9261066317",mor:{date:"2024-02-15",score:"Satisfactory",next:null},nspire:{date:"2025-05-22",score:"99",next:"Mid 2028"}},
     program:"Both",
     hud:{
       contractNumber:"FL50L000006",
@@ -2913,6 +2952,7 @@ const PORTFOLIO = [
         }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9261167621",mor:{date:null,score:"N/A",next:null},nspire:{date:"2023-03-09",score:"93c",next:"March 2026"}},
     program:"LIHTC",
     hud:{
       programType:"FHA 221(d)(4) — mortgage insurance only (no HAP contract / rental subsidy)",
@@ -3431,6 +3471,7 @@ const PORTFOLIO = [
         }
       }
     ],
+    lastInspection:{mondayUrl:"https://mrk-partners-company.monday.com/boards/9261066122/pulses/9280259980",mor:{date:"2025-09-08",score:"Below Average",next:null},nspire:{date:"2025-08-06",score:"72",next:null}},
     program:"Both",
     hud:{
       contractNumber:"MO16-M000-178",
@@ -4060,6 +4101,57 @@ function selectCertEvent(propId, certIndex) {
   showPanel(propId);
 }
 
+
+// ── LAST INSPECTION (NSPIRE & MOR) ───────────────────────────────────────────
+function renderLastInspection(p) {
+  const li = p.lastInspection;
+  if (!li) return "";
+
+  const SCORE_COLOR = {
+    "Superior":"#00c875","Above Average":"#007eb5","Satisfactory":"#9d50dd",
+    "Below Average":"#fdab3d","Unsatisfactory":"#df2f4a","N/A":"#9ca3af"
+  };
+  const fmtD = d => { if(!d) return "—"; const [y,m,dy]=d.split('-'); return `${+m}/${+dy}/${y}`; };
+  const badge = (score) => {
+    if (!score) return '<span style="color:#9ca3af">—</span>';
+    const col = SCORE_COLOR[score] || "#6b7280";
+    return `<span style="display:inline-block;background:${col}22;color:${col};border:1px solid ${col}55;border-radius:4px;padding:1px 7px;font-size:10px;font-weight:700">${score}</span>`;
+  };
+  const row = (label, typeObj) => `
+    <tr>
+      <td style="font-size:10.5px;font-weight:600;color:var(--dk-grey);padding:5px 8px;white-space:nowrap">${label}</td>
+      <td style="font-size:10.5px;padding:5px 8px">${fmtD(typeObj.date)}</td>
+      <td style="padding:5px 8px">${badge(typeObj.score)}</td>
+      <td style="font-size:10px;color:var(--mid-grey);padding:5px 8px">${typeObj.next||""}</td>
+    </tr>`;
+
+  return `
+    <div class="section">
+      <div class="section-title">
+        <div class="section-bar"></div>Last Inspection
+        <a href="https://mrk-partners-company.monday.com/boards/9261066122" target="_blank" style="margin-left:auto;font-size:10px;color:var(--teal);text-decoration:none;font-weight:600">
+          View in Monday →
+        </a>
+      </div>
+      <div class="rent-table-wrap">
+        <table style="width:100%;border-collapse:collapse;font-size:10.5px">
+          <thead>
+            <tr style="background:var(--lt-grey)">
+              <th style="padding:5px 8px;text-align:left;font-size:10px;color:var(--mid-grey)">Type</th>
+              <th style="padding:5px 8px;text-align:left;font-size:10px;color:var(--mid-grey)">Last Date</th>
+              <th style="padding:5px 8px;text-align:left;font-size:10px;color:var(--mid-grey)">Score / Result</th>
+              <th style="padding:5px 8px;text-align:left;font-size:10px;color:var(--mid-grey)">Next Expected</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${row("MOR", li.mor)}
+            ${row("NSPIRE", li.nspire)}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
 // ── CERT HISTORY PANEL ────────────────────────────────────────────────────────
 function renderCertHistory(p) {
   const histAsc = (p.certHistory || []).slice().sort((a,b) => a.effectiveDate.localeCompare(b.effectiveDate));
@@ -4092,7 +4184,8 @@ function renderCertHistory(p) {
       const is30HUD = ami === "30%" && isHUDS8;
       const ilSrc = eff.incomeLimitSources?.val?.[ami];
       const srcBadge = ilSrc ? ` <span style="font-size:9px;font-weight:600;color:var(--teal);background:var(--lt-grey);padding:1px 5px;border-radius:3px;margin-left:3px">${ilSrc}</span>` : "";
-      return `<tr${(is50HUD||is30HUD)?' style="background:#eff6ff"':''}><td>${ami}${is50HUD?' <span style="font-size:9px;color:#1d4ed8">(HUD LI)</span>':""}${is30HUD?' <span style="font-size:9px;color:#1d4ed8">(HUD ELI)</span>':""}${srcBadge}</td>${hhCols.map(h=>`<td>${row[h]?"$"+Number(row[h]).toLocaleString():"—"}</td>`).join("")}</tr>`;
+      const amiLbl = ami.split('-')[0];
+      return `<tr${(is50HUD||is30HUD)?' style="background:#eff6ff"':''}><td>${amiLbl}${is50HUD?' <span style="font-size:9px;color:#1d4ed8">(HUD LI)</span>':""}${is30HUD?' <span style="font-size:9px;color:#1d4ed8">(HUD ELI)</span>':""}${srcBadge}</td>${hhCols.map(h=>`<td>${row[h]?"$"+Number(row[h]).toLocaleString():"—"}</td>`).join("")}</tr>`;
     }).join("");
     incomeHtml = `<div class="cert-section-head income" style="margin-top:10px">Income Limits${iNote(eff.incomeLimits.from)}</div>
       <div class="rent-table-wrap"><table class="income-table" style="font-size:10.5px">
@@ -4115,7 +4208,7 @@ function renderCertHistory(p) {
           if (gross == null) return;
           const ua = lookupUA(uas, ut);
           const net = gross - ua;
-          rows += `<tr><td>${ut}</td><td>${ami}</td><td>$${gross.toLocaleString()}</td>
+          rows += `<tr><td>${ut}</td><td>${ami.split('-')[0]}</td><td>$${gross.toLocaleString()}</td>
             <td style="color:var(--red)">${ua?"($"+ua+")":"—"}</td>
             <td style="font-weight:700">$${net.toLocaleString()}</td></tr>`;
         });
@@ -4138,7 +4231,7 @@ function renderCertHistory(p) {
         if (gross == null) return;
         const ua = lookupUA(uas, ut);
         const net = gross - ua;
-        rows += `<tr><td>${ut}</td><td>${ami}</td><td>$${gross.toLocaleString()}</td>
+        rows += `<tr><td>${ut}</td><td>${ami.split('-')[0]}</td><td>$${gross.toLocaleString()}</td>
           <td style="color:var(--red)">${ua?"($"+ua+")":"—"}</td>
           <td style="font-weight:700">$${net.toLocaleString()}</td></tr>`;
       });
@@ -4510,6 +4603,41 @@ function openCertPDF(propId, certIndex) {
         <td>${r.placedInService||r.effectiveDate||"—"}</td><td>${r.compliancePeriod||"—"}</td></tr>`).join("")}</tbody></table>`;
   }
 
+  // ── Last Inspection ─────────────────────────────────────────────────────────
+  let liHtml = "";
+  {
+    const li = p.lastInspection;
+    if (li) {
+      const SC = {"Superior":"#00c875","Above Average":"#007eb5","Satisfactory":"#9d50dd","Below Average":"#fdab3d","Unsatisfactory":"#df2f4a","N/A":"#9ca3af"};
+      const liDate = (d) => { if (!d) return "—"; const p = d.split("-"); return (+p[1]) + "/" + (+p[2]) + "/" + p[0]; };
+      const liScore = (s) => {
+        if (!s) return "—";
+        const col = SC[s] || "#6b7280";
+        return '<span style="background:' + col + '22;color:' + col + ';border:1px solid ' + col + '55;border-radius:3px;padding:1px 5px;font-size:8.5px;font-weight:700">' + s + '</span>';
+      };
+      const liRow = (lbl, t) =>
+        '<tr><td style="padding:4px 8px;font-size:9.5px;font-weight:600;color:#374151">' + lbl + '</td>' +
+        '<td style="padding:4px 8px;font-size:9.5px">' + liDate(t.date) + '</td>' +
+        '<td style="padding:4px 8px">' + liScore(t.score) + '</td>' +
+        '<td style="padding:4px 8px;font-size:9px;color:#6b7280">' + (t.next || "—") + '</td></tr>';
+      liHtml =
+        '<div style="margin:18px 0 12px">' +
+        '<div style="font-size:11px;font-weight:700;color:#1f2937;border-bottom:1px solid #e5e7eb;padding-bottom:5px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">' +
+        '<span>Last Inspection</span>' +
+        '<a href="https://mrk-partners-company.monday.com/boards/9261066122" target="_blank" style="font-size:8.5px;color:#0f766e;text-decoration:none;font-weight:500">Portfolio &#8211; NSPIRE &amp; MOR Board &#8599;</a>' +
+        '</div>' +
+        '<table style="width:100%;border-collapse:collapse">' +
+        '<thead><tr style="background:#f9fafb">' +
+        '<th style="padding:4px 8px;text-align:left;font-size:8.5px;color:#9ca3af;font-weight:600">Type</th>' +
+        '<th style="padding:4px 8px;text-align:left;font-size:8.5px;color:#9ca3af;font-weight:600">Last Date</th>' +
+        '<th style="padding:4px 8px;text-align:left;font-size:8.5px;color:#9ca3af;font-weight:600">Score / Result</th>' +
+        '<th style="padding:4px 8px;text-align:left;font-size:8.5px;color:#9ca3af;font-weight:600">Next Expected</th>' +
+        '</tr></thead>' +
+        '<tbody>' + liRow("MOR", li.mor) + liRow("NSPIRE", li.nspire) + '</tbody>' +
+        '</table></div>';
+    }
+  }
+
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
 <title>Manager Certification — ${p.name} — ${fmtDate(eff.effectiveDate)}</title>
 <style>
@@ -4602,6 +4730,7 @@ function openCertPDF(propId, certIndex) {
   ${uaHtml}
   ${regHtml}
 
+  ${liHtml}
   <div class="cert-block">
     <div class="cert-block-title">Manager Certification</div>
     <div class="cert-text">I certify that the income limits, rent limits, and utility allowances shown above are the applicable limits for this property as of the effective dates stated, and that no household has been or will be charged rent in excess of the applicable net rent limit. These limits have been determined in accordance with the applicable regulatory agreement and federal and state law.</div>
@@ -4748,6 +4877,7 @@ function showPanel(id) {
         <div class="unit-mix">${mixHtml}</div>
       </div>
       ${certSectionHtml}
+      ${renderLastInspection(p)}
       ${regAgreementsHtml}
     </div>`;
 
@@ -4759,3 +4889,4 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") closePanel()
 render();
 </script>
 </body>
+            
