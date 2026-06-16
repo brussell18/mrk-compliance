@@ -458,7 +458,31 @@ const PORTFOLIO = [
         source:"HUD FY2022 MTSP Release; CalHFA effective 4/18/2022; RDA effective 5/13/2022; Oakland-HMFA confirmed; Granite Pointe: ≤60% AMI (CalHFA); Hillside Terrace: ≤50% & ≤80% AMI; Ventana: ≤80% AMI; verified per Granite Pointe Manager's Certification effective 2/1/2023 (WinnResidential)",
         snapshot:{
           incomeLimits:{"50%":{"1":50000,"2":57150,"3":64300,"4":71400,"5":77150,"6":82850},"60%":{"1":60000,"2":68580,"3":77160,"4":85680,"5":92580,"6":99420},"80%":{"1":79960,"2":91400,"3":102800,"4":114240,"5":123360,"6":132520}},
-          grossRentLimits:{"60%":{"studio":1500,"1BR":1607,"2BR":1929,"3BR":2228}},
+          grossRentLimits:{"60%":{"1BR":1607,"2BR":1929,"3BR":2228}},
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1607,"2BR":1929,"3BR":2228}},
+            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":1999,"1BR":2142,"2BR":2570,"3BR":2970}},
+            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1339,"2BR":1608},"80%":{"1BR":2142,"2BR":2570,"3BR":2970}}
+          },
+          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2022-05-13",
+        trigger:"income_limits",
+        label:"FY2022 HCD Rent Limits — City RA Properties (Hillside Terrace & Ventana)",
+        source:"California HCD / City of Oakland RDA; effective 5/13/2022; Hillside Terrace (80% AMI) & Ventana (50%/80% AMI); gross rents per H&SC 50052.5 (1.5 occupancy standard)",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1607,"2BR":1929,"3BR":2228}},
+            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":1999,"1BR":2142,"2BR":2570,"3BR":2970}},
+            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1339,"2BR":1608},"80%":{"1BR":2142,"2BR":2570,"3BR":2970}}
+          },
+          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -482,7 +506,31 @@ const PORTFOLIO = [
         source:"HUD FY2023 MTSP Release; CalHFA effective 5/15/2023; RDA effective 6/6/2023; Oakland-HMFA confirmed; Granite Pointe: ≤60% AMI (CalHFA); Hillside Terrace/Ventana: ≤80% AMI (RDA); verified per Granite Pointe Manager's Certification effective 12/1/2023 (WinnResidential)",
         snapshot:{
           incomeLimits:{"50%":{"1":51800,"2":59200,"3":66600,"4":73950,"5":79900,"6":85800},"60%":{"1":62160,"2":71040,"3":79920,"4":88740,"5":95880,"6":102960},"80%":{"1":82840,"2":94640,"3":106480,"4":118320,"5":127800,"6":137240}},
-          grossRentLimits:{"60%":{"studio":1554,"1BR":1665,"2BR":1998,"3BR":2308}},
+          grossRentLimits:{"60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
+            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2071,"1BR":2218,"2BR":2662,"3BR":3076}},
+            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1388,"2BR":1665},"80%":{"1BR":2218,"2BR":2662,"3BR":3076}}
+          },
+          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2023-06-06",
+        trigger:"income_limits",
+        label:"FY2023 HCD Rent Limits — City RA Properties (Hillside Terrace & Ventana)",
+        source:"California HCD / City of Oakland RDA; effective 6/6/2023; Hillside Terrace (80% AMI) & Ventana (50%/80% AMI); gross rents per H&SC 50052.5 (1.5 occupancy standard)",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
+            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2071,"1BR":2218,"2BR":2662,"3BR":3076}},
+            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1388,"2BR":1665},"80%":{"1BR":2218,"2BR":2662,"3BR":3076}}
+          },
+          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -512,7 +560,13 @@ const PORTFOLIO = [
         source:"HUD FY2024 MTSP Release effective 4/1/2024, Oakland-HMFA confirmed; CalHFA 60% AMI limits per calhfa.ca.gov/multifamily/asset/mtsp; Granite Pointe: ≤60% AMI · Hillside Terrace: ≤80% AMI · Ventana: 50%/80% AMI mixed; gross rent limits at 60% AMI per LIHTC formula",
         snapshot:{
           incomeLimits:{"50%":{"1":54500,"2":62300,"3":70100,"4":77850,"5":84100,"6":90350},"60%":{"1":65400,"2":74760,"3":84120,"4":93420,"5":100920,"6":108420},"80%":{"1":87200,"2":99680,"3":112160,"4":124560,"5":134560,"6":144560}},
-          grossRentLimits:{"60%":{"studio":1635,"1BR":1752,"2BR":2103,"3BR":2429}},
+          grossRentLimits:{"60%":{"1BR":1752,"2BR":2103,"3BR":2429}},
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1752,"2BR":2103,"3BR":2429}},
+            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2180,"1BR":2336,"2BR":2804,"3BR":3239}},
+            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1460,"2BR":1752},"80%":{"1BR":2336,"2BR":2804,"3BR":3239}}
+          },
+          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -524,7 +578,13 @@ const PORTFOLIO = [
         source:"HUD FY2025 MTSP Release effective 4/1/2025, Oakland-HMFA confirmed; CalHFA limits per calhfa.ca.gov/multifamily/asset/mtsp",
         snapshot:{
           incomeLimits:{"50%":{"1":55950,"2":63950,"3":71950,"4":79900,"5":86300,"6":92700},"60%":{"1":67140,"2":76740,"3":86340,"4":95880,"5":103560,"6":111240},"80%":{"1":89520,"2":102320,"3":115120,"4":127840,"5":138080,"6":148320}},
-          grossRentLimits:{"60%":{"studio":1678,"1BR":1798,"2BR":2158,"3BR":2493}},
+          grossRentLimits:{"60%":{"1BR":1798,"2BR":2158,"3BR":2493}},
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1798,"2BR":2158,"3BR":2493}},
+            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2238,"1BR":2398,"2BR":2878,"3BR":3324}},
+            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1499,"2BR":1799},"80%":{"1BR":2398,"2BR":2878,"3BR":3324}}
+          },
+          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -554,7 +614,13 @@ const PORTFOLIO = [
         source:"HUD FY2026 MTSP Release effective 5/1/2026, Oakland-HMFA confirmed; CalHFA limits per calhfa.ca.gov/multifamily/asset/mtsp",
         snapshot:{
           incomeLimits:{"50%":{"1":59400,"2":67900,"3":76400,"4":84850,"5":91650,"6":98450},"60%":{"1":71280,"2":81480,"3":91680,"4":101820,"5":109980,"6":118140},"80%":{"1":95040,"2":108640,"3":122240,"4":135760,"5":146640,"6":157520}},
-          grossRentLimits:{"60%":{"studio":1782,"1BR":1909,"2BR":2292,"3BR":2647}},
+          grossRentLimits:{"60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
+            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2376,"1BR":2546,"2BR":3056,"3BR":3530}},
+            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1591,"2BR":1910},"80%":{"1BR":2546,"2BR":3056,"3BR":3530}}
+          },
+          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
           utilityAllowances:{"studio":131,"1BR":163,"2BR":222,"3BR":281},
           hudContractRents:null,
           uaBreakdown:{
@@ -578,7 +644,13 @@ const PORTFOLIO = [
       placedInService:null,
       setAsides:[{pct:60,unitCount:99}],
       incomeLimits:{"50%":{"1":59400,"2":67900,"3":76400,"4":84850,"5":91650,"6":98450},"60%":{"1":71280,"2":81480,"3":91680,"4":101820,"5":109980,"6":118140},"80%":{"1":95040,"2":108640,"3":122240,"4":135760,"5":146640,"6":157520}},
-      grossRentLimits:{"60%":{"studio":1782,"1BR":1909,"2BR":2292,"3BR":2647}},
+      grossRentLimits:{"60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
+      rentsByAgreement:{
+        "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
+        "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2376,"1BR":2546,"2BR":3056,"3BR":3530}},
+        "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1591,"2BR":1910},"80%":{"1BR":2546,"2BR":3056,"3BR":3530}}
+      },
+      incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
       utilityAllowances:{"studio":131,"1BR":163,"2BR":222,"3BR":281},
       actualRents:null
     }
@@ -1164,6 +1236,12 @@ const PORTFOLIO = [
     address:"965 West Arrow Highway, Claremont, CA 91711", county:"Los Angeles",
     totalUnits:150, unitMix:{studio:0,"1BR":0,"2BR":96,"3BR":54},
     uaType:"HUD - 3 Year Study",
+    uaHistory:[
+      {date:"2023-06-01", type:"3-Year Utility Study",  values:{"2BR":43,"3BR":89}},
+      {date:"2024-06-01", type:"OCAF Adjustment",       values:{"2BR":43,"3BR":89}},
+      {date:"2025-06-01", type:"OCAF Adjustment",       values:{"2BR":55,"3BR":113}},
+      {date:"2026-06-01", type:"3-Year Utility Study",  values:null, pending:true},
+    ],
     placedInService:"2018-12-11",
     regulatoryAgreements:[
       { type:"TCAC LURA", with:"California Tax Credit Allocation Committee (TCAC)", programType:"LIHTC/Bond", ref:"TCAC# CA-18-721", effectiveDate:"2018-12-11", recordedDate:"2021-01-19", recordingNo:"202101192870003", compliancePeriod:"30 years (credit period)", complianceEnd:"2048-12-11", setAsides:"57u @ ≤50% AMI · 92u @ ≤60% AMI", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Claremont%20Village%20-%20Claremont%2C%20CA/Government%20Agencies/TCAC/TCAC%20Regulatory%20Agreement%20LURA/18-721f.pdf" },
@@ -1236,13 +1314,8 @@ const PORTFOLIO = [
             "50%":{"2BR":1419,"3BR":1639},
             "60%":{"2BR":1703,"3BR":2195}
           },
-          utilityAllowances:{"2BR":20,"3BR":37},
-          hudContractRents:{
-            "2BR (95u)":1980,
-            "3BR (53u)":2450,
-            "2BR Non-S8 (1u)":1410,
-            "3BR Non-S8 (1u)":1629
-          }
+          utilityAllowances:null,
+          hudContractRents:null
         }
       },
       {
@@ -1285,14 +1358,8 @@ const PORTFOLIO = [
             "50%":{"2BR":1560,"3BR":1803},
             "60%":{"2BR":1872,"3BR":2413}
           },
-          utilityAllowances:{"2BR":43,"3BR":89},
-          hudContractRents:{
-            "2BR (24u)":2526,
-            "2BR (71u)":2550,
-            "3BR (53u)":3350,
-            "2BR Non-S8 (1u)":1410,
-            "3BR Non-S8 (1u)":1629
-          }
+          utilityAllowances:null,
+          hudContractRents:null
         }
       },
       {
@@ -1335,14 +1402,8 @@ const PORTFOLIO = [
             "50%":{"2BR":1704,"3BR":1969},
             "60%":{"2BR":2045,"3BR":2635}
           },
-          utilityAllowances:{"2BR":43,"3BR":89},
-          hudContractRents:{
-            "2BR (24u)":2599,
-            "2BR (71u)":2624,
-            "3BR (53u)":3447,
-            "2BR Non-S8 (1u)":1660,
-            "3BR Non-S8 (1u)":1629
-          }
+          utilityAllowances:null,
+          hudContractRents:null
         }
       },
       {
@@ -1378,14 +1439,8 @@ const PORTFOLIO = [
             "50%":{"2BR":1874,"3BR":2166},
             "60%":{"2BR":2249,"3BR":2898}
           },
-          utilityAllowances:{"2BR":55,"3BR":113},
-          hudContractRents:{
-            "2BR (24u)":2669,
-            "2BR (71u)":2695,
-            "3BR (53u)":3540,
-            "2BR Non-S8 (1u)":2291,
-            "3BR Non-S8 (1u)":1629
-          }
+          utilityAllowances:null,
+          hudContractRents:null
         }
       }
     ],
@@ -2560,7 +2615,7 @@ const PORTFOLIO = [
         source:"HUD FY2022 MTSP Release effective 4/18/2022, Lakeland-Winter Haven FL MSA (Polk County); PIS 11/20/2020 — no hold-harmless reduction (FY2022 limits apply); NO utility allowance (utilities included); per HUD MTSP Documentation System (huduser.gov)",
         snapshot:{
           incomeLimits:{"30%":{"1":14190,"2":16200,"3":18240,"4":20250},"50%":{"1":23650,"2":27000,"3":30400,"4":33750},"60%":{"1":28380,"2":32400,"3":36480,"4":40500}},
-          grossRentLimits:{"60%":{"studio":709,"1BR":759}},
+          grossRentLimits:{"60%":{"1BR":759}},
           utilityAllowances:{"studio":0,"1BR":0},
           hudContractRents:null
         }
@@ -2584,7 +2639,7 @@ const PORTFOLIO = [
         source:"HUD FY2023 MTSP Release effective 5/15/2023, Lakeland-Winter Haven FL MSA (Polk County); PIS 11/20/2020 — no hold-harmless reduction (FY2023 limits apply); NO utility allowance (utilities included); per HUD MTSP Documentation System (huduser.gov)",
         snapshot:{
           incomeLimits:{"30%":{"1":15000,"2":17160,"3":19290,"4":21420},"50%":{"1":25000,"2":28600,"3":32150,"4":35700},"60%":{"1":30000,"2":34320,"3":38580,"4":42840}},
-          grossRentLimits:{"60%":{"studio":750,"1BR":804}},
+          grossRentLimits:{"60%":{"1BR":804}},
           utilityAllowances:{"studio":0,"1BR":0},
           hudContractRents:null
         }
@@ -2608,7 +2663,7 @@ const PORTFOLIO = [
         source:"HUD FY2024 MTSP Release effective 4/1/2024, Lakeland-Winter Haven FL MSA (Polk County); PIS 11/20/2020 — no hold-harmless reduction (FY2024 limits apply); NO utility allowance (utilities included); per HUD MTSP Documentation System (huduser.gov)",
         snapshot:{
           incomeLimits:{"30%":{"1":16050,"2":18360,"3":20640,"4":22920},"50%":{"1":26750,"2":30600,"3":34400,"4":38200},"60%":{"1":32100,"2":36720,"3":41280,"4":45840}},
-          grossRentLimits:{"60%":{"studio":802,"1BR":860}},
+          grossRentLimits:{"60%":{"1BR":860}},
           utilityAllowances:{"studio":0,"1BR":0},
           hudContractRents:null
         }
@@ -2632,7 +2687,7 @@ const PORTFOLIO = [
         source:"HUD FY2025 MTSP Release effective 4/1/2025, Lakeland-Winter Haven FL MSA (Polk County); PIS 11/20/2020 — no hold-harmless reduction (FY2025 limits apply); NO utility allowance (utilities included); per HUD MTSP Documentation System (huduser.gov)",
         snapshot:{
           incomeLimits:{"30%":{"1":17520,"2":20010,"3":22500,"4":24990},"50%":{"1":29200,"2":33350,"3":37500,"4":41650},"60%":{"1":35040,"2":40020,"3":45000,"4":49980}},
-          grossRentLimits:{"60%":{"studio":876,"1BR":938}},
+          grossRentLimits:{"60%":{"1BR":938}},
           utilityAllowances:{"studio":0,"1BR":0},
           hudContractRents:null
         }
@@ -2656,7 +2711,7 @@ const PORTFOLIO = [
         source:"HUD FY2026 MTSP Release effective 5/1/2026, Lakeland-Winter Haven FL MSA confirmed (Polk County); 4P AMI $83,900; PIS 11/20/2020 held harmless from 2020 limits; NO utility allowance; per Novogradac Rent & Income Limit Calculator (1.5 persons/bedroom), generated 5/13/2026",
         snapshot:{
           incomeLimits:{"30%":{"1":18360,"2":20970,"3":23580,"4":26190},"50%":{"1":30600,"2":34950,"3":39300,"4":43650},"60%":{"1":36720,"2":41940,"3":47160,"4":52380}},
-          grossRentLimits:{"60%":{"studio":918,"1BR":983}},
+          grossRentLimits:{"60%":{"1BR":983}},
           utilityAllowances:{"studio":0,"1BR":0},
           hudContractRents:null
         }
@@ -2674,7 +2729,7 @@ const PORTFOLIO = [
       placedInService:"2020-11-20",
       setAsides:[{pct:60,unitCount:156}],
       incomeLimits:{"60%":{"1":36720,"2":41940,"3":47160,"4":52380}},
-      grossRentLimits:{"60%":{"studio":918,"1BR":983}},
+      grossRentLimits:{"60%":{"1BR":983}},
       utilityAllowances:{"studio":0,"1BR":0}, // Master Metered — owner pays utilities; NO UA
       actualRents:{"studio-SM":1325,"studio":1350,"1BR":1525} // HUD contract rents eff. 12/1/2025
     }
@@ -3310,7 +3365,7 @@ const PORTFOLIO = [
         source:"HUD HAP Renewal MO16-M000-178 eff. 12/1/2023; MHDC+IDA KC LURA recorded 12/20/2023; FY2023 MTSP income limits effective 5/15/2023 (HUD HOME Income Limits MO PDF, KC Metro confirmed)",
         snapshot:{
           incomeLimits:{"30%":{"1":21540,"2":24600,"3":27690,"4":30750,"5":33210},"50%":{"1":35900,"2":41000,"3":46150,"4":51250,"5":55350},"60%":{"1":43080,"2":49200,"3":55380,"4":61500,"5":66420}},
-          grossRentLimits:{"60%":{"studio":1077,"1BR":1153,"2BR":1384}},
+          grossRentLimits:{"60%":{"1BR":1153,"2BR":1384}},
           utilityAllowances:{"studio":133,"1BR":164,"2BR":222},
           hudContractRents:{"Studio (9u)":990,"1BR (178u)":1095,"2BR (8u)":1225}
         }
@@ -3322,7 +3377,7 @@ const PORTFOLIO = [
         source:"HUD FY2024 MTSP Release effective 4/1/2024, KC Metro confirmed from HUD HOME Income Limits Missouri PDF",
         snapshot:{
           incomeLimits:{"30%":{"1":21660,"2":24750,"3":27840,"4":30930,"5":33420},"50%":{"1":36100,"2":41250,"3":46400,"4":51550,"5":55700},"60%":{"1":43320,"2":49500,"3":55680,"4":61860,"5":66840}},
-          grossRentLimits:{"60%":{"studio":1083,"1BR":1160,"2BR":1392}},
+          grossRentLimits:{"60%":{"1BR":1160,"2BR":1392}},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -3346,7 +3401,7 @@ const PORTFOLIO = [
         source:"HUD FY2025 MTSP Release effective 4/1/2025, KC Metro confirmed from HUD HOME Income Limits Missouri PDF",
         snapshot:{
           incomeLimits:{"30%":{"1":23400,"2":26760,"3":30090,"4":33420,"5":36120},"50%":{"1":39000,"2":44600,"3":50150,"4":55700,"5":60200},"60%":{"1":46800,"2":53520,"3":60180,"4":66840,"5":72240}},
-          grossRentLimits:{"60%":{"studio":1170,"1BR":1254,"2BR":1504}},
+          grossRentLimits:{"60%":{"1BR":1254,"2BR":1504}},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -3370,7 +3425,7 @@ const PORTFOLIO = [
         source:"HUD FY2026 MTSP Release effective 5/1/2026, KC Metro confirmed from HUD HOME Income Limits Missouri PDF",
         snapshot:{
           incomeLimits:{"30%":{"1":23820,"2":27240,"3":30630,"4":34020,"5":36750},"50%":{"1":39700,"2":45400,"3":51050,"4":56700,"5":61250},"60%":{"1":47640,"2":54480,"3":61260,"4":68040,"5":73500}},
-          grossRentLimits:{"60%":{"studio":1191,"1BR":1276,"2BR":1531}},
+          grossRentLimits:{"60%":{"1BR":1276,"2BR":1531}},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -3774,7 +3829,7 @@ function getProgramBadges(p, targetIds) {
     "Bond":"Bonds","Bond/Tax Credit":"Bonds","Bond/Other":"Bonds",
     "HUD Section 8":"HUD","HUD Section 8 PBV":"PBV","HUD":"HUD","HUD Loan":"HUD Loan",
     "City":"City","County":"County","MSHDA":"LIHTC",
-    "HOME":"HOME","HOME/HTF":"HTF","HTF":"HTF"
+    "HOME":"HOME","HTF":"HTF"
   };
   // Canonical left-to-right display order
   const SORT_ORDER = ["LIHTC","Bonds","HUD","PBV","City","County","HOME","HTF","HUD Loan"];
@@ -3940,18 +3995,35 @@ function openPanel(id) {
 // Returns the cert snapshot that was in effect as of a given date, for a given property.
 // If no date given, returns the most recent cert snapshot on or before TODAY.
 function getEffectiveSnapshot(p, certIndex) {
-  // Returns a FULLY RESOLVED snapshot for the cert at certIndex
-  // Each field is inherited from the most recent prior event that has it non-null
+  // Returns a FULLY RESOLVED snapshot for the cert at certIndex.
+  // HUD-specific fields (hudContractRents, utilityAllowances, uaBreakdown) prefer the most recent
+  // hud_contract trigger cert as their source so effective dates always reflect the 6/1 rent schedule,
+  // not an income_limits cert that merely carries forward duplicate values.
   const hist = (p.certHistory || []).slice().sort((a,b) => a.effectiveDate.localeCompare(b.effectiveDate));
   if (!hist.length || certIndex == null || certIndex < 0) return null;
   const target = hist[certIndex];
   if (!target) return null;
 
-  const FIELDS = ["incomeLimits","grossRentLimits","utilityAllowances","hudContractRents","uaBreakdown"];
+  const FIELDS = ["incomeLimits","grossRentLimits","utilityAllowances","hudContractRents","uaBreakdown","rentsByAgreement","incomeLimitSources"];
+  const HUD_FIELDS = new Set(["hudContractRents","utilityAllowances","uaBreakdown"]);
   const resolved = { effectiveDate: target.effectiveDate, label: target.label, source: target.source, trigger: target.trigger };
 
   FIELDS.forEach(field => {
-    // Walk backwards from certIndex (inclusive) to find most recent non-null value
+    if (HUD_FIELDS.has(field)) {
+      // Walk backwards; prefer the most recent hud_contract cert, fall back to any cert
+      let fallback = null;
+      for (let i = certIndex; i >= 0; i--) {
+        const val = hist[i].snapshot?.[field];
+        if (val != null) {
+          const candidate = { val, from: i < certIndex ? hist[i].effectiveDate : null };
+          if (hist[i].trigger === 'hud_contract') { resolved[field] = candidate; return; }
+          if (!fallback) fallback = candidate; // first non-null found (non-hud_contract)
+        }
+      }
+      resolved[field] = fallback || { val: null, from: null };
+      return;
+    }
+    // Non-HUD fields: most recent non-null value regardless of trigger
     for (let i = certIndex; i >= 0; i--) {
       const val = hist[i].snapshot?.[field];
       if (val != null) { resolved[field] = { val, from: i < certIndex ? hist[i].effectiveDate : null }; return; }
@@ -3999,7 +4071,7 @@ function renderCertHistory(p) {
   const eff = getEffectiveSnapshot(p, activeCertIndex);
   if (!eff) return '<div class="empty-box">No certification event selected</div>';
 
-  const iNote = (from) => from ? `<span style="font-size:9px;color:var(--mid-grey);font-style:italic;margin-left:4px">· from ${from}</span>` : "";
+  const iNote = (from) => { if(!from) return ""; const [y,m,d]=from.split('-'); return `<span style="font-size:9px;color:var(--mid-grey);font-style:italic;margin-left:4px">· from ${+m}/${+d}/${y}</span>`; };
   const hhCols = Array.from({length:getMaxHHCols(p)},(_,i)=>i+1);
 
   // ── Income Limits ─────────────────────────────────────────────────────────
@@ -4018,7 +4090,9 @@ function renderCertHistory(p) {
       const row = ilDisplay[ami]||{};
       const is50HUD = ami === "50%" && (isGreenleaf || p.id === "lakeview-tower" || p.id === "casa-devon") && hasBothLayers;
       const is30HUD = ami === "30%" && isHUDS8;
-      return `<tr${(is50HUD||is30HUD)?' style="background:#eff6ff"':''}><td>${ami}${is50HUD?' <span style="font-size:9px;color:#1d4ed8">(HUD LI)</span>':""}${is30HUD?' <span style="font-size:9px;color:#1d4ed8">(HUD ELI)</span>':""}</td>${hhCols.map(h=>`<td>${row[h]?"$"+Number(row[h]).toLocaleString():"—"}</td>`).join("")}</tr>`;
+      const ilSrc = eff.incomeLimitSources?.val?.[ami];
+      const srcBadge = ilSrc ? ` <span style="font-size:9px;font-weight:600;color:var(--teal);background:var(--lt-grey);padding:1px 5px;border-radius:3px;margin-left:3px">${ilSrc}</span>` : "";
+      return `<tr${(is50HUD||is30HUD)?' style="background:#eff6ff"':''}><td>${ami}${is50HUD?' <span style="font-size:9px;color:#1d4ed8">(HUD LI)</span>':""}${is30HUD?' <span style="font-size:9px;color:#1d4ed8">(HUD ELI)</span>':""}${srcBadge}</td>${hhCols.map(h=>`<td>${row[h]?"$"+Number(row[h]).toLocaleString():"—"}</td>`).join("")}</tr>`;
     }).join("");
     incomeHtml = `<div class="cert-section-head income" style="margin-top:10px">Income Limits${iNote(eff.incomeLimits.from)}</div>
       <div class="rent-table-wrap"><table class="income-table" style="font-size:10.5px">
@@ -4027,9 +4101,35 @@ function renderCertHistory(p) {
       ${isHUDS8 ? `<div style="font-size:9.5px;color:var(--mid-grey);font-style:italic;margin-top:3px">30% AMI (HUD ELI) is the applicable HUD Section 8 income threshold for tenant eligibility at move-in.</div>` : ""}`;
   }
 
-  // ── Tax Credit / Bond Rents ───────────────────────────────────────────────
+  // ── Affordable Rents (or Tax Credit / Bond Rents) ────────────────────────
   let tcRentHtml = "";
-  if (eff.grossRentLimits?.val) {
+  if (eff.rentsByAgreement?.val) {
+    const rba = eff.rentsByAgreement.val;
+    const uas = eff.utilityAllowances?.val || {};
+    let agreementSections = "";
+    Object.entries(rba).forEach(([agmtName, agmtData]) => {
+      const {source, ...amiData} = agmtData;
+      let rows = "";
+      Object.entries(amiData).forEach(([ami, units]) => {
+        Object.entries(units||{}).forEach(([ut, gross]) => {
+          if (gross == null) return;
+          const ua = lookupUA(uas, ut);
+          const net = gross - ua;
+          rows += `<tr><td>${ut}</td><td>${ami}</td><td>$${gross.toLocaleString()}</td>
+            <td style="color:var(--red)">${ua?"($"+ua+")":"—"}</td>
+            <td style="font-weight:700">$${net.toLocaleString()}</td></tr>`;
+        });
+      });
+      if (rows) {
+        const srcBadge = source ? `<span style="font-size:9px;font-weight:600;color:var(--teal);background:var(--lt-grey);padding:1px 6px;border-radius:3px;margin-left:6px">${source}</span>` : "";
+        agreementSections += `
+          <div style="margin-top:8px;font-size:10px;font-weight:700;color:var(--dk-grey)">${agmtName}${srcBadge}</div>
+          <div class="rent-table-wrap"><table class="rent-table" style="font-size:10.5px">
+            <tr><th>Unit</th><th>AMI%</th><th>Gross Limit</th><th>UA</th><th>Net Rent Limit</th></tr>${rows}</table></div>`;
+      }
+    });
+    if (agreementSections) tcRentHtml = `<div class="cert-section-head tc" style="margin-top:10px">Affordable Rents${iNote(eff.grossRentLimits?.from||eff.rentsByAgreement?.from)}</div>${agreementSections}`;
+  } else if (eff.grossRentLimits?.val) {
     const grl = eff.grossRentLimits.val;
     const uas = eff.utilityAllowances?.val || {};
     let rows = "";
@@ -4101,6 +4201,19 @@ function renderCertHistory(p) {
         "Master Metered":"Owner-paid (Master Metered)",
       };
       const uaSourceNote = uaSourceMap[p.uaType] || (p.uaType ? "Per " + p.uaType : "");
+      // UA adjustment history note (e.g. "Last adj: 06/01/2025 — OCAF Adjustment · Next: 06/01/2026 — 3-Year Utility Study")
+      let uaAdjNote = "";
+      if (p.uaHistory?.length) {
+        const effD = eff.effectiveDate;
+        const past = p.uaHistory.filter(h => !h.pending && h.date <= effD);
+        const last = past[past.length - 1];
+        const next = p.uaHistory.find(h => h.pending);
+        const fmtUA = d => `${d.slice(5,7)}/${d.slice(8,10)}/${d.slice(0,4)}`;
+        if (last) {
+          uaAdjNote = `Last adj: ${fmtUA(last.date)} — ${last.type}`;
+          if (next) uaAdjNote += ` · Next: ${fmtUA(next.date)} — ${next.type} (pending)`;
+        }
+      }
 
       // Build UA breakdown table if category data exists
       const breakdown = eff.uaBreakdown?.val || p.lihtc?.uaBreakdown;
@@ -4141,7 +4254,8 @@ function renderCertHistory(p) {
         ${breakdownHtml || `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
           ${entries.map(([ut,v])=>`<span class="card-ua-chip">${ut}: $${v}</span>`).join("")}
         </div>`}
-        ${uaSourceNote ? `<div style="font-size:9.5px;color:var(--mid-grey);font-style:italic;margin-top:4px">${uaSourceNote}</div>` : ""}`;
+        ${uaSourceNote ? `<div style="font-size:9.5px;color:var(--mid-grey);font-style:italic;margin-top:4px">${uaSourceNote}</div>` : ""}
+        ${uaAdjNote ? `<div style="font-size:9.5px;color:var(--mid-grey);font-style:italic;margin-top:2px">${uaAdjNote}</div>` : ""}`;
     }
   }
 
@@ -4188,25 +4302,54 @@ function openCertPDF(propId, certIndex) {
     const isHUDS8 = (isGreenleaf || p.id === "cypress-pines" || p.id === "buckingham" || p.id === "claremont" || p.id === "lakeview-tower" || p.id === "casa-devon") && hasBothLayers;
     // Inject HUD threshold row for dual-layer properties
     let ilDisplay = {...il};
+    const ilSrcMap = eff.incomeLimitSources?.val || null;
     const rows = Object.keys(ilDisplay).map(ami => {
       const row = ilDisplay[ami]||{};
       const is50HUD = ami === "50%" && (isGreenleaf || p.id === "lakeview-tower" || p.id === "casa-devon") && hasBothLayers;
       const is30HUD = ami === "30%" && isHUDS8;
       const label = is50HUD ? `${ami} <em style="font-size:9px;color:#1d4ed8">(HUD LI)</em>` : is30HUD ? `${ami} <em style="font-size:9px;color:#1d4ed8">(HUD ELI)</em>` : ami;
       const rowStyle = (is50HUD || is30HUD) ? ' style="background:#eff6ff"' : '';
-      return `<tr${rowStyle}><td class="lbl">${label}</td>${hhCols.map(h=>`<td>${row[h]?"$"+Number(row[h]).toLocaleString():"—"}</td>`).join("")}</tr>`;
+      const srcCell = ilSrcMap ? `<td style="font-size:9px;color:#0f766e;font-weight:600">${ilSrcMap[ami]||"—"}</td>` : "";
+      return `<tr${rowStyle}><td class="lbl">${label}</td>${srcCell}${hhCols.map(h=>`<td>${row[h]?"$"+Number(row[h]).toLocaleString():"—"}</td>`).join("")}</tr>`;
     }).join("");
     const ilDate = effDate("incomeLimits");
     const ilYear = ilDate ? ilDate.slice(0,4) : "";
+    const srcHeader = ilSrcMap ? `<th>Source</th>` : "";
     incomeHtml = `<h3>Income Limits <span class="eff-date">Effective ${fmtDate(ilDate)}</span></h3>
-      <table><thead><tr><th>AMI%</th>${hhCols.map(h=>`<th>${h}p</th>`).join("")}</tr></thead>
+      <table><thead><tr><th>AMI%</th>${srcHeader}${hhCols.map(h=>`<th>${h}p</th>`).join("")}</tr></thead>
       <tbody>${rows}</tbody></table>
       <p class="src-note">Income limits per FY${ilYear} MTSP Release (HUD), effective ${fmtDate(ilDate)}.${isGreenleaf && hasBothLayers ? ' 50% AMI (HUD LI) is the applicable HUD Section 8 income threshold.' : ''}${isHUDS8 ? ' 30% AMI (HUD ELI) is the applicable HUD Section 8 income threshold for tenant eligibility at move-in.' : ''}</p>`;
   }
 
-  // ── Tax Credit & Bond Rents ────────────────────────────────────────────────
+  // ── Affordable Rents (or Tax Credit & Bond Rents) ─────────────────────────
   let tcHtml = "";
-  if (eff.grossRentLimits?.val) {
+  if (eff.rentsByAgreement?.val) {
+    const rba = eff.rentsByAgreement.val;
+    const uas = eff.utilityAllowances?.val || {};
+    const tcDate = effDate("grossRentLimits") || effDate("rentsByAgreement");
+    let sections = "";
+    Object.entries(rba).forEach(([agmtName, agmtData]) => {
+      const {source, ...amiData} = agmtData;
+      let rows = "";
+      Object.entries(amiData).forEach(([ami, units]) => {
+        Object.entries(units||{}).forEach(([ut, gross]) => {
+          if (gross == null) return;
+          const ua = lookupUA(uas, ut);
+          const net = gross - ua;
+          rows += `<tr><td>${ut}</td><td>${ami}</td><td>$${gross.toLocaleString()}</td>
+            <td style="color:#dc2626">${ua?"($"+ua+")":"—"}</td>
+            <td><strong>$${net.toLocaleString()}</strong></td></tr>`;
+        });
+      });
+      if (rows) {
+        const srcNote = source ? ` <em style="font-size:9px;color:#0f766e">(${source})</em>` : "";
+        sections += `<h4 style="margin:10px 0 4px;font-size:10.5px;color:#1f2937">${agmtName}${srcNote}</h4>
+          <table><thead><tr><th>Unit</th><th>AMI%</th><th>Gross Limit</th><th>UA</th><th>Net Rent Limit</th></tr></thead>
+          <tbody>${rows}</tbody></table>`;
+      }
+    });
+    if (sections) tcHtml = `<h3>Affordable Rents <span class="eff-date">Effective ${fmtDate(tcDate)}</span></h3>${sections}`;
+  } else if (eff.grossRentLimits?.val) {
     const grl = eff.grossRentLimits.val;
     const uas = eff.utilityAllowances?.val || {};
     let rows = "";
@@ -4308,15 +4451,22 @@ function openCertPDF(propId, certIndex) {
           const cells = vals.map(v => `<td>${v != null && v > 0 ? "$"+v : "—"}</td>`).join("");
           return `<tr><td class="lbl">${meta.label}</td><td style="text-align:center">${resPays}</td><td style="text-align:center">${utilType}</td>${cells}</tr>`;
         }).join("");
-        const totalCells = unitTypes.map(ut => {
-          const tot = cats.reduce((s,c) => s + (pdfBreakdown[ut]?.[c] || 0), 0);
-          return `<td><strong>$${tot}</strong></td>`;
-        }).join("");
-        uaContent = `<table>
-          <thead><tr><th>Utility</th><th>Resident Pays</th><th>Utility Type</th>${headerCells}</tr></thead>
-          <tbody>${dataRows}
-          <tr style="border-top:2px solid #d1dde6"><td class="lbl"><strong>Total</strong></td><td></td><td></td>${totalCells}</tr>
-          </tbody></table>`;
+        // If no category rows have data, fall back to chips (breakdown shell with all-null values)
+        if (!visibleCats.length) {
+          uaContent = `<div class="ua-chips">${uaEntries.map(([ut,v])=>`<span class="ua-chip">${ut}: $${v}</span>`).join("")}</div>`;
+        } else {
+          const totalCells = unitTypes.map(ut => {
+            const catSum = cats.reduce((s,c) => s + (pdfBreakdown[ut]?.[c] || 0), 0);
+            // Fall back to known snapshot UA total if category sum is 0
+            const tot = catSum > 0 ? catSum : (_pdfUas[ut] ?? 0);
+            return `<td><strong>${tot > 0 ? "$"+tot : "—"}</strong></td>`;
+          }).join("");
+          uaContent = `<table>
+            <thead><tr><th>Utility</th><th>Resident Pays</th><th>Utility Type</th>${headerCells}</tr></thead>
+            <tbody>${dataRows}
+            <tr style="border-top:2px solid #d1dde6"><td class="lbl"><strong>Total</strong></td><td></td><td></td>${totalCells}</tr>
+            </tbody></table>`;
+        }
       } else {
         // Fallback to chips if no breakdown data
         uaContent = `<div class="ua-chips">${uaEntries.map(([ut,v])=>`<span class="ua-chip">${ut}: $${v}</span>`).join("")}</div>`;
@@ -4330,9 +4480,22 @@ function openCertPDF(propId, certIndex) {
         "Master Metered":"Owner-paid (Master Metered)",
       }[p.uaType] || (p.uaType ? "Per " + p.uaType : "");
 
+      // UA adjustment history note for PDF
+      let pdfUaAdjNote = "";
+      if (p.uaHistory?.length) {
+        const effD = eff.effectiveDate;
+        const past = p.uaHistory.filter(h => !h.pending && h.date <= effD);
+        const last = past[past.length - 1];
+        const next = p.uaHistory.find(h => h.pending);
+        if (last) {
+          pdfUaAdjNote = ` Last adjustment: ${fmtDate(last.date)} — ${last.type}.`;
+          if (next) pdfUaAdjNote += ` Next scheduled: ${fmtDate(next.date)} — ${next.type}.`;
+        }
+      }
+
       uaHtml = `<h3>Utility Allowance Breakdown <span class="eff-date">Effective ${fmtDate(uaDate)}</span></h3>
         ${uaContent}
-        <p class="src-note">${uaSourceNote}${p.lihtc?.uaAgency ? " — " + p.lihtc.uaAgency : ""}. Effective ${fmtDate(uaDate)}.</p>`;
+        <p class="src-note">${uaSourceNote}${p.lihtc?.uaAgency ? " — " + p.lihtc.uaAgency : ""}. Effective ${fmtDate(uaDate)}.${pdfUaAdjNote}</p>`;
     }
   }
 
@@ -4425,7 +4588,7 @@ function openCertPDF(propId, certIndex) {
   </div>
 
   <div class="meta-grid" style="grid-template-columns:repeat(5,1fr)">
-    <div class="meta-cell"><div class="ml">Program</div><div class="mv" style="font-size:10px;line-height:1.8">${getProgramBadges(p)||"—"}</div></div>
+    <div class="meta-cell"><div class="ml">Program</div><div class="mv" style="font-size:10px;line-height:1.8;display:flex;flex-wrap:wrap;gap:4px;align-items:center">${getProgramBadges(p)||"—"}</div></div>
     <div class="meta-cell"><div class="ml">Total Units</div><div class="mv">${p.totalUnits||"—"}</div></div>
     <div class="meta-cell"><div class="ml">County</div><div class="mv">${p.county||"—"}</div></div>
     <div class="meta-cell"><div class="ml">LIHTC Placed in Service</div><div class="mv" style="font-weight:700;color:var(--navy)">${p.placedInService ? (()=>{const[y,m,d]=p.placedInService.split("-"); return m+"/"+d+"/"+y;})() : "—"}</div></div>
