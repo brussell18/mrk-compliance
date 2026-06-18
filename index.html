@@ -293,10 +293,18 @@
     <option value="no-data">No Data</option>
   </select>
 
+
+  <button onclick="openInspectionSummary()" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--blue-dark);color:white;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='var(--blue-dark)'">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 5h8M4 8h8M4 11h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Agency Inspection / Audit Summary
+  </button>
 </div>
 <div class="grid" id="grid"></div>
 <div class="overlay" id="overlay" onclick="if(event.target===this)closePanel()">
   <div class="panel" id="panel"></div>
+</div>
+<div id="insp-overlay" style="position:fixed;inset:0;background:rgba(15,30,50,.55);z-index:300;display:none;overflow-y:auto;font-family:'DM Sans',sans-serif">
+  <div id="insp-panel" style="background:var(--off-white);min-height:100vh;padding-bottom:48px"></div>
 </div>
 <script>
 
@@ -2322,12 +2330,12 @@ const PORTFOLIO = [
       { type:"IRS Form 8609 (LIHTC Allocation — FHFC #2018-522C)", with:"Florida Housing Finance Corporation (FHFC)", programType:"LIHTC", ref:"FHFC #2018-522C · 7 buildings (BINs FL94-01601 to FL94-01604; FL98-51901 to FL98-51903) · Praxis Venture LP · TIN 83-2399950 · Annual credit: $1,391,538 · General Partner: Affordable Housing Institute, Inc.", effectiveDate:"2019-08-20", placedInService:"2019-08-20", compliancePeriod:"30-year credit period + extended use", complianceEnd:"2049-08-20", setAsides:"Phase I (FL94): PIS 8/21/2019 (existing buildings, 40-60 set-aside) · Phase II (FL98): PIS 8/21/2019 (existing) + 12/31/2020 (Sec. 42(e) rehab); 53.58% bond-financed; 3.21% credit rate; first credit year 2020", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Praxis%20-%20Deerfield%20Beach%2C%20FL/Government%20Agencies/FHFC/8609-%20Final/Praxis%20of%20Deerfield%20Beach_2018-522C_Final%20Allocation%20and%208609s%20-%20Signed%20by%20AHI.pdf" },
       { type:"FHFC Extended Use Agreement (LIHTC LURA — 2018-522C)", with:"Florida Housing Finance Corporation (FHFC)", programType:"LIHTC", ref:"FHFC Program 2018-522C", effectiveDate:"2022-01-26", recordedDate:"2022-01-26", recordingNo:"117891857", compliancePeriod:"50 years", complianceEnd:"2072-01-26", setAsides:"Praxis II (96u, 1BR, Elderly 62+): 38u@≤50% AMI (Low HOME/LIHTC 50%) · 58u@≤60% AMI (High HOME/LIHTC 60%). Praxis III (128u, Elderly 62+): 128u@≤60% AMI (95 1BR + 33 2BR). Total 224 restricted units; 40-60 set-aside", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Praxis%20-%20Deerfield%20Beach%2C%20FL/Asset%20Management/0.%20Compliance/FHFC/Praxis%20of%20Deerfield%20Beach_2018-522C_EUA.Recorded.pdf" },
       { type:"Bond LURA — Housing Finance Authority of Broward County", with:"Housing Finance Authority of Broward County (HFABC) / First Housing Development Corp.", programType:"Bond", ref:"Tax-Exempt Bond Financing · Closing August 2019", effectiveDate:"2019-08-01", recordedDate:null, recordingNo:null, compliancePeriod:"Qualified Project Period (15 yrs after 50% occupancy or bond payoff)", complianceEnd:null, setAsides:"≥40% of units @ ≤60% AMI · 40-60 test elected", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Praxis%20-%20Deerfield%20Beach%2C%20FL/Closing/Syndication%20Closing/HUD%20Docs/43.a.%20Bond%20LURA.pdf" },
-      { type:"HOME LURA + ELIHA — Praxis II only (with Assignments)", with:"Broward County / First Housing Development Corp.", programType:"HOME", ref:"HOME Investment Partnerships Program · Praxis II buildings only (96 units, 1BR, Elderly 62+) · Extended Low-Income Housing Agreement (ELIHA) · 3 prior assignments; 4th Assignment of ELIHA (Praxis II) on file; 4th Amendment to HOME LURA on file", effectiveDate:null, recordedDate:null, recordingNo:null, compliancePeriod:"HOME affordability period (20 years min from project completion)", complianceEnd:null, setAsides:"Praxis II ONLY: 38u@≤50% AMI (Low HOME — net rent $850/1BR) · 58u@≤60% AMI (High HOME — net rent $1,020/1BR) · UA=$0 (master metered) · LIHTC limits govern (lower than HOME max rents)", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Praxis%20-%20Deerfield%20Beach%2C%20FL/Closing/Syndication%20Closing/HUD%20Docs/43.b.i.%20HOME%20LURA%20%28Praxis%20II%29%20and%20Assignments.pdf" },
-      { type:"ELIHA — Praxis III only (with Assignments)", with:"Florida Housing Finance Corporation (FHFC) / First Housing Development Corp.", programType:"LIHTC", ref:"Extended Low-Income Housing Agreement · Praxis III buildings only (128 units, Elderly 62+) · with assignments; 4th Assignment of ELIHA (Praxis III) on file", effectiveDate:null, recordedDate:null, recordingNo:null, compliancePeriod:"Extended use period (55 years)", complianceEnd:null, setAsides:"Praxis III ONLY: 128u@≤60% AMI (95 1BR + 33 2BR) · net rents: 1BR $1,020 · 2BR $1,225 · UA=$0", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Praxis%20-%20Deerfield%20Beach%2C%20FL/Closing/Syndication%20Closing/HUD%20Docs/43.d.i.%20ELIHA%20Praxis%20III%20and%20Assignments.pdf" }
+      { type:"HOME LURA + ELIHA — Praxis II only (with Assignments)", with:"Broward County / First Housing Development Corp.", programType:"HOME", ref:"HOME Investment Partnerships Program · Praxis II buildings only (96 units, 1BR, Elderly 62+) · Extended Low-Income Housing Agreement (ELIHA) · 3 prior assignments; 4th Assignment of ELIHA (Praxis II) on file; 4th Amendment to HOME LURA on file", effectiveDate:null, recordedDate:null, recordingNo:null, compliancePeriod:"HOME affordability period (20 years min from project completion)", complianceEnd:null, setAsides:"Praxis II ONLY: 38u@≤50% AMI (Low HOME) · 58u@≤60% AMI (High HOME) · UA=$0 (master metered) · Lesser of LIHTC / HOME limits apply per 24 CFR 92.252", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Praxis%20-%20Deerfield%20Beach%2C%20FL/Closing/Syndication%20Closing/HUD%20Docs/43.b.i.%20HOME%20LURA%20%28Praxis%20II%29%20and%20Assignments.pdf" },
+      { type:"ELIHA — Praxis III only (with Assignments)", with:"Florida Housing Finance Corporation (FHFC) / First Housing Development Corp.", programType:"LIHTC", ref:"Extended Low-Income Housing Agreement · Praxis III buildings only (128 units, Elderly 62+) · with assignments; 4th Assignment of ELIHA (Praxis III) on file", effectiveDate:null, recordedDate:null, recordingNo:null, compliancePeriod:"Extended use period (55 years)", complianceEnd:null, setAsides:"Praxis III ONLY: 128u@≤60% AMI (95 1BR + 33 2BR) · UA=$0 · LIHTC 60% limits apply", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Praxis%20-%20Deerfield%20Beach%2C%20FL/Closing/Syndication%20Closing/HUD%20Docs/43.d.i.%20ELIHA%20Praxis%20III%20and%20Assignments.pdf" }
     ],
     
  certHistory:[
-{
+      {
         effectiveDate:"2022-04-18",
         trigger:"income_limits",
         label:"FY2022 MTSP Income & Rent Limits (Broward-HMFA)",
@@ -2335,6 +2343,8 @@ const PORTFOLIO = [
         snapshot:{
           incomeLimits:{"50%":{"1":31750,"2":36300,"3":40850,"4":45350,"5":49000,"6":52650},"60%":{"1":38100,"2":43560,"3":49020,"4":54420,"5":58800,"6":63180}},
           grossRentLimits:{"50%":{"1BR":850},"60%":{"1BR":1020,"2BR":1225}},
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2022 LIHTC 50% = HOME Low (equal)","50%":{"1BR":850}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2022 LIHTC 60% $1,020 governs — HOME High FY2022 > LIHTC 60%","60%":{"1BR":1020}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2022 (no HOME layer)","60%":{"1BR":1020}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2022 (no HOME layer)","60%":{"2BR":1225}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"HUD MTSP FY2022 — 50% AMI","50%":{"1":31750,"2":36300,"3":40850,"4":45350,"5":49000,"6":52650}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"HUD MTSP FY2022 — 60% AMI","60%":{"1":38100,"2":43560,"3":49020,"4":54420,"5":58800,"6":63180}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2022 — 60% AMI","60%":{"1":38100,"2":43560,"3":49020,"4":54420,"5":58800,"6":63180}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2022 — 60% AMI","60%":{"1":38100,"2":43560,"3":49020,"4":54420,"5":58800,"6":63180}}},
           utilityAllowances:{"1BR":0,"2BR":0},
           hudContractRents:null
         }
@@ -2342,11 +2352,28 @@ const PORTFOLIO = [
       {
         effectiveDate:"2023-05-15",
         trigger:"income_limits",
-        label:"FY2023 MTSP Income & Rent Limits (Broward-HMFA)",
-        source:"HUD FY2023 MTSP Release 5/15/2023, Broward-HMFA confirmed",
+        label:"FY2023 MTSP Income & Rent Limits — Gap Period (Broward-HMFA)",
+        source:"HUD FY2023 MTSP Release 5/15/2023, Broward-HMFA. HOME limits not yet released — FY2022 HOME Low $850 governs 50% tier during gap period.",
         snapshot:{
           incomeLimits:{"50%":{"1":33600,"2":38400,"3":43200,"4":48000,"5":51850,"6":55700},"60%":{"1":40320,"2":46080,"3":51840,"4":57600,"5":62220,"6":66840}},
-          grossRentLimits:{"50%":{"1BR":900},"60%":{"1BR":1080,"2BR":1296}},
+          grossRentLimits:{"50%":{"1BR":850},"60%":{"1BR":1080,"2BR":1296}},
+          lihtcOnlyRents:{"50%":{"1BR":900},"60%":{"1BR":1080,"2BR":1296}},
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2022 HOME Low $850 governs (HOME eff. 6/15/2022) — FY2023 LIHTC 50% $900 > HOME Low","50%":{"1BR":850}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2023 LIHTC 60% $1,080 governs — HOME High FY2022 > LIHTC 60%","60%":{"1BR":1080}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2023 (no HOME layer)","60%":{"1BR":1080}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2023 (no HOME layer)","60%":{"2BR":1296}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2022 HOME income limits carry forward (HOME eff. 6/15/2022) — FY2023 HOME not yet released","50%":{"1":31750,"2":36300,"3":40850,"4":45350,"5":49000,"6":52650}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2022 HOME income limits carry forward (HOME eff. 6/15/2022) — FY2023 HOME not yet released","60%":{"1":38100,"2":43560,"3":49020,"4":54420,"5":58800,"6":63180}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2023 — 60% AMI (no HOME layer)","60%":{"1":38100,"2":43560,"3":49020,"4":54420,"5":58800,"6":63180}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2023 — 60% AMI (no HOME layer)","60%":{"1":38100,"2":43560,"3":49020,"4":54420,"5":58800,"6":63180}}},
+          utilityAllowances:{"1BR":0,"2BR":0},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2023-06-15",
+        trigger:"home_htf_limits",
+        label:"FY2023 HUD HOME Rent Limits Released (eff. 6/15/2023)",
+        source:"HUD HOME Investment Partnerships FY2023 Rent Limits, Fort Lauderdale-Pompano Beach HMFA, eff. 6/15/2023. HOME Low 1BR $900; HOME High 1BR > $1,080 — LIHTC 60% $1,080 governs.",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2023 HOME Low $900 (HOME eff. 6/15/2023) — equals LIHTC 50% $900","50%":{"1BR":900}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2023 LIHTC 60% $1,080 governs — HOME High FY2023 > LIHTC 60%","60%":{"1BR":1080}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2023 (no HOME layer)","60%":{"1BR":1080}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2023 (no HOME layer)","60%":{"2BR":1296}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"HUD MTSP FY2023 — 50% AMI (HOME overlay, lesser of LIHTC/HOME per 24 CFR 92.252)","50%":{"1":33600,"2":38400,"3":43200,"4":48000,"5":51850,"6":55700}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"HUD MTSP FY2023 — 60% AMI (HOME overlay, lesser of LIHTC/HOME per 24 CFR 92.252)","60%":{"1":40320,"2":46080,"3":51840,"4":57600,"5":62220,"6":66840}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2023 — 60% AMI (no HOME layer)","60%":{"1":40320,"2":46080,"3":51840,"4":57600,"5":62220,"6":66840}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2023 — 60% AMI (no HOME layer)","60%":{"1":40320,"2":46080,"3":51840,"4":57600,"5":62220,"6":66840}}},
           utilityAllowances:{"1BR":0,"2BR":0},
           hudContractRents:null
         }
@@ -2354,11 +2381,28 @@ const PORTFOLIO = [
       {
         effectiveDate:"2024-04-01",
         trigger:"income_limits",
-        label:"FY2024 MTSP Income & Rent Limits (Broward-HMFA)",
-        source:"HUD FY2024 MTSP Release 4/1/2024, Broward-HMFA confirmed",
+        label:"FY2024 MTSP Income & Rent Limits — Gap Period (Broward-HMFA)",
+        source:"HUD FY2024 MTSP Release 4/1/2024, Broward-HMFA. HOME limits not yet released — FY2023 HOME Low $900 governs 50% tier during gap period.",
         snapshot:{
           incomeLimits:{"50%":{"1":36950,"2":42200,"3":47500,"4":52800,"5":57000,"6":61250},"60%":{"1":44340,"2":50640,"3":57000,"4":63360,"5":68400,"6":73500}},
-          grossRentLimits:{"50%":{"1BR":989},"60%":{"1BR":1187,"2BR":1425}},
+          grossRentLimits:{"50%":{"1BR":900},"60%":{"1BR":1187,"2BR":1425}},
+          lihtcOnlyRents:{"50%":{"1BR":989},"60%":{"1BR":1187,"2BR":1425}},
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2023 HOME Low $900 governs (HOME eff. 6/15/2023) — FY2024 LIHTC 50% $989 > HOME Low","50%":{"1BR":900}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2024 LIHTC 60% $1,187 governs — HOME High FY2023 > LIHTC 60%","60%":{"1BR":1187}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2024 (no HOME layer)","60%":{"1BR":1187}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2024 (no HOME layer)","60%":{"2BR":1425}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2023 HOME income limits carry forward (HOME eff. 6/15/2023) — FY2024 HOME not yet released","50%":{"1":33600,"2":38400,"3":43200,"4":48000,"5":51850,"6":55700}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2023 HOME income limits carry forward (HOME eff. 6/15/2023) — FY2024 HOME not yet released","60%":{"1":40320,"2":46080,"3":51840,"4":57600,"5":62220,"6":66840}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2024 — 60% AMI (no HOME layer)","60%":{"1":40320,"2":46080,"3":51840,"4":57600,"5":62220,"6":66840}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2024 — 60% AMI (no HOME layer)","60%":{"1":40320,"2":46080,"3":51840,"4":57600,"5":62220,"6":66840}}},
+          utilityAllowances:{"1BR":0,"2BR":0},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2024-06-01",
+        trigger:"home_htf_limits",
+        label:"FY2024 HUD HOME Rent Limits Released (eff. 6/1/2024)",
+        source:"HUD HOME Investment Partnerships FY2024 Rent Limits, Fort Lauderdale-Pompano Beach HMFA, eff. 6/1/2024. HOME Low 1BR $989; HOME High 1BR > $1,187 — LIHTC 60% $1,187 governs.",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2024 HOME Low $989 (HOME eff. 6/1/2024) — equals LIHTC 50% $989","50%":{"1BR":989}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2024 LIHTC 60% $1,187 governs — HOME High FY2024 > LIHTC 60%","60%":{"1BR":1187}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2024 (no HOME layer)","60%":{"1BR":1187}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2024 (no HOME layer)","60%":{"2BR":1425}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"HUD MTSP FY2024 — 50% AMI (HOME overlay, lesser of LIHTC/HOME per 24 CFR 92.252)","50%":{"1":36950,"2":42200,"3":47500,"4":52800,"5":57000,"6":61250}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"HUD MTSP FY2024 — 60% AMI (HOME overlay, lesser of LIHTC/HOME per 24 CFR 92.252)","60%":{"1":44340,"2":50640,"3":57000,"4":63360,"5":68400,"6":73500}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2024 — 60% AMI (no HOME layer)","60%":{"1":44340,"2":50640,"3":57000,"4":63360,"5":68400,"6":73500}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2024 — 60% AMI (no HOME layer)","60%":{"1":44340,"2":50640,"3":57000,"4":63360,"5":68400,"6":73500}}},
           utilityAllowances:{"1BR":0,"2BR":0},
           hudContractRents:null
         }
@@ -2366,11 +2410,28 @@ const PORTFOLIO = [
       {
         effectiveDate:"2025-04-01",
         trigger:"income_limits",
-        label:"FY2025 MTSP Income & Rent Limits (Broward-HMFA)",
-        source:"HUD FY2025 MTSP Release 4/1/2025, Broward-HMFA confirmed",
+        label:"FY2025 MTSP Income & Rent Limits — Gap Period (Broward-HMFA)",
+        source:"HUD FY2025 MTSP Release 4/1/2025, Broward-HMFA. HOME limits not yet released — FY2024 HOME Low $989 governs 50% tier during gap period.",
         snapshot:{
           incomeLimits:{"50%":{"1":40350,"2":46100,"3":51850,"4":57650,"5":62250,"6":66900},"60%":{"1":48420,"2":55320,"3":62220,"4":69180,"5":74700,"6":80280}},
-          grossRentLimits:{"50%":{"1BR":1080},"60%":{"1BR":1296,"2BR":1555}},
+          grossRentLimits:{"50%":{"1BR":989},"60%":{"1BR":1296,"2BR":1555}},
+          lihtcOnlyRents:{"50%":{"1BR":1080},"60%":{"1BR":1296,"2BR":1555}},
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2024 HOME Low $989 governs (HOME eff. 6/1/2024) — FY2025 LIHTC 50% $1,080 > HOME Low","50%":{"1BR":989}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2025 LIHTC 60% $1,296 governs — HOME High FY2024 > LIHTC 60%","60%":{"1BR":1296}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2025 (no HOME layer)","60%":{"1BR":1296}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2025 (no HOME layer)","60%":{"2BR":1555}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2024 HOME income limits carry forward (HOME eff. 6/1/2024) — FY2025 HOME not yet released","50%":{"1":36950,"2":42200,"3":47500,"4":52800,"5":57000,"6":61250}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2024 HOME income limits carry forward (HOME eff. 6/1/2024) — FY2025 HOME not yet released","60%":{"1":44340,"2":50640,"3":57000,"4":63360,"5":68400,"6":73500}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2025 — 60% AMI (no HOME layer)","60%":{"1":44340,"2":50640,"3":57000,"4":63360,"5":68400,"6":73500}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2025 — 60% AMI (no HOME layer)","60%":{"1":44340,"2":50640,"3":57000,"4":63360,"5":68400,"6":73500}}},
+          utilityAllowances:{"1BR":0,"2BR":0},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-06-01",
+        trigger:"home_htf_limits",
+        label:"FY2025 HUD HOME Rent Limits Released (eff. 6/1/2025)",
+        source:"HUD HOME Investment Partnerships FY2025 Rent Limits, Fort Lauderdale-Pompano Beach HMFA, eff. 6/1/2025. HOME Low 1BR $1,080; HOME High 1BR > $1,296 — LIHTC 60% $1,296 governs.",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2025 HOME Low $1,080 (HOME eff. 6/1/2025) — equals LIHTC 50% $1,080","50%":{"1BR":1080}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2025 LIHTC 60% $1,296 governs — HOME High FY2025 > LIHTC 60%","60%":{"1BR":1296}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2025 (no HOME layer)","60%":{"1BR":1296}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2025 (no HOME layer)","60%":{"2BR":1555}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"HUD MTSP FY2025 — 50% AMI (HOME overlay, lesser of LIHTC/HOME per 24 CFR 92.252)","50%":{"1":40350,"2":46100,"3":51850,"4":57650,"5":62250,"6":66900}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"HUD MTSP FY2025 — 60% AMI (HOME overlay, lesser of LIHTC/HOME per 24 CFR 92.252)","60%":{"1":48420,"2":55320,"3":62220,"4":69180,"5":74700,"6":80280}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2025 — 60% AMI (no HOME layer)","60%":{"1":48420,"2":55320,"3":62220,"4":69180,"5":74700,"6":80280}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2025 — 60% AMI (no HOME layer)","60%":{"1":48420,"2":55320,"3":62220,"4":69180,"5":74700,"6":80280}}},
           utilityAllowances:{"1BR":0,"2BR":0},
           hudContractRents:null
         }
@@ -2378,11 +2439,28 @@ const PORTFOLIO = [
       {
         effectiveDate:"2026-05-01",
         trigger:"income_limits",
-        label:"FY2026 MTSP Income & Rent Limits (Broward-HMFA)",
-        source:"HUD FY2026 MTSP Release 5/1/2026, Broward-HMFA confirmed",
+        label:"FY2026 MTSP Income & Rent Limits — Gap Period (Broward-HMFA)",
+        source:"HUD FY2026 MTSP Release 5/1/2026, Broward-HMFA. HOME limits not yet released — FY2025 HOME Low $1,080 governs 50% tier during gap period.",
         snapshot:{
           incomeLimits:{"50%":{"1":44350,"2":50700,"3":57000,"4":63400,"5":68450,"6":73550},"60%":{"1":53220,"2":60840,"3":68400,"4":76080,"5":82140,"6":88260}},
-          grossRentLimits:{"50%":{"1BR":1188},"60%":{"1BR":1425,"2BR":1710}},
+          grossRentLimits:{"50%":{"1BR":1080},"60%":{"1BR":1425,"2BR":1710}},
+          lihtcOnlyRents:{"50%":{"1BR":1188},"60%":{"1BR":1425,"2BR":1710}},
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2025 HOME Low $1,080 governs (HOME eff. 6/1/2025) — FY2026 LIHTC 50% $1,188 > HOME Low","50%":{"1BR":1080}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2026 LIHTC 60% $1,425 governs — HOME High FY2026 > LIHTC 60%","60%":{"1BR":1425}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2026 (no HOME layer)","60%":{"1BR":1425}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2026 (no HOME layer)","60%":{"2BR":1710}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2025 HOME income limits carry forward (HOME eff. 6/1/2025) — FY2026 HOME not yet released","50%":{"1":40350,"2":46100,"3":51850,"4":57650,"5":62250,"6":66900}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2025 HOME income limits carry forward (HOME eff. 6/1/2025) — FY2026 HOME not yet released","60%":{"1":48420,"2":55320,"3":62220,"4":69180,"5":74700,"6":80280}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2026 — 60% AMI (no HOME layer)","60%":{"1":48420,"2":55320,"3":62220,"4":69180,"5":74700,"6":80280}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2026 — 60% AMI (no HOME layer)","60%":{"1":48420,"2":55320,"3":62220,"4":69180,"5":74700,"6":80280}}},
+          utilityAllowances:{"1BR":0,"2BR":0},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-06-01",
+        trigger:"home_htf_limits",
+        label:"FY2026 HUD HOME Rent Limits Released (eff. 6/1/2026)",
+        source:"HUD HOME Investment Partnerships FY2026 Rent Limits, Fort Lauderdale-Pompano Beach HMFA, eff. 6/1/2026. HOME Low 1BR $1,188 = LIHTC 50% $1,188 (equal); HOME High 1BR > $1,425 — LIHTC 60% $1,425 governs.",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          rentsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"FY2026 HOME Low $1,188 = LIHTC 50% (equal, HOME eff. 6/1/2026)","50%":{"1BR":1188}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"FY2026 LIHTC 60% $1,425 governs — HOME High FY2026 > LIHTC 60%","60%":{"1BR":1425}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"LIHTC FY2026 (no HOME layer)","60%":{"1BR":1425}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"LIHTC FY2026 (no HOME layer)","60%":{"2BR":1710}}},
+          incomeLimitsByAgreement:{"LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{"source":"HUD MTSP FY2026 — 50% AMI (HOME overlay, lesser of LIHTC/HOME per 24 CFR 92.252)","50%":{"1":44350,"2":50700,"3":57000,"4":63400,"5":68450,"6":73550}},"LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{"source":"HUD MTSP FY2026 — 60% AMI (HOME overlay, lesser of LIHTC/HOME per 24 CFR 92.252)","60%":{"1":53220,"2":60840,"3":68400,"4":76080,"5":82140,"6":88260}},"LIHTC Only @ 60% (95 1BR) — Praxis III":{"source":"HUD MTSP FY2026 — 60% AMI (no HOME layer)","60%":{"1":53220,"2":60840,"3":68400,"4":76080,"5":82140,"6":88260}},"LIHTC Only @ 60% (33 2BR) — Praxis III":{"source":"HUD MTSP FY2026 — 60% AMI (no HOME layer)","60%":{"1":53220,"2":60840,"3":68400,"4":76080,"5":82140,"6":88260}}},
           utilityAllowances:{"1BR":0,"2BR":0},
           hudContractRents:null
         }
@@ -2398,8 +2476,14 @@ const PORTFOLIO = [
         "60%":{"1":53220,"2":60840,"3":68400,"4":76080,"5":82140,"6":88260}
       },
       grossRentLimits:{
-        "50%":{"1BR":1187},
+        "50%":{"1BR":1188},
         "60%":{"1BR":1425,"2BR":1710}
+      },
+      rentsByAgreement:{
+        "LIHTC + HOME Low @ 50% (38 1BR) — Praxis II":{source:"FY2026 HOME Low $1,188 = LIHTC 50% (equal, HOME eff. 6/1/2026)","50%":{"1BR":1188}},
+        "LIHTC + HOME High @ 60% (58 1BR) — Praxis II":{source:"FY2026 LIHTC 60% $1,425 governs — HOME High FY2026 > LIHTC 60%","60%":{"1BR":1425}},
+        "LIHTC Only @ 60% (95 1BR) — Praxis III":{source:"LIHTC FY2026 (no HOME layer)","60%":{"1BR":1425}},
+        "LIHTC Only @ 60% (33 2BR) — Praxis III":{source:"LIHTC FY2026 (no HOME layer)","60%":{"2BR":1710}}
       },
       utilityAllowances:{"1BR":0,"2BR":0},
       actualRents:{"1BR":null,"2BR":null}
@@ -4310,6 +4394,15 @@ function renderCertHistory(p) {
   const eff = getEffectiveSnapshot(p, activeCertIndex);
   if (!eff) return '<div class="empty-box">No certification event selected</div>';
 
+  // Gap-period detection: lihtcOnlyRents present → this is a MTSP gap event (HOME not yet released)
+  const _lihtcOnlyRents = histAsc[activeCertIndex]?.snapshot?.lihtcOnlyRents || null;
+  // HOME overlay detection: any home_htf_limits event exists
+  const _hasHOMEOverlay = (p.certHistory||[]).some(c => c.trigger === 'home_htf_limits');
+  // For gap events: carry forward prior event's income limits (HOME not yet released)
+  const _ilEffSrc = (_lihtcOnlyRents && activeCertIndex > 0)
+    ? getEffectiveSnapshot(p, activeCertIndex - 1)
+    : eff;
+
   const iNote = (from) => { if(!from) return ""; const [y,m,d]=from.split('-'); return `<span style="font-size:9px;color:var(--mid-grey);font-style:italic;margin-left:4px">· from ${+m}/${+d}/${y}</span>`; };
   const hhCols = Array.from({length:getMaxHHCols(p)},(_,i)=>i+1);
 
@@ -4341,6 +4434,8 @@ function renderCertHistory(p) {
       ${isHUDS8 ? `<div style="font-size:9.5px;color:var(--mid-grey);font-style:italic;margin-top:3px">30% AMI (HUD ELI) is the applicable HUD Section 8 income threshold for tenant eligibility at move-in.</div>` : ""}`;
   }
 
+  if (_hasHOMEOverlay) incomeHtml = ""; // Income limits shown in agreement-level section for HOME overlay properties
+
   // ── Other Affordable Layering (Vista Woods H&S limits) ───────────────────
   let layeringHtml = "";
   const _ll = eff.layeringLimits?.val ?? p.lihtc?.layeringLimits;
@@ -4359,8 +4454,8 @@ function renderCertHistory(p) {
 
   // ── Income Limits by Agreement ────────────────────────────────────────────
   let ilByAgmtHtml = "";
-  if (eff.incomeLimitsByAgreement?.val) {
-    const ilba = eff.incomeLimitsByAgreement.val;
+  if (_ilEffSrc.incomeLimitsByAgreement?.val) {
+    const ilba = _ilEffSrc.incomeLimitsByAgreement.val;
     let agmtSections = "";
     Object.entries(ilba).forEach(([agmtName, agmtData]) => {
       const {source, ...amiData} = agmtData;
@@ -4371,14 +4466,13 @@ function renderCertHistory(p) {
         rows += `<tr><td>${amiLbl}</td>${hhCols.map(h=>`<td>${limits[h]?"$"+Number(limits[h]).toLocaleString():"—"}</td>`).join("")}</tr>`;
       });
       if (rows) {
-        const srcBadge = source ? `<span style="font-size:9px;font-weight:600;color:var(--teal);background:var(--lt-grey);padding:1px 6px;border-radius:3px;margin-left:6px">${source}</span>` : "";
         agmtSections += `
-          <div style="margin-top:8px;font-size:10px;font-weight:700;color:var(--dk-grey)">${agmtName}${srcBadge}</div>
+          <div style="margin-top:8px;font-size:10px;font-weight:700;color:var(--dk-grey)">${agmtName}</div>
           <div class="rent-table-wrap"><table class="income-table" style="font-size:10.5px">
             <tr><th>AMI%</th>${hhCols.map(h=>`<th>${h}p</th>`).join("")}</tr>${rows}</table></div>`;
       }
     });
-    if (agmtSections) ilByAgmtHtml = `<div class="cert-section-head income" style="margin-top:10px">Income Limits by Agreement${iNote(eff.incomeLimitsByAgreement?.from)}</div>
+    if (agmtSections) ilByAgmtHtml = `<div class="cert-section-head income" style="margin-top:10px">Income Limits by Agreement${iNote(_ilEffSrc.incomeLimitsByAgreement?.from)}</div>
       <div style="font-size:9.5px;color:var(--mid-grey);font-style:italic;margin-bottom:4px">Effective income limit per program overlay — lesser of HUD MTSP vs HOME/HTF at each certification date.</div>
       ${agmtSections}`;
   }
@@ -4403,9 +4497,8 @@ function renderCertHistory(p) {
         });
       });
       if (rows) {
-        const srcBadge = source ? `<span style="font-size:9px;font-weight:600;color:var(--teal);background:var(--lt-grey);padding:1px 6px;border-radius:3px;margin-left:6px">${source}</span>` : "";
         agreementSections += `
-          <div style="margin-top:8px;font-size:10px;font-weight:700;color:var(--dk-grey)">${agmtName}${srcBadge}</div>
+          <div style="margin-top:8px;font-size:10px;font-weight:700;color:var(--dk-grey)">${agmtName}</div>
           <div class="rent-table-wrap"><table class="rent-table" style="font-size:10.5px">
             <tr><th>Unit</th><th>AMI%</th><th>Gross Limit</th><th>UA</th><th>Net Rent Limit</th></tr>${rows}</table></div>`;
       }
@@ -4602,6 +4695,8 @@ function openCertPDF(propId, certIndex) {
       <tbody>${rows}</tbody></table>
       <p class="src-note">Income limits per FY${ilYear} MTSP Release (HUD), effective ${fmtDate(ilDate)}.${isGreenleaf && hasBothLayers ? ' 50% AMI (HUD LI) is the applicable HUD Section 8 income threshold.' : ''}${isHUDS8 ? ' 30% AMI (HUD ELI) is the applicable HUD Section 8 income threshold for tenant eligibility at move-in.' : ''}</p>`;
   }
+
+  if ((p.certHistory||[]).some(c => c.trigger === 'home_htf_limits')) incomeHtml = ""; // Income limits shown in agreement-level section
 
   // ── Other Affordable Layering (Vista Woods H&S limits) ───────────────────
   let layeringHtml = "";
@@ -4978,7 +5073,8 @@ function openCertPDF(propId, certIndex) {
     <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
   </div>
 
-</div></body></html>`;
+</div>
+</body></html>`;
 
   const w = window.open("","_blank");
   w.document.write(html);
@@ -5118,6 +5214,148 @@ function showPanel(id) {
 function closePanel() { document.getElementById("overlay").classList.remove("open"); }
 document.addEventListener("keydown", e => { if (e.key === "Escape") closePanel(); });
 render();
+
+function openInspectionSummary() {
+  const fmtD = d => { if(!d) return '<span style="color:#9ca3af">—</span>'; const [y,m,dy]=d.split('-'); return `${+m}/${+dy}/${y}`; };
+  const SCORE_COLOR = {
+    "Superior":"#00c875","Above Average":"#007eb5","Satisfactory":"#9d50dd",
+    "Below Average":"#fdab3d","Unsatisfactory":"#df2f4a","N/A":"#9ca3af"
+  };
+  function morBadge(score) {
+    if (!score || score === 'N/A') return '<span style="color:#9ca3af;font-size:11px">N/A</span>';
+    const col = SCORE_COLOR[score] || '#6b7280';
+    return `<span style="display:inline-block;background:${col}22;color:${col};border:1px solid ${col}55;border-radius:4px;padding:2px 8px;font-size:10.5px;font-weight:700">${score}</span>`;
+  }
+  function nspireBadge(score) {
+    if (!score) return '<span style="color:#9ca3af;font-size:11px">—</span>';
+    const n = parseFloat(score);
+    const col = isNaN(n) ? '#6b7280' : n >= 90 ? '#00c875' : n >= 80 ? '#007eb5' : '#df2f4a';
+    return `<span style="display:inline-block;background:${col}22;color:${col};border:1px solid ${col}55;border-radius:4px;padding:2px 8px;font-size:10.5px;font-weight:700">${score}</span>`;
+  }
+  function nextCell(val) {
+    if (!val) return '<span style="color:#9ca3af">—</span>';
+    const isOver = val.toLowerCase().startsWith('overdue');
+    return `<span style="color:${isOver?'#dc2626':'var(--dk-grey)'};font-size:11px;font-weight:${isOver?'600':'400'}">${val}</span>`;
+  }
+
+  // Compute stats
+  let totalTracked = 0, overdueCount = 0, upcomingCount = 0;
+  const now = new Date();
+  const in12 = new Date(now); in12.setFullYear(in12.getFullYear()+1);
+  PORTFOLIO.forEach(p => {
+    if (!p.lastInspection) return;
+    totalTracked++;
+    ['mor','nspire'].forEach(t => {
+      const obj = p.lastInspection[t];
+      if (!obj) return;
+      if (obj.next && obj.next.toLowerCase().startsWith('overdue')) overdueCount++;
+      if (obj.next && !obj.next.toLowerCase().startsWith('overdue')) {
+        // try to parse a year from the next string
+        const m = obj.next.match(/\b(20\d{2})\b/);
+        if (m) {
+          const yr = parseInt(m[1]);
+          if (yr <= in12.getFullYear()) upcomingCount++;
+        }
+      }
+    });
+  });
+
+  // Group by region
+  const regions = [];
+  const seen = new Set();
+  PORTFOLIO.forEach(p => { if (!seen.has(p.region)) { regions.push(p.region); seen.add(p.region); } });
+
+  const statCard = (val, label, color) =>
+    `<div style="background:white;border-radius:8px;padding:14px 20px;border:1px solid var(--lt-grey);text-align:center;flex:1;min-width:120px">
+      <div style="font-size:26px;font-weight:800;color:${color};font-family:'IBM Plex Mono',monospace">${val}</div>
+      <div style="font-size:11px;color:var(--mid-grey);margin-top:3px;font-weight:500">${label}</div>
+    </div>`;
+
+  let sectionsHtml = '';
+  regions.forEach(region => {
+    const props = PORTFOLIO.filter(p => p.region === region);
+    const rows = props.map(p => {
+      const li = p.lastInspection;
+      if (!li) {
+        return `<tr style="border-top:1px solid var(--lt-grey)">
+          <td style="padding:9px 12px;font-size:12px;font-weight:600;color:var(--ink)">${p.name}</td>
+          <td colspan="6" style="padding:9px 12px;font-size:11px;color:#9ca3af;font-style:italic">Not on NSPIRE &amp; MOR Board</td>
+        </tr>`;
+      }
+      const mor = li.mor || {};
+      const nsp = li.nspire || {};
+      return `<tr style="border-top:1px solid var(--lt-grey)">
+        <td style="padding:9px 12px;font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap">
+          ${p.name}
+          <a href="${li.mondayUrl}" target="_blank" style="font-size:9px;color:var(--teal);text-decoration:none;margin-left:6px;font-weight:500">↗</a>
+        </td>
+        <td style="padding:9px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;white-space:nowrap">${fmtD(mor.date)}</td>
+        <td style="padding:9px 12px">${morBadge(mor.score)}</td>
+        <td style="padding:9px 12px;max-width:180px">${nextCell(mor.next)}</td>
+        <td style="padding:9px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;white-space:nowrap">${fmtD(nsp.date)}</td>
+        <td style="padding:9px 12px">${nspireBadge(nsp.score)}</td>
+        <td style="padding:9px 12px;max-width:200px">${nextCell(nsp.next)}</td>
+      </tr>`;
+    }).join('');
+
+    sectionsHtml += `
+      <div style="margin-bottom:28px">
+        <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mid-grey);padding:0 0 8px 2px;border-bottom:2px solid var(--lt-grey);margin-bottom:2px">${region}</div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;min-width:700px">
+            <thead>
+              <tr style="background:var(--blue-pale)">
+                <th style="padding:7px 12px;text-align:left;font-size:10px;color:var(--blue-dark);font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap">Property</th>
+                <th colspan="3" style="padding:7px 12px;text-align:left;font-size:10px;color:#5b21b6;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-left:2px solid #ddd6fe;background:#ede9fe">MOR</th>
+                <th colspan="3" style="padding:7px 12px;text-align:left;font-size:10px;color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-left:2px solid #a7f3d0;background:#ecfdf5">NSPIRE</th>
+              </tr>
+              <tr style="background:#f8f9fb">
+                <th style="padding:5px 12px;text-align:left;font-size:9.5px;color:var(--mid-grey);font-weight:600"></th>
+                <th style="padding:5px 12px;text-align:left;font-size:9.5px;color:var(--mid-grey);font-weight:600;border-left:2px solid #ddd6fe">Last Date</th>
+                <th style="padding:5px 12px;text-align:left;font-size:9.5px;color:var(--mid-grey);font-weight:600">Score</th>
+                <th style="padding:5px 12px;text-align:left;font-size:9.5px;color:var(--mid-grey);font-weight:600">Next Expected</th>
+                <th style="padding:5px 12px;text-align:left;font-size:9.5px;color:var(--mid-grey);font-weight:600;border-left:2px solid #a7f3d0">Last Date</th>
+                <th style="padding:5px 12px;text-align:left;font-size:9.5px;color:var(--mid-grey);font-weight:600">Score</th>
+                <th style="padding:5px 12px;text-align:left;font-size:9.5px;color:var(--mid-grey);font-weight:600">Next Expected</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>`;
+  });
+
+  const today = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('insp-panel').innerHTML = `
+    <div style="background:var(--blue-dark);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:10;border-bottom:3px solid var(--orange)">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:white">Agency Inspection / Audit Summary</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em;margin-top:1px">NSPIRE &amp; MOR — As of ${today}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <a href="https://mrk-partners-company.monday.com/boards/9261066122" target="_blank" style="font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;font-weight:500">Open Monday Board ↗</a>
+        <button onclick="closeInspectionSummary()" style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,.6);font-size:22px;line-height:1;padding:0" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,.6)'">&times;</button>
+      </div>
+    </div>
+    <div style="padding:24px 32px">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px">
+        ${statCard(totalTracked, 'Properties Tracked', 'var(--blue-dark)')}
+        ${statCard(overdueCount, 'Overdue Inspections', '#dc2626')}
+        ${statCard(upcomingCount, 'Due Within 12 Months', '#d97706')}
+        ${statCard(PORTFOLIO.length - totalTracked, 'Not Yet on Board', '#9ca3af')}
+      </div>
+      ${sectionsHtml}
+    </div>`;
+
+  document.getElementById('insp-overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeInspectionSummary() {
+  document.getElementById('insp-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeInspectionSummary(); });
 </script>
 </body>
             
