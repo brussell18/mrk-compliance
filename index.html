@@ -1718,11 +1718,11 @@ const PORTFOLIO = [
         effectiveDate:"2025-08-01",
         trigger:"utility_allowance",
         label:"HUSM UA Update — 8th Annual (SMUD Rate eff. 1/1/2025)",
-        source:"8th Annual HUSM Report dated 4/20/2025 (So Cal HERS Raters); SMUD rate eff. 1/1/2025 (RF01); estimated effective date — verify with SHRA approval letter; attachment totals operative: 1BR $92, 2BR $116 (cover letter shows $96 — attachment figures operative); 1BR: Heating $38 + Cooking $8 + Other Elec $31 + AC $15 = $92; 2BR: Heating $41 + Cooking $12 + Other Elec $43 + AC $20 = $116",
+        source:"8th Annual HUSM Report dated 4/20/2025 (So Cal HERS Raters); SMUD rate eff. 1/1/2025 (RF01); cover letter total operative: 1BR $96 / 2BR $116 (HUSM attachment component sum = $92 — cover letter figure governs); 1BR: Heating $38 + Cooking $8 + Other Elec $31 + AC $15 = $92 per attachment; 2BR: Heating $41 + Cooking $12 + Other Elec $43 + AC $20 = $116",
         snapshot:{
           incomeLimits:null,
           grossRentLimits:null,
-          utilityAllowances:{"1BR":92,"2BR":116},
+          utilityAllowances:{"1BR":96,"2BR":116},
           hudContractRents:null,
           uaBreakdown:{
             "1BR":{ heating:38, cooking:8, waterHeating:0, lights:0, otherElectric:31, ac:15, waterSewer:0, trash:0, otherGas:0 },
@@ -1743,19 +1743,45 @@ const PORTFOLIO = [
             "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"Lesser: FY2025 HOME Low $1,206 < MTSP $1,232 (SHRA eff. 6/1/2025)","50%":{"1BR":1206,"2BR":1447}},
             "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"Lesser: FY2025 HOME Low $1,206 < MTSP $1,232 (SHRA eff. 6/1/2025)","50%":{"1BR":1206,"2BR":1447}},
             "60% — LIHTC (44 1BR · 19 2BR)":{source:"HUD MTSP FY2026","60%":{"1BR":1479,"2BR":1774}},
-            "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"HUD MTSP FY2026 (MTSP $1,479 < HOME High FY2025 $1,548)","60%":{"1BR":1479,"2BR":1774}}
+            "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"MTSP FY2026 ($1,479/1BR) < HOME High FY2025 ($1,548/1BR) — MTSP binding","60%":{"1BR":1479,"2BR":1774}}
           },
           incomeLimitsByAgreement:{
             // HOME FY2025 50% in effect at 5/1/2026 cert = prior-year MTSP 50%
-            // HOME FY2025 65% = 1.3× FY2025 50% = $58,550/1p; MTSP 60% FY2026 = $55,200/1p → MTSP is binding for tier 5
+            // HOME FY2025 65% = 1.3× FY2025 50% = $58,565/1p; MTSP 60% FY2026 = $55,200/1p → MTSP is binding for tier 5
             "50% — LIHTC & Bond (4 1BR · 2 2BR)":{source:"HUD MTSP FY2026","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
-            "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"Lesser: FY2025 HOME 50% < MTSP FY2026","50%":{"1":45050,"2":51450,"3":57900,"4":64300,"5":69450,"6":74600,"7":79750}},
-            "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"Lesser: FY2025 HOME 50% < MTSP FY2026","50%":{"1":45050,"2":51450,"3":57900,"4":64300,"5":69450,"6":74600,"7":79750}},
+            "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"Lesser: FY2025 HOME 50% ($45,050/1p) < MTSP FY2026 ($46,000/1p)","50%":{"1":45050,"2":51450,"3":57900,"4":64300,"5":69450,"6":74600,"7":79750}},
+            "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"Lesser: FY2025 HOME 50% ($45,050/1p) < MTSP FY2026 ($46,000/1p)","50%":{"1":45050,"2":51450,"3":57900,"4":64300,"5":69450,"6":74600,"7":79750}},
             "60% — LIHTC (44 1BR · 19 2BR)":{source:"HUD MTSP FY2026","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}},
-            "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"HUD MTSP FY2026 (MTSP $55,200/1p < HOME 65% FY2025 $58,550/1p)","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}}
+            "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"MTSP FY2026 ($55,200/1p) < HOME 65% FY2025 ($58,565/1p) — MTSP binding","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}}
           },
           utilityAllowances:null,
           hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-06-01",
+        trigger:"home_htf_limits",
+        label:"SHRA HOME/HTF Limit Update — FY2026 (eff. 6/1/2026)",
+        source:"SHRA Income and Rent Limit Table — FY2026, effective June 1, 2026 (shra.org/wp-content/uploads/2026/06/Rent-and-Income-Limits-2026-FINAL_.pdf). 4-person median $131,400. HOME Low (50%): 1BR $1,232 / 2BR $1,478; HOME High (60%): 1BR $1,582 / 2BR $1,901. Tiers 2/3: HOME Low $1,232 = MTSP 50% FY2026 — limits now equal (was HOME-binding $1,206 during gap). Tier 5: MTSP 60% FY2026 ($1,479/1BR) < HOME High FY2026 ($1,582/1BR) — MTSP binding.",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:null,
+          hudContractRents:null,
+          rentsByAgreement:{
+            "50% — LIHTC & Bond (4 1BR · 2 2BR)":{source:"HUD MTSP FY2026 (no HOME layer)","50%":{"1BR":1232,"2BR":1478}},
+            "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"SHRA FY2026: HOME Low $1,232 = MTSP 50% FY2026 — limits now equal","50%":{"1BR":1232,"2BR":1478}},
+            "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"SHRA FY2026: HOME Low $1,232 = MTSP 50% FY2026 — limits now equal","50%":{"1BR":1232,"2BR":1478}},
+            "60% — LIHTC (44 1BR · 19 2BR)":{source:"HUD MTSP FY2026 (no HOME layer)","60%":{"1BR":1479,"2BR":1774}},
+            "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"MTSP FY2026 ($1,479/1BR) < HOME High FY2026 ($1,582/1BR) — MTSP binding","60%":{"1BR":1479,"2BR":1774}}
+          },
+          incomeLimitsByAgreement:{
+            "50% — LIHTC & Bond (4 1BR · 2 2BR)":{source:"HUD MTSP FY2026","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
+            "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"SHRA FY2026: HOME 50% = MTSP 50% FY2026 — limits now equal","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
+            "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"SHRA FY2026: HOME 50% = MTSP 50% FY2026 — limits now equal","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
+            "60% — LIHTC (44 1BR · 19 2BR)":{source:"HUD MTSP FY2026","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}},
+            "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"MTSP FY2026 ($55,200/1p) < HOME 65% FY2026 ($59,800/1p) — MTSP binding","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}}
+          }
         }
       }
     ],
@@ -1773,25 +1799,25 @@ const PORTFOLIO = [
       },
       rentsByAgreement:{
         // Gross rent limits by program tier — "lesser of LIHTC vs HOME/HTF" applied where HOME/HTF layered.
-        // FY2026 MTSP (eff. 5/1/2026) vs FY2025 HOME (eff. 6/1/2025, still in effect until 5/31/2026).
+        // FY2026 MTSP (eff. 5/1/2026) + SHRA FY2026 HOME (eff. 6/1/2026).
         "50% — LIHTC & Bond (4 1BR · 2 2BR)":{source:"HUD MTSP FY2026","50%":{"1BR":1232,"2BR":1478}},
-        "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"Lesser: FY2025 HOME Low $1,206 < MTSP $1,232 (SHRA eff. 6/1/2025 — FY2026 SHRA chart not yet published as of 6/16/2026)","50%":{"1BR":1206,"2BR":1447}},
-        "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"Lesser: FY2025 HOME Low $1,206 < MTSP $1,232 (SHRA eff. 6/1/2025 — FY2026 SHRA chart not yet published as of 6/16/2026)","50%":{"1BR":1206,"2BR":1447}},
+        "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"SHRA FY2026: HOME Low $1,232 = MTSP 50% FY2026 — limits now equal (eff. 6/1/2026)","50%":{"1BR":1232,"2BR":1478}},
+        "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"SHRA FY2026: HOME Low $1,232 = MTSP 50% FY2026 — limits now equal (eff. 6/1/2026)","50%":{"1BR":1232,"2BR":1478}},
         "60% — LIHTC (44 1BR · 19 2BR)":{source:"HUD MTSP FY2026","60%":{"1BR":1479,"2BR":1774}},
-        "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"HUD MTSP FY2026 (MTSP $1,479 < HOME High FY2025 $1,548)","60%":{"1BR":1479,"2BR":1774}}
+        "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"MTSP FY2026 ($1,479/1BR) < HOME High FY2026 ($1,582/1BR) — MTSP binding (eff. 6/1/2026)","60%":{"1BR":1479,"2BR":1774}}
       },
       incomeLimitsByAgreement:{
         // Income limits by program tier — lesser of HUD MTSP vs HOME/HTF at each certification date.
-        // Current state: FY2026 MTSP (eff. 5/1/2026) vs FY2025 HOME (still in effect until 5/31/2026).
-        // HOME 50% FY2025 = prior-year MTSP 50%; HOME 65% FY2025 = 1.3× FY2025 MTSP 50%.
-        // MTSP 60% FY2026 ($55,200/1p) < HOME 65% FY2025 ($58,550/1p) → MTSP binds tier 5.
+        // Current state: FY2026 MTSP (eff. 5/1/2026) + SHRA FY2026 HOME (eff. 6/1/2026).
+        // HOME 50% FY2026 = MTSP 50% FY2026 ($46,000/1p) — limits equal; HOME 65% FY2026 = $59,800/1p (1.3× $46,000).
+        // MTSP 60% FY2026 ($55,200/1p) < HOME 65% FY2026 ($59,800/1p) → MTSP binds tier 5.
         "50% — LIHTC & Bond (4 1BR · 2 2BR)":{source:"HUD MTSP FY2026","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
-        "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"Lesser: FY2025 HOME 50% < MTSP FY2026","50%":{"1":45050,"2":51450,"3":57900,"4":64300,"5":69450,"6":74600,"7":79750}},
-        "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"Lesser: FY2025 HOME 50% < MTSP FY2026","50%":{"1":45050,"2":51450,"3":57900,"4":64300,"5":69450,"6":74600,"7":79750}},
+        "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"SHRA FY2026: HOME 50% = MTSP 50% FY2026 — limits now equal","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
+        "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"SHRA FY2026: HOME 50% = MTSP 50% FY2026 — limits now equal","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
         "60% — LIHTC (44 1BR · 19 2BR)":{source:"HUD MTSP FY2026","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}},
-        "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"HUD MTSP FY2026 (MTSP $55,200/1p < HOME 65% FY2025 $58,550/1p)","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}}
+        "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"MTSP FY2026 ($55,200/1p) < HOME 65% FY2026 ($59,800/1p) — MTSP binding (eff. 6/1/2026)","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}}
       },
-      utilityAllowances:{"1BR":92,"2BR":116},
+      utilityAllowances:{"1BR":96,"2BR":116},
       uaBreakdown:{
         "1BR":{ heating:38, cooking:8, waterHeating:0, lights:0, otherElectric:31, ac:15, waterSewer:0, trash:0, otherGas:0 },
         "2BR":{ heating:41, cooking:12, waterHeating:0, lights:0, otherElectric:43, ac:20, waterSewer:0, trash:0, otherGas:0 }
@@ -2144,6 +2170,32 @@ const PORTFOLIO = [
           grossRentLimits:{"50%":{"1BR":1471,"2BR":1766},"60%":{"1BR":1766,"2BR":2119}},
           utilityAllowances:null,
           hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-06-01",
+        trigger:"home_htf_limits",
+        label:"SHRA HOME/HTF Limit Update — FY2026 (eff. 6/1/2026)",
+        source:"SHRA Income and Rent Limit Table — FY2026, effective June 1, 2026 (shra.org/wp-content/uploads/2026/06/Rent-and-Income-Limits-2026-FINAL_.pdf). 4-person median $131,400. HOME Low (50%): 1BR $1,232 / 2BR $1,478; HOME High (60%): 1BR $1,582 / 2BR $1,901. Tiers 2/3: HOME Low $1,232 = MTSP 50% FY2026 — limits now equal (was HOME-binding $1,206 during gap). Tier 5: MTSP 60% FY2026 ($1,479/1BR) < HOME High FY2026 ($1,582/1BR) — MTSP binding.",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:null,
+          hudContractRents:null,
+          rentsByAgreement:{
+            "50% — LIHTC & Bond (4 1BR · 2 2BR)":{source:"HUD MTSP FY2026 (no HOME layer)","50%":{"1BR":1232,"2BR":1478}},
+            "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"SHRA FY2026: HOME Low $1,232 = MTSP 50% FY2026 — limits now equal","50%":{"1BR":1232,"2BR":1478}},
+            "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"SHRA FY2026: HOME Low $1,232 = MTSP 50% FY2026 — limits now equal","50%":{"1BR":1232,"2BR":1478}},
+            "60% — LIHTC (44 1BR · 19 2BR)":{source:"HUD MTSP FY2026 (no HOME layer)","60%":{"1BR":1479,"2BR":1774}},
+            "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"MTSP FY2026 ($1,479/1BR) < HOME High FY2026 ($1,582/1BR) — MTSP binding","60%":{"1BR":1479,"2BR":1774}}
+          },
+          incomeLimitsByAgreement:{
+            "50% — LIHTC & Bond (4 1BR · 2 2BR)":{source:"HUD MTSP FY2026","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
+            "50% — LIHTC, Bond & HTF (8 1BR · 3 2BR)":{source:"SHRA FY2026: HOME 50% = MTSP 50% FY2026 — limits now equal","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
+            "50% — LIHTC, Bond, HOME & HTF (2 1BR · 1 2BR)":{source:"SHRA FY2026: HOME 50% = MTSP 50% FY2026 — limits now equal","50%":{"1":46000,"2":52600,"3":59150,"4":65700,"5":71000,"6":76250,"7":81500}},
+            "60% — LIHTC (44 1BR · 19 2BR)":{source:"HUD MTSP FY2026","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}},
+            "60% LIHTC / 65% HOME (6 1BR · 2 2BR)":{source:"MTSP FY2026 ($55,200/1p) < HOME 65% FY2026 ($59,800/1p) — MTSP binding","60%":{"1":55200,"2":63120,"3":70980,"4":78840,"5":85200,"6":91500,"7":97800}}
+          }
         }
       }
     ],
