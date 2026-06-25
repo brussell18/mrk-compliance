@@ -253,6 +253,49 @@
     .cert-block { border: 1px solid #ccc !important; }
   }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  /* ── MAP MODAL ── */
+  #map-overlay {
+    display:none; position:fixed; inset:0; z-index:2000;
+    background:rgba(0,0,0,.55); align-items:flex-start; justify-content:center;
+    padding:24px 16px;
+  }
+  #map-overlay.open { display:flex; }
+  #map-modal {
+    background:#fff; display:flex; flex-direction:column;
+    width:100%; max-width:1200px; border-radius:12px;
+    overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,.35);
+    max-height:calc(100vh - 48px);
+  }
+  #map-modal-header {
+    background:var(--blue-dark); color:#fff; padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+  }
+  #map-modal-title { font-size:14px; font-weight:700; font-family:'DM Sans',sans-serif; }
+  #map-modal-close {
+    background:none; border:none; color:rgba(255,255,255,.7); cursor:pointer;
+    font-size:22px; line-height:1; padding:2px 8px; border-radius:4px; transition:color .15s;
+  }
+  #map-modal-close:hover { color:#fff; }
+  #map-status-bar {
+    background:var(--off-white); border-bottom:1px solid var(--lt-grey);
+    padding:7px 16px; font-size:11.5px; color:var(--mid-grey);
+    font-family:'DM Sans',sans-serif; flex-shrink:0; min-height:30px;
+    display:flex; align-items:center; gap:10px;
+  }
+  #leaflet-map { flex:1; min-height:500px; }
+  #map-legend {
+    display:flex; flex-wrap:wrap; gap:8px 20px; padding:9px 16px;
+    background:#fff; border-top:1px solid var(--lt-grey); flex-shrink:0;
+    font-size:11px; font-family:'DM Sans',sans-serif;
+  }
+  .map-legend-item { display:flex; align-items:center; gap:5px; color:var(--dk-grey); }
+  .map-legend-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; border:1.5px solid rgba(0,0,0,.15); }
+  .mrk-map-popup .leaflet-popup-content { margin: 14px 16px; }
+  .mrk-map-popup .leaflet-popup-content-wrapper { border-radius: 10px; box-shadow: 0 4px 24px rgba(0,0,0,.18); }
+</style>
 </head>
 <body>
 <div class="header">
@@ -274,8 +317,11 @@
     <option value="">All States</option>
     <option>California</option>
     <option>Florida</option>
-    <option>Mid Atlantic</option>
-    <option>One-Offs</option>
+    <option>New Jersey</option>
+    <option>Virginia</option>
+    <option>Maryland</option>
+    <option>Missouri</option>
+    <option>Michigan</option>
   </select>
   <select id="fProgram" onchange="render()">
     <option value="">All Programs</option>
@@ -294,12 +340,32 @@
   </select>
 
 
-  <button onclick="openInspectionSummary()" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--blue-dark);color:white;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='var(--blue-dark)'">
+  <button onclick="openPortfolioMap()" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--blue-dark);color:white;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='var(--blue-dark)'">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/></svg>
+    Portfolio Map
+  </button>
+  <button onclick="openInspectionSummary()" style="display:inline-flex;align-items:center;gap:6px;background:var(--blue-dark);color:white;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='var(--blue-dark)'">
     <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 5h8M4 8h8M4 11h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     Agency Inspection / Audit Summary
   </button>
 </div>
 <div class="grid" id="grid"></div>
+<!-- Portfolio Map Modal -->
+<div id="map-overlay" onclick="if(event.target===this)closePortfolioMap()">
+  <div id="map-modal">
+    <div id="map-modal-header">
+      <span id="map-modal-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px;margin-right:6px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/></svg>
+        Portfolio Map — MRK Partners
+      </span>
+      <button id="map-modal-close" onclick="closePortfolioMap()" title="Close">×</button>
+    </div>
+    <div id="map-status-bar">31 properties · Click any pin to view details</div>
+    <div id="leaflet-map"></div>
+    <div id="map-legend"></div>
+  </div>
+</div>
+
 <div class="overlay" id="overlay" onclick="if(event.target===this)closePanel()">
   <div class="panel" id="panel"></div>
 </div>
@@ -3181,7 +3247,7 @@ const PORTFOLIO = [
 
   // =================== MID ATLANTIC — FAIRFAX ===================
   {
-    id:"parkwood", name:"Parkwood", region:"Mid Atlantic",
+    id:"parkwood", name:"Parkwood", region:"Virginia",
     address:"3421 Glen Carlyn Drive, Falls Church, VA 22041", county:"Fairfax",
     totalUnits:225, unitMix:{studio:0,"1BR":49,"2BR":176},
     uaType:"Local HA", // FCRHA (Fairfax County Redevelopment and Housing Authority) — verify schedule annually
@@ -3402,7 +3468,7 @@ const PORTFOLIO = [
 
   // =================== MID ATLANTIC — MONTGOMERY ===================
   {
-    id:"amber-commons", name:"Amber Commons", region:"Mid Atlantic",
+    id:"amber-commons", name:"Amber Commons", region:"Maryland",
     address:"7 Prism Place, Gaithersburg, MD 20877", county:"Montgomery",
     totalUnits:198, unitMix:{studio:0,"1BR":32,"2BR":113,"3BR":53},
     uaType:"Engineered",
@@ -3427,7 +3493,7 @@ const PORTFOLIO = [
     }
   },
   {
-    id:"hillside", name:"Hillside Senior", region:"Mid Atlantic",
+    id:"hillside", name:"Hillside Senior", region:"Maryland",
     address:"200-220 Skidmore Boulevard, Gaithersburg, MD 20877", county:"Montgomery",
     totalUnits:140, unitMix:{studio:0,"1BR":82,"2BR":58},
     uaType:"Master Metered",
@@ -3570,7 +3636,7 @@ const PORTFOLIO = [
 
   // =================== MID ATLANTIC — PRINCE GEORGE'S ===================
   {
-    id:"park-tanglewood", name:"Park Tanglewood", region:"Mid Atlantic",
+    id:"park-tanglewood", name:"Park Tanglewood", region:"Maryland",
     address:"5309 Riverdale Road, Riverdale Park, MD 20737", county:"Prince George's",
     totalUnits:180, unitMix:{studio:7,"1BR":125,"2BR":48}, // TODO: verify unit mix from rent roll
     uaType:"Master Metered",
@@ -3801,7 +3867,7 @@ const PORTFOLIO = [
 
   // =================== ONE-OFFS — JACKSON ===================
   {
-    id:"greenleaf", name:"Greenleaf", region:"One-Offs",
+    id:"greenleaf", name:"Greenleaf", region:"Missouri",
     address:"5208 East 12th Street, Kansas City, MO 64127", county:"Jackson",
     totalUnits:195, unitMix:{studio:9,"1BR":178,"2BR":8},
     uaType:"HUD - 3 Year Study",
@@ -3917,7 +3983,7 @@ const PORTFOLIO = [
 
   // =================== ONE-OFFS — WAYNE ===================
   {
-    id:"cathedral-tower", name:"Cathedral Tower", region:"One-Offs",
+    id:"cathedral-tower", name:"Cathedral Tower", region:"Michigan",
     address:"80 East Hancock Street, Detroit, MI 48201", county:"Wayne",
     totalUnits:236, unitMix:{studio:171,"1BR":65},
     uaType:"Master Metered",
@@ -4100,6 +4166,1126 @@ const PORTFOLIO = [
       },
       utilityAllowances:{"studio":0,"1BR":0},
       actualRents:{"studio":null,"1BR":null}
+    },
+    hud:null
+  },
+
+  // =================== NEW JERSEY — KRM PORTFOLIO (former Ingerman) ===================
+
+  {
+    id:"justin-commons", name:"Justin Commons", region:"New Jersey",
+    address:"1201 Justin Way, Williamstown, NJ 08094",
+    county:"Gloucester",
+    totalUnits:132, unitMix:{"1BR":26,"2BR":66,"3BR":40},
+    uaType:"Engineered",
+    placedInService:"2011-07-28",
+    regulatoryAgreements:[
+      {
+        type:"NJHMFA LURA (LIHTC Extended Use Agreement)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"Justin Commons Apartments LP — NJHMFA 9% LIHTC allocation; Monroe Township, Gloucester County; 15-year initial compliance 2011–2026; extended use through 12/31/2041; total extended use through 12/31/2056",
+        effectiveDate:"2011-07-28",
+        placedInService:"2011-07-28",
+        compliancePeriod:"15-year initial compliance (through 12/31/2026) + extended use through 12/31/2041; total extended use through 12/31/2056",
+        complianceEnd:"2056-12-31",
+        setAsides:"18u @ ≤30% AMI · 48u @ ≤50% AMI · 66u @ ≤60% AMI (132 total restricted units)",
+        spUrl:null
+      },
+      {
+        type:"PILOT Agreement (Payment In Lieu of Taxes)",
+        with:"Township of Monroe, Gloucester County, NJ",
+        programType:"City",
+        ref:"PILOT: 6.25% of annual net shelter rents (excl. rental subsidy income); term concurrent with NJHMFA extended use period; per InvSummary",
+        effectiveDate:"2011-07-28",
+        compliancePeriod:"Concurrent with NJHMFA LURA through 12/31/2056 (or as extended)",
+        complianceEnd:"2056-12-31",
+        setAsides:null,
+        spUrl:null
+      }
+    ],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 4/1/2024; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless (higher of current or any prior year); UA: 1BR=$117, 2BR=$122, 3BR=$126 per NJHMFA Utility Allowance Schedule; 5p income limits derived from published 3BR gross rent limits",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":24090,"2":27540,"3":30990,"4":34410,"5":37170},
+            "50%":{"1":40150,"2":45900,"3":51650,"4":57350,"5":61930},
+            "60%":{"1":48180,"2":55080,"3":61980,"4":68820,"5":74300}
+          },
+          grossRentLimits:{
+            "30%":{"1BR":645,"2BR":774,"3BR":894},
+            "50%":{"1BR":1075,"2BR":1291,"3BR":1491},
+            "60%":{"1BR":1290,"2BR":1549,"3BR":1789}
+          },
+          utilityAllowances:{"1BR":117,"2BR":122,"3BR":126},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Justin Commons (effective 1/1/2025)",
+        source:"Engineered UA study effective 1/1/2025; 1BR=$118, 2BR=$127, 3BR=$124; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":118,"2BR":127,"3BR":124},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 4/1/2025; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; UA: 1BR=$118, 2BR=$127, 3BR=$124 per Engineered UA study effective 1/1/2025; gross rent limits OCR-verified from NJHMFA PDF (30% 2BR corrected $806; 40% 1BR corrected $896)",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":25080,"2":28680,"3":32250,"4":35820,"5":38700},
+            "50%":{"1":41800,"2":47800,"3":53750,"4":59700,"5":64460},
+            "60%":{"1":50160,"2":57360,"3":64500,"4":71640,"5":77400}
+          },
+          grossRentLimits:{
+            "30%":{"1BR":672,"2BR":806,"3BR":931},
+            "50%":{"1BR":1120,"2BR":1343,"3BR":1552},
+            "60%":{"1BR":1344,"2BR":1612,"3BR":1863}
+          },
+          utilityAllowances:{"1BR":118,"2BR":127,"3BR":124},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Justin Commons (effective 1/1/2026)",
+        source:"Engineered UA study effective 1/1/2026; replaces NJHMFA Utility Allowance Schedule; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":135,"2BR":146,"3BR":143},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; UA: 1BR=$135, 2BR=$146, 3BR=$143 per Engineered UA study effective 1/1/2026",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},
+            "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},
+            "60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}
+          },
+          grossRentLimits:{
+            "30%":{"1BR":690,"2BR":828,"3BR":957},
+            "50%":{"1BR":1150,"2BR":1381,"3BR":1595},
+            "60%":{"1BR":1380,"2BR":1657,"3BR":1914}
+          },
+          utilityAllowances:{"1BR":135,"2BR":146,"3BR":143},
+          hudContractRents:null
+        }
+      }
+    ],
+    program:"LIHTC",
+    lihtc:{
+      amiYear:2026,
+      setAsides:[{pct:30,unitCount:18},{pct:50,unitCount:48},{pct:60,unitCount:66}],
+      incomeLimits:{
+        "30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},
+        "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},
+        "60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}
+      },
+      grossRentLimits:{
+        "30%":{"1BR":690,"2BR":828,"3BR":957},
+        "50%":{"1BR":1150,"2BR":1381,"3BR":1595},
+        "60%":{"1BR":1380,"2BR":1657,"3BR":1914}
+      },
+      utilityAllowances:{"1BR":135,"2BR":146,"3BR":143},
+      actualRents:{"1BR-30%":410,"1BR-50%":759,"1BR-60%":1041,"2BR-30%":477,"2BR-50%":971,"2BR-60%":1185,"3BR-30%":551,"3BR-50%":1107,"3BR-60%":1498} // T12 averages excl. HCV units; per InvSummary
+    },
+    hud:null
+  },
+
+  {
+    id:"collingwood-park", name:"Collingwood Park", region:"New Jersey",
+    address:"2 Liron Lane, Farmingdale, NJ 07727",
+    county:"Monmouth",
+    totalUnits:110, unitMix:{"1BR":22,"2BR":55,"3BR":33},
+    uaType:"Engineered",
+    placedInService:"2001-05-23",
+    regulatoryAgreements:[
+      {
+        type:"NJHMFA LURA (LIHTC Extended Use Agreement)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"Collingwood Park Apartments LP — NJHMFA 9% LIHTC allocation; Wall Township, Monmouth County; 15-year initial compliance 2001–2015 (expired); extended use through 12/31/2030; total extended use through 12/31/2045",
+        effectiveDate:"2001-05-23",
+        placedInService:"2001-05-23",
+        compliancePeriod:"15-year initial compliance (through 12/31/2015 — expired) + extended use through 12/31/2030; total extended use through 12/31/2045",
+        complianceEnd:"2045-12-31",
+        setAsides:"110u @ ≤50% AMI (100% of units restricted)",
+        spUrl:null
+      },
+      {
+        type:"Ground Lease (Municipal Land — Wall Township)",
+        with:"Township of Wall, Monmouth County, NJ",
+        programType:"City",
+        ref:"Ground lease: $1/year; term through 2/28/2097 (98-year lease); property situated on Wall Township-owned land; per InvSummary",
+        effectiveDate:"2001-05-23",
+        compliancePeriod:"Ground lease term through 2/28/2097",
+        complianceEnd:"2097-02-28",
+        setAsides:null,
+        spUrl:null
+      },
+      {
+        type:"PILOT Agreement (Payment In Lieu of Taxes)",
+        with:"Township of Wall, Monmouth County, NJ",
+        programType:"City",
+        ref:"PILOT: 6.8% of annual net shelter rents (excl. rental subsidy income); term concurrent with NJHMFA extended use period; per InvSummary notes",
+        effectiveDate:"2001-05-23",
+        compliancePeriod:"Concurrent with NJHMFA LURA through 12/31/2045 (or as extended)",
+        complianceEnd:"2045-12-31",
+        setAsides:null,
+        spUrl:null
+      }
+    ],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits (HERA Special) — Monmouth-Ocean NJ HUD Metro FMR Area (Monmouth County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 4/1/2024; Monmouth-Ocean NJ HUD Metro FMR Area; HERA Special hold-harmless; UA: 1BR=$97, 2BR=$103, 3BR=$124 per NJHMFA Utility Allowance Schedule; 5p income limit derived from published 3BR gross rent limit",
+        snapshot:{
+          incomeLimits:{
+            "50%":{"1":45750,"2":52250,"3":58800,"4":65300,"5":70540}
+          },
+          grossRentLimits:{
+            "50%":{"1BR":1225,"2BR":1470,"3BR":1698}
+          },
+          utilityAllowances:{"1BR":97,"2BR":103,"3BR":124},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Collingwood Park (effective 1/1/2025)",
+        source:"Engineered UA study effective 1/1/2025; 1BR=$92, 2BR=$106, 3BR=$126; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":92,"2BR":106,"3BR":126},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits (HERA Special) — Monmouth-Ocean NJ HUD Metro FMR Area (Monmouth County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 4/1/2025; Monmouth-Ocean NJ HUD Metro FMR Area; HERA Special hold-harmless; UA: 1BR=$92, 2BR=$106, 3BR=$126 per Engineered UA study effective 1/1/2025",
+        snapshot:{
+          incomeLimits:{
+            "50%":{"1":47900,"2":54750,"3":61600,"4":68400,"5":73840}
+          },
+          grossRentLimits:{
+            "50%":{"1BR":1283,"2BR":1540,"3BR":1778}
+          },
+          utilityAllowances:{"1BR":92,"2BR":106,"3BR":126},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Collingwood Park (effective 1/1/2026)",
+        source:"Engineered UA study effective 1/1/2026; replaces NJHMFA Utility Allowance Schedule; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":118,"2BR":133,"3BR":159},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Monmouth-Ocean NJ HUD Metro FMR Area (Monmouth County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Monmouth-Ocean NJ HUD Metro FMR Area; UA: 1BR=$118, 2BR=$133, 3BR=$159 per Engineered UA study effective 1/1/2026",
+        snapshot:{
+          incomeLimits:{
+            "50%":{"1":49250,"2":56250,"3":63300,"4":70300,"5":75950}
+          },
+          grossRentLimits:{
+            "50%":{"1BR":1318,"2BR":1582,"3BR":1828}
+          },
+          utilityAllowances:{"1BR":118,"2BR":133,"3BR":159},
+          hudContractRents:null
+        }
+      }
+    ],
+    program:"LIHTC",
+    lihtc:{
+      amiYear:2026,
+      setAsides:[{pct:50,unitCount:110}],
+      incomeLimits:{
+        "50%":{"1":49250,"2":56250,"3":63300,"4":70300,"5":75950}
+      },
+      grossRentLimits:{
+        "50%":{"1BR":1318,"2BR":1582,"3BR":1828}
+      },
+      utilityAllowances:{"1BR":118,"2BR":133,"3BR":159},
+      actualRents:{"1BR-50%":852,"2BR-50%":1005,"3BR-50%":1128} // T12 averages excl. HCV units; per InvSummary
+    },
+    hud:null
+  },
+
+  {
+    id:"wesmont-station", name:"Wesmont Station", region:"New Jersey",
+    address:"100 Johnson Drive, Wood-Ridge, NJ 07075",
+    county:"Bergen",
+    totalUnits:104, unitMix:{"1BR":20,"2BR":78,"3BR":6},
+    uaType:"Engineered",
+    placedInService:"2015-01-01", // placed in service throughout 2015 per 2023 audited financials Note 1
+    regulatoryAgreements:[
+      {
+        type:"NJHMFA LURA (LIHTC Extended Use Agreement)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"Wesmont Station LP — NJHMFA LIHTC allocation; Borough of Wood-Ridge, Bergen County; buildings placed in service throughout 2015 (per 2023 audited financials Note 1); 15-year initial compliance through 12/31/2029; extended use through 12/31/2059 per NJHMFA extended use covenant",
+        effectiveDate:"2015-01-01",
+        placedInService:"2015-01-01",
+        compliancePeriod:"15-year initial compliance (through 12/31/2029) + extended use through 12/31/2059 per NJHMFA extended use covenant",
+        complianceEnd:"2059-12-31",
+        setAsides:"6u @ ≤20% AMI · 6u @ ≤30% AMI · 42u @ ≤50% AMI · 50u @ ≤60% AMI (104 total restricted units)",
+        spUrl:null
+      },
+      {
+        type:"PILOT Agreement (Payment In Lieu of Taxes)",
+        with:"Borough of Wood-Ridge, Bergen County, NJ",
+        programType:"City",
+        ref:"PILOT: 6.28% of annual gross rents net of utilities, excluding rental subsidy income; Borough of Wood-Ridge; per 2023 audited financial statements Note 7",
+        effectiveDate:"2015-01-01",
+        compliancePeriod:"Concurrent with NJHMFA LURA through 12/31/2059 (or as extended)",
+        complianceEnd:"2059-12-31",
+        setAsides:null,
+        spUrl:null
+      },
+      {
+        type:"NJHMFA First Mortgage",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"Loan",
+        ref:"Original principal $2,638,372; interest rate 6.09% per annum; maturity July 1, 2031; per 2023 audited financial statements Note 5",
+        effectiveDate:"2015-01-01",
+        compliancePeriod:"Loan term through July 1, 2031",
+        complianceEnd:"2031-07-01",
+        setAsides:null,
+        spUrl:null
+      },
+      {
+        type:"NJHMFA CDBG Second Mortgage",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA) — CDBG funds",
+        programType:"Loan",
+        ref:"Original principal $5,477,486; interest rate 1.00% per annum; maturity April 1, 2046; per 2023 audited financial statements Note 5",
+        effectiveDate:"2015-01-01",
+        compliancePeriod:"Loan term through April 1, 2046",
+        complianceEnd:"2046-04-01",
+        setAsides:null,
+        spUrl:null
+      }
+    ],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits (HERA Special) — Newark NJ HMFA (Bergen County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 4/1/2024; Newark NJ HMFA (Bergen County); HERA Special hold-harmless; UA: 1BR~$180, 2BR~$220, 3BR~$260 estimated (no UA schedule located in SharePoint; electric PTAC building — verify against NJHMFA utility allowance schedule); 20% income limits derived as 30%×(2/3); 5p limits derived from published gross rent limits",
+        snapshot:{
+          incomeLimits:{
+            "20%":{"1":18440,"2":21060,"3":23700,"4":26320,"5":28400}, // derived: 30%×(2/3)
+            "30%":{"1":27660,"2":31590,"3":35550,"4":39480,"5":42600},
+            "50%":{"1":46100,"2":52650,"3":59250,"4":65800,"5":71080},
+            "60%":{"1":55320,"2":63180,"3":71100,"4":78960,"5":85280}
+          },
+          grossRentLimits:{
+            "20%":{"1BR":493,"2BR":593,"3BR":684}, // derived from 20% income limits
+            "30%":{"1BR":740,"2BR":888,"3BR":1026},
+            "50%":{"1BR":1234,"2BR":1481,"3BR":1711},
+            "60%":{"1BR":1481,"2BR":1777,"3BR":2053}
+          },
+          utilityAllowances:{"1BR":180,"2BR":220,"3BR":260}, // estimated — verify from NJHMFA UA schedule
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Wesmont Station (effective 1/1/2025)",
+        source:"Engineered UA study effective 1/1/2025; 1BR=$73, 2BR=$86, 3BR=$102; replaces prior estimated values; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":73,"2BR":86,"3BR":102},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits (HERA Special) — Newark NJ HMFA (Bergen County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 4/1/2025; Newark NJ HMFA (Bergen County); HERA Special hold-harmless; UA: 1BR=$73, 2BR=$86, 3BR=$102 per Engineered UA study effective 1/1/2025; 20% income limits derived as 30%×(2/3); 5p limits derived from published gross rent limits",
+        snapshot:{
+          incomeLimits:{
+            "20%":{"1":19320,"2":22080,"3":24840,"4":27600,"5":29787}, // derived: 30%×(2/3)
+            "30%":{"1":28980,"2":33120,"3":37260,"4":41400,"5":44680},
+            "50%":{"1":48300,"2":55200,"3":62100,"4":69000,"5":74520},
+            "60%":{"1":57960,"2":66240,"3":74520,"4":82800,"5":89440}
+          },
+          grossRentLimits:{
+            "20%":{"1BR":517,"2BR":621,"3BR":717}, // derived from 20% income limits
+            "30%":{"1BR":776,"2BR":931,"3BR":1076},
+            "50%":{"1BR":1293,"2BR":1552,"3BR":1794},
+            "60%":{"1BR":1552,"2BR":1863,"3BR":2153}
+          },
+          utilityAllowances:{"1BR":73,"2BR":86,"3BR":102},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Wesmont Station (effective 1/1/2026)",
+        source:"Engineered UA study effective 1/1/2026; replaces prior NJHMFA estimated UA; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":84,"2BR":100,"3BR":118},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Newark NJ HMFA (Bergen County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Newark NJ HMFA (Bergen County); HERA Special hold-harmless; UA: 1BR=$84, 2BR=$100, 3BR=$118 per Engineered UA study effective 1/1/2026; 20% income limits derived as 30%×(2/3)",
+        snapshot:{
+          incomeLimits:{
+            "20%":{"1":19620,"2":22420,"3":25220,"4":28020,"5":30280}, // derived: 30%×(2/3)
+            "30%":{"1":29430,"2":33630,"3":37830,"4":42030,"5":45420},
+            "50%":{"1":49050,"2":56050,"3":63050,"4":70050,"5":75700},
+            "60%":{"1":58860,"2":67260,"3":75660,"4":84060,"5":90840}
+          },
+          grossRentLimits:{
+            "20%":{"1BR":525,"2BR":630,"3BR":728},
+            "30%":{"1BR":788,"2BR":945,"3BR":1093},
+            "50%":{"1BR":1313,"2BR":1576,"3BR":1821},
+            "60%":{"1BR":1576,"2BR":1891,"3BR":2186}
+          },
+          utilityAllowances:{"1BR":84,"2BR":100,"3BR":118},
+          hudContractRents:null
+        }
+      }
+    ],
+    program:"LIHTC",
+    lihtc:{
+      amiYear:2026,
+      setAsides:[{pct:20,unitCount:6},{pct:30,unitCount:6},{pct:50,unitCount:42},{pct:60,unitCount:50}],
+      incomeLimits:{
+        "20%":{"1":19620,"2":22420,"3":25220,"4":28020,"5":30280},
+        "30%":{"1":29430,"2":33630,"3":37830,"4":42030,"5":45420},
+        "50%":{"1":49050,"2":56050,"3":63050,"4":70050,"5":75700},
+        "60%":{"1":58860,"2":67260,"3":75660,"4":84060,"5":90840}
+      },
+      grossRentLimits:{
+        "20%":{"1BR":525,"2BR":630,"3BR":728},
+        "30%":{"1BR":788,"2BR":945,"3BR":1093},
+        "50%":{"1BR":1313,"2BR":1576,"3BR":1821},
+        "60%":{"1BR":1576,"2BR":1891,"3BR":2186}
+      },
+      utilityAllowances:{"1BR":84,"2BR":100,"3BR":118},
+      actualRents:null // TODO: obtain from current rent roll; 2023 gross potential ~$1,209/unit/month avg per audited financials
+    },
+    hud:null
+  },
+
+  {
+    id:"flemington-junction-south", name:"Flemington Junction South", region:"New Jersey",
+    address:"70 Junction Road, Flemington, NJ 08822",
+    county:"Hunterdon",
+    totalUnits:100, unitMix:{"1BR":18,"2BR":57,"3BR":25},
+    uaType:"Engineered",
+    placedInService:"2023-01-01", // construction completed January 2023 per Flemington_II_MRK.docx
+    regulatoryAgreements:[
+      {
+        type:"NJHMFA LURA (LIHTC Extended Use Agreement)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"Flemington Junction South LP — NJHMFA LIHTC allocation; Raritan Township, Hunterdon County; construction completed January 2023 per Flemington_II_MRK.docx; 15-year initial compliance through 12/31/2037; extended use through 12/31/2067",
+        effectiveDate:"2023-01-01",
+        placedInService:"2023-01-01",
+        compliancePeriod:"15-year initial compliance (through 12/31/2037) + extended use through 12/31/2067",
+        complianceEnd:"2067-12-31",
+        setAsides:"5u @ ≤20% AMI · 15u @ ≤30% AMI · 30u @ ≤50% AMI · 50u @ ≤60% AMI (100 total restricted units)",
+        spUrl:null
+      },
+      {
+        type:"PILOT Agreement (Payment In Lieu of Taxes)",
+        with:"Raritan Township (Flemington), Hunterdon County, NJ",
+        programType:"City",
+        ref:"PILOT: 6.28% of annual gross rents net of utilities and rental subsidy income; per InvSummary",
+        effectiveDate:"2023-01-01",
+        compliancePeriod:"Concurrent with NJHMFA LURA through 12/31/2067 (or as extended)",
+        complianceEnd:"2067-12-31",
+        setAsides:null,
+        spUrl:null
+      }
+    ],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits (HERA Special) — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Hunterdon County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 4/1/2024; Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area; HERA Special hold-harmless; UA: not yet confirmed (new construction 2023 — obtain from NJHMFA utility allowance schedule for Hunterdon County); 20% income limits derived as 30%×(2/3); 5p limits derived from published gross rent limits",
+        snapshot:{
+          incomeLimits:{
+            "20%":{"1":20480,"2":23400,"3":26320,"4":29240,"5":31560}, // derived: 30%×(2/3)
+            "30%":{"1":30720,"2":35100,"3":39480,"4":43860,"5":47340},
+            "50%":{"1":51200,"2":58500,"3":65800,"4":73100,"5":78900},
+            "60%":{"1":61440,"2":70200,"3":78960,"4":87720,"5":94680}
+          },
+          grossRentLimits:{
+            "20%":{"1BR":548,"2BR":658,"3BR":760}, // derived from 20% income limits
+            "30%":{"1BR":822,"2BR":987,"3BR":1140},
+            "50%":{"1BR":1371,"2BR":1645,"3BR":1900},
+            "60%":{"1BR":1645,"2BR":1974,"3BR":2280}
+          },
+          utilityAllowances:null, // TODO: obtain from NJHMFA UA schedule for Hunterdon County
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Flemington Junction South (effective 1/1/2025)",
+        source:"Engineered UA study effective 1/1/2025; 1BR=$86, 2BR=$108, 3BR=$136; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":86,"2BR":108,"3BR":136},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits (HERA Special) — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Hunterdon County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 4/1/2025; Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area; HERA Special hold-harmless; UA: 1BR=$86, 2BR=$108, 3BR=$136 per Engineered UA study effective 1/1/2025; 20% income limits derived as 30%×(2/3); 5p limits derived from published gross rent limits",
+        snapshot:{
+          incomeLimits:{
+            "20%":{"1":21480,"2":24560,"3":27620,"4":30680,"5":33107}, // derived: 30%×(2/3)
+            "30%":{"1":32220,"2":36840,"3":41430,"4":46020,"5":49660},
+            "50%":{"1":53700,"2":61400,"3":69050,"4":76700,"5":82820},
+            "60%":{"1":64440,"2":73680,"3":82860,"4":92040,"5":99400}
+          },
+          grossRentLimits:{
+            "20%":{"1BR":575,"2BR":690,"3BR":797}, // derived from 20% income limits
+            "30%":{"1BR":863,"2BR":1035,"3BR":1196},
+            "50%":{"1BR":1438,"2BR":1726,"3BR":1994},
+            "60%":{"1BR":1726,"2BR":2071,"3BR":2393}
+          },
+          utilityAllowances:{"1BR":86,"2BR":108,"3BR":136},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Flemington Junction South (effective 1/1/2026)",
+        source:"Engineered UA study effective 1/1/2026; first confirmed UA for this property (new construction 2023); backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":98,"2BR":123,"3BR":156},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Hunterdon County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area; UA: 1BR=$98, 2BR=$123, 3BR=$156 per Engineered UA study effective 1/1/2026; 20% income limits derived as 30%×(2/3)",
+        snapshot:{
+          incomeLimits:{
+            "20%":{"1":21680,"2":24780,"3":27880,"4":30960,"5":33440}, // derived: 30%×(2/3)
+            "30%":{"1":32520,"2":37170,"3":41820,"4":46440,"5":50160},
+            "50%":{"1":54200,"2":61950,"3":69700,"4":77400,"5":83600},
+            "60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320}
+          },
+          grossRentLimits:{
+            "20%":{"1BR":580,"2BR":697,"3BR":805},
+            "30%":{"1BR":871,"2BR":1045,"3BR":1207},
+            "50%":{"1BR":1451,"2BR":1742,"3BR":2012},
+            "60%":{"1BR":1742,"2BR":2091,"3BR":2415}
+          },
+          utilityAllowances:{"1BR":98,"2BR":123,"3BR":156},
+          hudContractRents:null
+        }
+      }
+    ],
+    program:"LIHTC",
+    lihtc:{
+      amiYear:2026,
+      setAsides:[{pct:20,unitCount:5},{pct:30,unitCount:15},{pct:50,unitCount:30},{pct:60,unitCount:50}],
+      incomeLimits:{
+        "20%":{"1":21680,"2":24780,"3":27880,"4":30960,"5":33440},
+        "30%":{"1":32520,"2":37170,"3":41820,"4":46440,"5":50160},
+        "50%":{"1":54200,"2":61950,"3":69700,"4":77400,"5":83600},
+        "60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320}
+      },
+      grossRentLimits:{
+        "20%":{"1BR":580,"2BR":697,"3BR":805},
+        "30%":{"1BR":871,"2BR":1045,"3BR":1207},
+        "50%":{"1BR":1451,"2BR":1742,"3BR":2012},
+        "60%":{"1BR":1742,"2BR":2091,"3BR":2415}
+      },
+      utilityAllowances:{"1BR":98,"2BR":123,"3BR":156},
+      actualRents:null // TODO: obtain from current rent roll
+    },
+    hud:null
+  },
+
+  {
+    id:"county-house", name:"County House", region:"New Jersey",
+    address:"1901 Aron's Circle, Sewell, NJ 08080",
+    county:"Gloucester",
+    totalUnits:96, unitMix:{"2BR":48,"3BR":48}, // no 1BR units
+    uaType:"Engineered",
+    placedInService:"1997-01-01", // Year PIS per InvSummary; exact date TBD
+    regulatoryAgreements:[
+      {
+        type:"NJHMFA LURA (LIHTC Extended Use Agreement)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"County House Apartments LP — NJHMFA LIHTC allocation; Washington Township, Gloucester County; 15-year initial compliance 1997–2013 (expired); extended use through 12/31/2028; total extended use through 12/31/2043",
+        effectiveDate:"1997-01-01",
+        placedInService:"1997-01-01",
+        compliancePeriod:"15-year initial compliance (through 12/31/2013 — expired) + extended use through 12/31/2028; total extended use through 12/31/2043",
+        complianceEnd:"2043-12-31",
+        setAsides:"58u @ ≤50% AMI · 38u @ ≤60% AMI (96 total restricted units; 0 1BR, 48 2BR, 48 3BR)",
+        spUrl:null
+      },
+      {
+        type:"PILOT Agreement (Payment In Lieu of Taxes)",
+        with:"Township of Washington, Gloucester County, NJ",
+        programType:"City",
+        ref:"PILOT exists; term anticipated to extend with affordability period; annual PILOT payments grow with PMR growth; calculation excludes subsidy income; specific rate not confirmed — verify rate from PILOT agreement in SharePoint; T12 PILOT ~$43,296 on EGR ~$1,382,553",
+        effectiveDate:"1997-01-01",
+        compliancePeriod:"Concurrent with NJHMFA LURA through 12/31/2043 (or as extended)",
+        complianceEnd:"2043-12-31",
+        setAsides:null,
+        spUrl:null
+      }
+    ],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 4/1/2024; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; UA: 2BR=$169, 3BR=$183 (no 1BR units); per InvSummary; 5p income limits derived from published gross rent limits",
+        snapshot:{
+          incomeLimits:{
+            "50%":{"1":40150,"2":45900,"3":51650,"4":57350,"5":61930},
+            "60%":{"1":48180,"2":55080,"3":61980,"4":68820,"5":74300}
+          },
+          grossRentLimits:{
+            "50%":{"2BR":1291,"3BR":1491},
+            "60%":{"2BR":1549,"3BR":1789}
+          },
+          utilityAllowances:{"2BR":169,"3BR":183},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — County House (effective 1/1/2025)",
+        source:"Engineered UA study effective 1/1/2025; 2BR=$178, 3BR=$192 (no 1BR units); backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"2BR":178,"3BR":192},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 4/1/2025; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; UA: 2BR=$178, 3BR=$192 per Engineered UA study effective 1/1/2025; gross rent limits OCR-verified from NJHMFA PDF",
+        snapshot:{
+          incomeLimits:{
+            "50%":{"1":41800,"2":47800,"3":53750,"4":59700,"5":64460},
+            "60%":{"1":50160,"2":57360,"3":64500,"4":71640,"5":77400}
+          },
+          grossRentLimits:{
+            "50%":{"2BR":1343,"3BR":1552},
+            "60%":{"2BR":1612,"3BR":1863}
+          },
+          utilityAllowances:{"2BR":178,"3BR":192},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — County House (effective 1/1/2026)",
+        source:"Engineered UA study effective 1/1/2026; replaces NJHMFA Utility Allowance Schedule; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"2BR":205,"3BR":221},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; UA: 2BR=$205, 3BR=$221 per Engineered UA study effective 1/1/2026 (no 1BR units)",
+        snapshot:{
+          incomeLimits:{
+            "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},
+            "60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}
+          },
+          grossRentLimits:{
+            "50%":{"2BR":1381,"3BR":1595},
+            "60%":{"2BR":1657,"3BR":1914}
+          },
+          utilityAllowances:{"2BR":205,"3BR":221},
+          hudContractRents:null
+        }
+      }
+    ],
+    program:"LIHTC",
+    lihtc:{
+      amiYear:2026,
+      setAsides:[{pct:50,unitCount:58},{pct:60,unitCount:38}],
+      incomeLimits:{
+        "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},
+        "60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}
+      },
+      grossRentLimits:{
+        "50%":{"2BR":1381,"3BR":1595},
+        "60%":{"2BR":1657,"3BR":1914}
+      },
+      utilityAllowances:{"2BR":205,"3BR":221},
+      actualRents:{"2BR-50%":935,"2BR-60%":1152,"3BR-50%":1038,"3BR-60%":1045} // T12 averages excl. HCV; per InvSummary; 3BR@60% close to @50% may reflect HCV lease mix
+    },
+    hud:null
+  },
+
+  {
+    id:"spring-mill", name:"Spring Mill", region:"New Jersey",
+    address:"100 Walnut Lane, Mullica Hill, NJ 08062",
+    county:"Gloucester",
+    totalUnits:94, unitMix:{"1BR":12,"2BR":42,"3BR":40},
+    uaType:"Engineered",
+    placedInService:"2002-01-01", // Year PIS per InvSummary (PIS: 2002); exact date TBD
+    regulatoryAgreements:[
+      {
+        type:"NJHMFA LURA (LIHTC Extended Use Agreement)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"Spring Mill Apartments LP — NJHMFA LIHTC allocation; Harrison Township, Gloucester County; 15-year initial compliance 2002–2016 (expired); extended use through 12/31/2031; total extended use through 12/31/2046",
+        effectiveDate:"2002-01-01",
+        placedInService:"2002-01-01",
+        compliancePeriod:"15-year initial compliance (through 12/31/2016 — expired) + extended use through 12/31/2031; total extended use through 12/31/2046",
+        complianceEnd:"2046-12-31",
+        setAsides:"28u @ ≤40% AMI · 37u @ ≤50% AMI · 29u @ ≤60% AMI (94 total restricted units; no 30% AMI tier)",
+        spUrl:null
+      },
+      {
+        type:"PILOT Agreement (Payment In Lieu of Taxes)",
+        with:"Township of Harrison, Gloucester County, NJ",
+        programType:"City",
+        ref:"PILOT: 6.28% of annual EGR minus utilities (effective gross rents net of utility reimbursements); per InvSummary",
+        effectiveDate:"2002-01-01",
+        compliancePeriod:"Concurrent with NJHMFA LURA through 12/31/2046 (or as extended)",
+        complianceEnd:"2046-12-31",
+        setAsides:null,
+        spUrl:null
+      }
+    ],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 4/1/2024; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; UA: 1BR=$129, 2BR=$151, 3BR=$184 per NJHMFA Utility Allowance Schedule; note: set-asides use 40/50/60% tiers (no 30% AMI tier); 5p income limits derived from published gross rent limits",
+        snapshot:{
+          incomeLimits:{
+            "40%":{"1":32120,"2":36720,"3":41320,"4":45880,"5":49560},
+            "50%":{"1":40150,"2":45900,"3":51650,"4":57350,"5":61930},
+            "60%":{"1":48180,"2":55080,"3":61980,"4":68820,"5":74300}
+          },
+          grossRentLimits:{
+            "40%":{"1BR":860,"2BR":1033,"3BR":1193},
+            "50%":{"1BR":1075,"2BR":1291,"3BR":1491},
+            "60%":{"1BR":1290,"2BR":1549,"3BR":1789}
+          },
+          utilityAllowances:{"1BR":129,"2BR":151,"3BR":184},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Spring Mill (effective 1/1/2025)",
+        source:"Engineered UA study effective 1/1/2025; 1BR=$134, 2BR=$158, 3BR=$191; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":134,"2BR":158,"3BR":191},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 4/1/2025; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; UA: 1BR=$134, 2BR=$158, 3BR=$191 per Engineered UA study effective 1/1/2025; gross rent limits OCR-verified from NJHMFA PDF",
+        snapshot:{
+          incomeLimits:{
+            "40%":{"1":33440,"2":38240,"3":43000,"4":47760,"5":51600},
+            "50%":{"1":41800,"2":47800,"3":53750,"4":59700,"5":64460},
+            "60%":{"1":50160,"2":57360,"3":64500,"4":71640,"5":77400}
+          },
+          grossRentLimits:{
+            "40%":{"1BR":896,"2BR":1075,"3BR":1242},
+            "50%":{"1BR":1120,"2BR":1343,"3BR":1552},
+            "60%":{"1BR":1344,"2BR":1612,"3BR":1863}
+          },
+          utilityAllowances:{"1BR":134,"2BR":158,"3BR":191},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Spring Mill (effective 1/1/2026)",
+        source:"Engineered UA study effective 1/1/2026; replaces NJHMFA Utility Allowance Schedule; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":153,"2BR":179,"3BR":218},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Gloucester County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; UA: 1BR=$153, 2BR=$179, 3BR=$218 per Engineered UA study effective 1/1/2026; set-asides use 40/50/60% tiers (no 30% AMI tier)",
+        snapshot:{
+          incomeLimits:{
+            "40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},
+            "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},
+            "60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}
+          },
+          grossRentLimits:{
+            "40%":{"1BR":920,"2BR":1105,"3BR":1276},
+            "50%":{"1BR":1150,"2BR":1381,"3BR":1595},
+            "60%":{"1BR":1380,"2BR":1657,"3BR":1914}
+          },
+          utilityAllowances:{"1BR":153,"2BR":179,"3BR":218},
+          hudContractRents:null
+        }
+      }
+    ],
+    program:"LIHTC",
+    lihtc:{
+      amiYear:2026,
+      setAsides:[{pct:40,unitCount:28},{pct:50,unitCount:37},{pct:60,unitCount:29}],
+      incomeLimits:{
+        "40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},
+        "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},
+        "60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}
+      },
+      grossRentLimits:{
+        "40%":{"1BR":920,"2BR":1105,"3BR":1276},
+        "50%":{"1BR":1150,"2BR":1381,"3BR":1595},
+        "60%":{"1BR":1380,"2BR":1657,"3BR":1914}
+      },
+      utilityAllowances:{"1BR":153,"2BR":179,"3BR":218},
+      actualRents:{"1BR-40%":510,"1BR-50%":778,"1BR-60%":913,"2BR-40%":658,"2BR-50%":860,"2BR-60%":1094,"3BR-40%":724,"3BR-50%":962,"3BR-60%":1155} // T12 averages excl. HCV units; per InvSummary
+    },
+    hud:null
+  },
+
+  {
+    id:"bailey-corner", name:"Bailey Corner", region:"New Jersey",
+    address:"10 Bailey St, Pilesgrove, NJ 08098",
+    county:"Salem",
+    totalUnits:91, unitMix:{"1BR":14,"2BR":49,"3BR":28},
+    uaType:"Engineered",
+    placedInService:"2010-10-22", // TCAP rehabilitation PIS date; original construction ~1990
+    regulatoryAgreements:[
+      {
+        type:"NJHMFA LURA (TCAP/LIHTC Rehabilitation — Extended Use Agreement)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"Bailey Corner LP — NJHMFA TCAP (Tax Credit Assistance Program / ARRA 2009) + LIHTC rehabilitation; Pilesgrove Township, Salem County; original construction ~1990; TCAP rehab PIS 10/22/2010; 15-year initial compliance through 12/31/2025; extended use through 12/31/2040; total extended use through 12/31/2055",
+        effectiveDate:"2010-10-22",
+        placedInService:"2010-10-22",
+        compliancePeriod:"15-year initial compliance (through 12/31/2025) + extended use through 12/31/2040; total extended use through 12/31/2055",
+        complianceEnd:"2055-12-31",
+        setAsides:"10u @ ≤30% AMI · 37u @ ≤47.5% AMI (MTSP 50% limits apply per TCAP rules) · 44u @ ≤57.5% AMI (MTSP 60% limits apply per TCAP rules) — 91 total restricted units",
+        spUrl:null
+      },
+      {
+        type:"Right of First Refusal (ROFR)",
+        with:"TBD — verify from closing documents in SharePoint",
+        programType:"Other",
+        ref:"ROFR noted in InvSummary; no PILOT agreement confirmed in available documents — verify from closing documents in SharePoint; no explicit PILOT rate found",
+        effectiveDate:"2010-10-22",
+        compliancePeriod:"Per ROFR agreement terms — verify from closing documents",
+        complianceEnd:null,
+        setAsides:null,
+        spUrl:null
+      }
+    ],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Salem County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 4/1/2024; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Salem County — same limits as Gloucester County, same MSA); HERA Special hold-harmless; UA: 1BR=$104, 2BR=$116, 3BR=$151 per NJHMFA Utility Allowance Schedule; note: 47.5% AMI set-aside units use MTSP 50% gross rent limits; 57.5% AMI units use MTSP 60% limits per TCAP program rules",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":24090,"2":27540,"3":30990,"4":34410,"5":37170},
+            "50%":{"1":40150,"2":45900,"3":51650,"4":57350,"5":61930}, // used for 47.5% set-aside units
+            "60%":{"1":48180,"2":55080,"3":61980,"4":68820,"5":74300}  // used for 57.5% set-aside units
+          },
+          grossRentLimits:{
+            "30%":{"1BR":645,"2BR":774,"3BR":894},
+            "50%":{"1BR":1075,"2BR":1291,"3BR":1491}, // used for 47.5% set-aside units
+            "60%":{"1BR":1290,"2BR":1549,"3BR":1789}  // used for 57.5% set-aside units
+          },
+          utilityAllowances:{"1BR":104,"2BR":116,"3BR":151},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Bailey Corner (effective 1/1/2025)",
+        source:"Engineered UA study effective 1/1/2025; 1BR=$108, 2BR=$121, 3BR=$156; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":108,"2BR":121,"3BR":156},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Salem County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 4/1/2025; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Salem County = Gloucester County limits); HERA Special hold-harmless; UA: 1BR=$108, 2BR=$121, 3BR=$156 per Engineered UA study effective 1/1/2025; gross rent limits OCR-verified from NJHMFA PDF",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":25080,"2":28680,"3":32250,"4":35820,"5":38700},
+            "50%":{"1":41800,"2":47800,"3":53750,"4":59700,"5":64460}, // used for 47.5% set-aside units
+            "60%":{"1":50160,"2":57360,"3":64500,"4":71640,"5":77400}  // used for 57.5% set-aside units
+          },
+          grossRentLimits:{
+            "30%":{"1BR":672,"2BR":806,"3BR":931},
+            "50%":{"1BR":1120,"2BR":1343,"3BR":1552}, // used for 47.5% set-aside units
+            "60%":{"1BR":1344,"2BR":1612,"3BR":1863}  // used for 57.5% set-aside units
+          },
+          utilityAllowances:{"1BR":108,"2BR":121,"3BR":156},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Bailey Corner (effective 1/1/2026)",
+        source:"Engineered UA study effective 1/1/2026; replaces NJHMFA Utility Allowance Schedule; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":122,"2BR":137,"3BR":177},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Salem County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Salem County = Gloucester County limits); UA: 1BR=$122, 2BR=$137, 3BR=$177 per Engineered UA study effective 1/1/2026; 47.5% AMI units use MTSP 50% gross rent limits; 57.5% AMI units use MTSP 60% limits per TCAP rules",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},
+            "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300}, // used for 47.5% set-aside units
+            "60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}  // used for 57.5% set-aside units
+          },
+          grossRentLimits:{
+            "30%":{"1BR":690,"2BR":828,"3BR":957},
+            "50%":{"1BR":1150,"2BR":1381,"3BR":1595}, // used for 47.5% set-aside units
+            "60%":{"1BR":1380,"2BR":1657,"3BR":1914}  // used for 57.5% set-aside units
+          },
+          utilityAllowances:{"1BR":122,"2BR":137,"3BR":177},
+          hudContractRents:null
+        }
+      }
+    ],
+    program:"LIHTC",
+    lihtc:{
+      amiYear:2026,
+      setAsides:[{pct:30,unitCount:10},{pct:50,unitCount:37},{pct:60,unitCount:44}], // 47.5%→50% MTSP limits; 57.5%→60% MTSP limits per TCAP rules
+      incomeLimits:{
+        "30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},
+        "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},
+        "60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}
+      },
+      grossRentLimits:{
+        "30%":{"1BR":690,"2BR":828,"3BR":957},
+        "50%":{"1BR":1150,"2BR":1381,"3BR":1595},
+        "60%":{"1BR":1380,"2BR":1657,"3BR":1914}
+      },
+      utilityAllowances:{"1BR":122,"2BR":137,"3BR":177},
+      actualRents:{"1BR-30%":396,"1BR-50%":800,"1BR-60%":1065,"2BR-30%":530,"2BR-50%":999,"2BR-60%":1112,"3BR-30%":549,"3BR-50%":1108,"3BR-60%":1299} // T12 averages excl. HCV; per InvSummary; "50%" = 47.5% set-aside units; "60%" = 57.5% set-aside units
+    },
+    hud:null
+  },
+
+  {
+    id:"manalapan", name:"Manalapan", region:"New Jersey",
+    address:"700 Justin Way, Manalapan Township, NJ 07726",
+    county:"Monmouth",
+    totalUnits:80, unitMix:{"1BR":16,"2BR":40,"3BR":24},
+    uaType:"Engineered",
+    placedInService:"2013-01-24",
+    regulatoryAgreements:[
+      {
+        type:"NJHMFA LURA (LIHTC Extended Use Agreement)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"Manalapan LP — NJHMFA LIHTC allocation; Manalapan Township, Monmouth County; 15-year initial compliance through 12/31/2027; extended use through 12/31/2042; total extended use through 12/31/2057",
+        effectiveDate:"2013-01-24",
+        placedInService:"2013-01-24",
+        compliancePeriod:"15-year initial compliance (through 12/31/2027) + extended use through 12/31/2042; total extended use through 12/31/2057",
+        complianceEnd:"2057-12-31",
+        setAsides:"10u @ ≤30% AMI · 30u @ ≤50% AMI · 40u @ ≤60% AMI (80 total restricted units)",
+        spUrl:null
+      }
+    ],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits (HERA Special) — Monmouth-Ocean NJ HUD Metro FMR Area (Monmouth County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 4/1/2024; Monmouth-Ocean NJ HUD Metro FMR Area; HERA Special hold-harmless; UA: 1BR=$88, 2BR=$97, 3BR=$107 per NJHMFA Utility Allowance Schedule; 5p income limits derived from published gross rent limits",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":27450,"2":31350,"3":35280,"4":39180,"5":42260},
+            "50%":{"1":45750,"2":52250,"3":58800,"4":65300,"5":70540},
+            "60%":{"1":54900,"2":62700,"3":70560,"4":78360,"5":84600}
+          },
+          grossRentLimits:{
+            "30%":{"1BR":735,"2BR":882,"3BR":1018},
+            "50%":{"1BR":1225,"2BR":1470,"3BR":1698},
+            "60%":{"1BR":1470,"2BR":1764,"3BR":2037}
+          },
+          utilityAllowances:{"1BR":88,"2BR":97,"3BR":107},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Manalapan (effective 1/1/2025)",
+        source:"Engineered UA study effective 1/1/2025; 1BR=$91, 2BR=$101, 3BR=$111; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":91,"2BR":101,"3BR":111},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits (HERA Special) — Monmouth-Ocean NJ HUD Metro FMR Area (Monmouth County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 4/1/2025; Monmouth-Ocean NJ HUD Metro FMR Area; HERA Special hold-harmless; UA: 1BR=$91, 2BR=$101, 3BR=$111 per Engineered UA study effective 1/1/2025",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":28740,"2":32850,"3":36960,"4":41040,"5":44320},
+            "50%":{"1":47900,"2":54750,"3":61600,"4":68400,"5":73840},
+            "60%":{"1":57480,"2":65700,"3":73920,"4":82080,"5":88640}
+          },
+          grossRentLimits:{
+            "30%":{"1BR":769,"2BR":924,"3BR":1067},
+            "50%":{"1BR":1283,"2BR":1540,"3BR":1778},
+            "60%":{"1BR":1539,"2BR":1848,"3BR":2134}
+          },
+          utilityAllowances:{"1BR":91,"2BR":101,"3BR":111},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-01-01",
+        trigger:"utility_allowances",
+        label:"Engineered Utility Allowance Study — Manalapan (effective 1/1/2026)",
+        source:"Engineered UA study effective 1/1/2026; replaces NJHMFA Utility Allowance Schedule; backup documentation pending",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"1BR":110,"2BR":122,"3BR":134},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Monmouth-Ocean NJ HUD Metro FMR Area (Monmouth County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Monmouth-Ocean NJ HUD Metro FMR Area; UA: 1BR=$110, 2BR=$122, 3BR=$134 per Engineered UA study effective 1/1/2026",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":29550,"2":33750,"3":37980,"4":42180,"5":45570},
+            "50%":{"1":49250,"2":56250,"3":63300,"4":70300,"5":75950},
+            "60%":{"1":59100,"2":67500,"3":75960,"4":84360,"5":91140}
+          },
+          grossRentLimits:{
+            "30%":{"1BR":791,"2BR":949,"3BR":1096},
+            "50%":{"1BR":1318,"2BR":1582,"3BR":1828},
+            "60%":{"1BR":1582,"2BR":1899,"3BR":2193}
+          },
+          utilityAllowances:{"1BR":110,"2BR":122,"3BR":134},
+          hudContractRents:null
+        }
+      }
+    ],
+    program:"LIHTC",
+    lihtc:{
+      amiYear:2026,
+      setAsides:[{pct:30,unitCount:10},{pct:50,unitCount:30},{pct:60,unitCount:40}],
+      incomeLimits:{
+        "30%":{"1":29550,"2":33750,"3":37980,"4":42180,"5":45570},
+        "50%":{"1":49250,"2":56250,"3":63300,"4":70300,"5":75950},
+        "60%":{"1":59100,"2":67500,"3":75960,"4":84360,"5":91140}
+      },
+      grossRentLimits:{
+        "30%":{"1BR":791,"2BR":949,"3BR":1096},
+        "50%":{"1BR":1318,"2BR":1582,"3BR":1828},
+        "60%":{"1BR":1582,"2BR":1899,"3BR":2193}
+      },
+      utilityAllowances:{"1BR":110,"2BR":122,"3BR":134},
+      actualRents:{"1BR-30%":637,"1BR-50%":968,"1BR-60%":1300,"2BR-30%":596,"2BR-50%":1099,"2BR-60%":1399,"3BR-30%":672,"3BR-50%":1303,"3BR-60%":1566} // T12 averages excl. HCV units; per InvSummary
     },
     hud:null
   }
@@ -4387,7 +5573,7 @@ function render() {
 
   document.getElementById("grid").innerHTML = grouped.map(item => {
     if (item.type === "header") {
-      const rc = { California:"#2d6a8f", Florida:"#0e7490", "Mid Atlantic":"#7c3aed", "One-Offs":"#6b7280" };
+      const rc = { California:"#2d6a8f", Florida:"#0e7490", "New Jersey":"#16a34a", Virginia:"#7c3aed", Maryland:"#9333ea", Missouri:"#d97706", Michigan:"#0284c7" };
       const col = rc[item.region] || "#6b7280";
       return '<div style="grid-column:1/-1;display:flex;align-items:center;gap:10px;margin-top:12px;margin-bottom:-2px">'
         + '<div style="width:4px;height:16px;background:'+col+';border-radius:2px"></div>'
@@ -4429,6 +5615,7 @@ function render() {
         <div>
           <div class="card-name">${p.name}</div>
           <div class="card-county">${p.county} County · ${p.region}</div>
+          ${p.address ? `<div style="font-size:10px;color:var(--mid-grey);margin-top:2px;line-height:1.3">${p.address.replace(/\/\/.*$/,'').trim()}</div>` : ''}
         </div>
         <div class="card-units">${p.totalUnits}<br><span style="font-size:9px;color:#9aa4ae">units</span></div>
       </div>
@@ -5406,7 +6593,156 @@ function showPanel(id) {
 }
 
 function closePanel() { document.getElementById("overlay").classList.remove("open"); }
-document.addEventListener("keydown", e => { if (e.key === "Escape") closePanel(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closePanel(); closePortfolioMap(); } });
+
+// ── PORTFOLIO MAP ─────────────────────────────────────────────────────────────
+let _mapInstance = null;
+
+const MAP_REGION_COLORS = {
+  "California":  "#2d6a8f",
+  "Florida":     "#0e7490",
+  "New Jersey":  "#16a34a",
+  "Virginia":    "#7c3aed",
+  "Maryland":    "#9333ea",
+  "Missouri":    "#d97706",
+  "Michigan":    "#0284c7"
+};
+
+function makeMarkerIcon(color) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="38" viewBox="0 0 28 38">
+    <path d="M14 1C7.925 1 3 5.925 3 12c0 8.667 11 25 11 25S25 20.667 25 12c0-6.075-4.925-11-11-11z"
+      fill="${color}" stroke="#fff" stroke-width="2"/>
+    <circle cx="14" cy="12" r="5" fill="#fff" opacity=".9"/>
+  </svg>`;
+  return L.divIcon({
+    html: svg,
+    className: '',
+    iconSize: [28, 38],
+    iconAnchor: [14, 38],
+    popupAnchor: [0, -40]
+  });
+}
+
+// Hardcoded coordinates — eliminates geocoding latency entirely
+const PROPERTY_COORDS = {
+  "granite-pointe":           [37.770, -122.193],
+  "cypress-pines":            [37.936, -122.361],
+  "monterey-pines":           [37.934, -122.362],
+  "vista-woods":              [37.939, -122.701],
+  "buckingham":               [34.003, -118.349],
+  "claremont":                [34.097, -117.724],
+  "ethan-terrace":            [38.575, -121.382],
+  "shadow-way":               [33.222, -117.368],
+  "sea-breeze":               [34.175, -119.218],
+  "emerald-palms":            [26.047, -80.166],
+  "federal":                  [26.131, -80.152],
+  "praxis-deerfield":         [26.313, -80.097],
+  "casa-devon":               [25.573, -80.432],
+  "gardens-homestead":        [25.479, -80.473],
+  "phoenix":                  [25.482, -80.460],
+  "sol-vista":                [25.575, -80.430],
+  "lakeview-tower":           [28.013, -81.730],
+  "parkwood":                 [38.858, -77.175],
+  "amber-commons":            [39.137, -77.215],
+  "hillside":                 [39.140, -77.212],
+  "park-tanglewood":          [38.963, -76.928],
+  "greenleaf":                [39.103, -94.530],
+  "cathedral-tower":          [42.360, -83.055],
+  "justin-commons":           [39.715, -75.141],
+  "collingwood-park":         [40.164, -74.048],
+  "wesmont-station":          [40.852, -74.094],
+  "flemington-junction-south":[40.518, -74.874],
+  "county-house":             [39.761, -75.110],
+  "spring-mill":              [39.741, -75.228],
+  "bailey-corner":            [39.634, -75.351],
+  "manalapan":                [40.333, -74.330]
+};
+
+function openPortfolioMap() {
+  document.getElementById('map-overlay').classList.add('open');
+
+  // Initialize Leaflet map once
+  if (!_mapInstance) {
+    _mapInstance = L.map('leaflet-map').setView([38.5, -95], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(_mapInstance);
+  }
+
+  // Clear existing markers
+  _mapInstance.eachLayer(l => { if (l instanceof L.Marker) _mapInstance.removeLayer(l); });
+
+  // Build legend
+  document.getElementById('map-legend').innerHTML = Object.entries(MAP_REGION_COLORS).map(([region, color]) =>
+    `<span class="map-legend-item"><span class="map-legend-dot" style="background:${color}"></span>${region}</span>`
+  ).join('');
+
+  // Plot all properties
+  const bounds = [];
+  let placed = 0;
+
+  PORTFOLIO.forEach(p => {
+    const latLng = PROPERTY_COORDS[p.id];
+    if (!latLng) return;
+
+    const color = MAP_REGION_COLORS[p.region] || '#555';
+    const cleanAddr = p.address.replace(/\/\/.*$/, '').trim();
+    const limitsLabel = (() => {
+      const mi = typeof getMetroILForYear === 'function' ? getMetroILForYear(p.county, IL_YEAR) : null;
+      if (mi && mi.data) return 'FY' + IL_YEAR + (mi.est ? ' limits*' : ' limits');
+      if (p.lihtc?.amiYear) return p.lihtc.amiYear + ' limits';
+      if (p.hud?.contractNumber) return 'HAP ' + p.hud.contractNumber.slice(0,10);
+      return '';
+    })();
+    const prog = p.program || 'Unknown';
+    const badges = getProgramBadges(p) || `<span class="prog-badge">${PROGRAM_LABEL[prog] || prog}</span>`;
+    const saBadges = (p.lihtc?.setAsides || []).map(s => `<span class="sa-badge">${s.pct}% AMI</span>`).join('') +
+      (!p.lihtc?.setAsides?.length && p.hud?.contractNumber ? '<span class="sa-badge">Section 8</span>' : '');
+    const uaChips = getCardUAChips(p);
+
+    const popup = L.popup({ maxWidth: 290, className: 'mrk-map-popup' }).setContent(`
+      <div style="font-family:'DM Sans',sans-serif;font-size:12px;line-height:1.4;min-width:240px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px">
+          <div style="font-weight:700;font-size:14px;color:#1e4d68;line-height:1.2;flex:1;padding-right:8px">${p.name}</div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-size:16px;font-weight:700;color:#1e4d68">${p.totalUnits}</div>
+            <div style="font-size:9px;color:#9aa4ae">units</div>
+          </div>
+        </div>
+        <div style="color:#6b7280;font-size:10.5px;margin-bottom:2px">${p.county} County · ${p.region}</div>
+        <div style="color:#374151;font-size:10.5px;margin-bottom:8px">${cleanAddr}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px">${badges}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px">${saBadges}</div>
+        ${uaChips}
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#9aa4ae;border-top:1px solid #e8eaec;padding-top:5px">
+          <span>${p.uaType || ''}</span>
+          <span>${limitsLabel}</span>
+        </div>
+        <button onclick="closePortfolioMap();openPanel('${p.id}')"
+          style="margin-top:8px;width:100%;background:#1e4d68;color:#fff;border:none;border-radius:5px;
+                 padding:7px 0;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;letter-spacing:.01em">
+          View Details →
+        </button>
+      </div>
+    `);
+
+    L.marker(latLng, { icon: makeMarkerIcon(color) }).addTo(_mapInstance).bindPopup(popup);
+    bounds.push(latLng);
+    placed++;
+  });
+
+  if (bounds.length > 0) _mapInstance.fitBounds(bounds, { padding: [40, 40] });
+  document.getElementById('map-status-bar').textContent =
+    `${placed} properties · Click any pin to view details`;
+
+  setTimeout(() => _mapInstance.invalidateSize(), 100);
+}
+
+function closePortfolioMap() {
+  document.getElementById('map-overlay').classList.remove('open');
+  if (_mapInstance) setTimeout(() => _mapInstance.invalidateSize(), 100);
+}
 render();
 
 function openInspectionSummary() {
