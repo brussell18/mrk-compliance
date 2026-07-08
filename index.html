@@ -322,6 +322,8 @@
     <option>Maryland</option>
     <option>Missouri</option>
     <option>Michigan</option>
+    <option>Delaware</option>
+    <option>Pennsylvania</option>
   </select>
   <select id="fProgram" onchange="render()">
     <option value="">All Programs</option>
@@ -6530,22 +6532,10 @@ const PORTFOLIO = [
         }
       },
       {
-        effectiveDate:"2026-01-01",
-        trigger:"utility_allowance",
-        label:"Engineered Utility Allowance Study — Effective 1/1/2026",
-        source:"Property-specific engineered utility allowance study effective 1/1/2026; uaType:Engineered; 1BR=$110, 2BR=$123",
-        snapshot:{
-          incomeLimits:null,
-          grossRentLimits:null,
-          utilityAllowances:{"1BR":110,"2BR":123},
-          hudContractRents:null
-        }
-      },
-      {
         effectiveDate:"2026-05-01",
         trigger:"income_limits",
         label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Burlington County, NJ)",
-        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; UA: 2BR=$82, 3BR=$91 (NJHMFA schedule — verify against current engineered study)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 5/1/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; UA: 2BR=$82, 3BR=$91 (NJHMFA schedule — 2026 NJHMFA UA update pending)",
         snapshot:{
           incomeLimits:{
             "50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},
@@ -6555,7 +6545,7 @@ const PORTFOLIO = [
             "50%":{"2BR":1381,"3BR":1595},
             "60%":{"2BR":1657,"3BR":1914}
           },
-          utilityAllowances:{"1BR":110,"2BR":123},
+          utilityAllowances:{"2BR":82,"3BR":91},
           hudContractRents:null
         }
       }
@@ -6572,7 +6562,7 @@ const PORTFOLIO = [
         "50%":{"2BR":1381,"3BR":1595},
         "60%":{"2BR":1657,"3BR":1914}
       },
-      utilityAllowances:{"1BR":110,"2BR":123},
+      utilityAllowances:{"2BR":82,"3BR":91}, // NJHMFA schedule — 2026 update pending
       actualRents:null
     },
     hud:null
@@ -7401,6 +7391,568 @@ const PORTFOLIO = [
       actualRents:null
     },
     hud:null
+  },
+
+  {
+    id:"salisbury-md", name:"The Willows at Salisbury", region:"Maryland",
+    address:"100-211 Winterborn Lane, Salisbury, MD 21804",
+    county:"Wicomico",
+    totalUnits:96, unitMix:null,
+    uaType:"Engineered",
+    placedInService:null, // Re-syndicated 2023; original PIS TBD
+    regulatoryAgreements:[
+      {
+        type:"DHCD-CDA Tax Credit Covenant (LIHTC Extended Use Agreement)",
+        with:"Maryland Department of Housing & Community Development (DHCD) — Community Development Administration (CDA)",
+        programType:"LIHTC",
+        ref:"Willows at Salisbury (Salisbury LIHTC, LLC) — DHCD-CDA LIHTC; 96 units; Wicomico County, MD; Tax Credit Covenant re-issued at 2023 re-syndication (prior covenant released simultaneously); extended use through ~2053",
+        effectiveDate:"2023-01-01",
+        compliancePeriod:"Extended use through ~2053 (from 2023 re-syndication PIS)",
+        complianceEnd:"2053-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/2.%20Development/Under%20Contract/Project%20Erving/2.%20GP%20Interest%20-%20Securitization/W%20at%20Salisbury/Due%20Diligence/Closing/Resyndication%202023/CDA%20Docs/Tax%20Credit%20Covenant%20%28Willows%20at%20Salisbury%29.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Salisbury, MD HUD Metro FMR Area (Wicomico County, MD)",
+        source:"HUD MTSP FY2026 effective 5/01/2026; Salisbury, MD HUD Metro FMR Area; Wicomico County, MD; UA: 1BR=$116, 2BR=$157, 3BR=$166 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"30%":{"1":21630,"2":24720,"3":27810,"4":30900,"5":33390},"50%":{"1":36050,"2":41200,"3":46350,"4":51500,"5":55650},"60%":{"1":43260,"2":49440,"3":55620,"4":61800,"5":66780}},
+          grossRentLimits:{"30%":{"1BR":579,"2BR":695,"3BR":803},"50%":{"1BR":965,"2BR":1158,"3BR":1339},"60%":{"1BR":1158,"2BR":1390,"3BR":1607}},
+          utilityAllowances:{"1BR":116,"2BR":157,"3BR":166},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":50,"unitCount":4},{"pct":60,"unitCount":92}],incomeLimits:{"30%":{"1":21630,"2":24720,"3":27810,"4":30900,"5":33390},"50%":{"1":36050,"2":41200,"3":46350,"4":51500,"5":55650},"60%":{"1":43260,"2":49440,"3":55620,"4":61800,"5":66780}},grossRentLimits:{"30%":{"1BR":579,"2BR":695,"3BR":803},"50%":{"1BR":965,"2BR":1158,"3BR":1339},"60%":{"1BR":1158,"2BR":1390,"3BR":1607}},utilityAllowances:{"1BR":116,"2BR":157,"3BR":166},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"port-capital", name:"Port Capital Village", region:"Maryland",
+    address:"7141 Beverly Drive, Elkridge, MD 21075", // street address TBD
+    county:"Howard",
+    totalUnits:84, unitMix:null,
+    uaType:"Engineered",
+    placedInService:null, // TBD
+    regulatoryAgreements:[
+      {
+        type:"DHCD Extended Low-Income Housing Covenant (LIHTC/HOME Extended Use Agreement)",
+        with:"Maryland Department of Housing & Community Development (DHCD) — Howard County HOME also involved; FHA Project #14402-491",
+        programType:"LIHTC",
+        ref:"Port Capital Village Limited Partnership — DHCD LIHTC; Howard County, MD; HUD FHA-insured mortgage (#14402-491); Howard County HOME loan; extended use — confirm from recorded covenant",
+        effectiveDate:null,
+        compliancePeriod:"Extended use — confirm from recorded covenant",
+        complianceEnd:null,
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Port%20Capital%20-%20Elkridge%2C%20MD/03.%20Legal/Regulatory%20Agmts/Extended%20Low-Income%20Housing%20Covenant.pdf"
+      },
+      {
+        type:"PILOT Agreement (Payment In Lieu of Taxes)",
+        with:"Howard County, MD",
+        programType:"City",
+        ref:"Port Capital Village — PILOT agreement; terms — confirm from document",
+        effectiveDate:null,
+        compliancePeriod:"Concurrent with affordability period",
+        complianceEnd:null,
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Port%20Capital%20-%20Elkridge%2C%20MD/03.%20Legal/Regulatory%20Agmts/Willows%20at%20Port%20Capital%20PILOT.pdf"
+      },
+      {
+        type:"IRS Form 8609 (LIHTC Allocation)",
+        with:"Maryland Department of Housing & Community Development (DHCD)",
+        programType:"LIHTC",
+        ref:"Port Capital Village — DHCD LIHTC allocation; see document for BIN and credit details",
+        effectiveDate:null,
+        compliancePeriod:"15-year credit period + extended use",
+        complianceEnd:null,
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Port%20Capital%20-%20Elkridge%2C%20MD/08.%20Tax%20Credits/8609s/Port%20Capital%208609%27s.PDF"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Baltimore-Columbia-Towson, MD MSA (Howard County, MD)",
+        source:"HUD MTSP FY2026 effective 5/01/2026; Baltimore-Columbia-Towson, MD MSA; Howard County, MD; UA: 2BR=$155, 3BR=$185 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"30%":{"1":28140,"2":32160,"3":36180,"4":40200,"5":43440},"40%":{"1":37520,"2":42880,"3":48240,"4":53600,"5":57920},"50%":{"1":46900,"2":53600,"3":60300,"4":67000,"5":72400},"60%":{"1":56280,"2":64320,"3":72360,"4":80400,"5":86880}},
+          grossRentLimits:{"30%":{"1BR":753,"2BR":904,"3BR":1045},"40%":{"1BR":1005,"2BR":1206,"3BR":1394},"50%":{"1BR":1256,"2BR":1507,"3BR":1742},"60%":{"1BR":1507,"2BR":1809,"3BR":2091}},
+          utilityAllowances:{"2BR":155,"3BR":185},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":40,"unitCount":17},{"pct":50,"unitCount":29},{"pct":60,"unitCount":38}],incomeLimits:{"30%":{"1":28140,"2":32160,"3":36180,"4":40200,"5":43440},"40%":{"1":37520,"2":42880,"3":48240,"4":53600,"5":57920},"50%":{"1":46900,"2":53600,"3":60300,"4":67000,"5":72400},"60%":{"1":56280,"2":64320,"3":72360,"4":80400,"5":86880}},grossRentLimits:{"30%":{"1BR":753,"2BR":904,"3BR":1045},"40%":{"1BR":1005,"2BR":1206,"3BR":1394},"50%":{"1BR":1256,"2BR":1507,"3BR":1742},"60%":{"1BR":1507,"2BR":1809,"3BR":2091}},utilityAllowances:{"2BR":155,"3BR":185},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"milford-de", name:"The Willows at Milford (Cascades)", region:"Delaware",
+    address:"151 Cascades Lane, Milford, DE 19963", // street address TBD
+    county:"Kent",
+    totalUnits:76, unitMix:null,
+    uaType:"Engineered",
+    placedInService:"2012-06-25", // LURA recorded June 25, 2012
+    regulatoryAgreements:[
+      {
+        type:"DSHA LIHTC Declaration of Land Use Restrictions (Extended Use Agreement)",
+        with:"Delaware State Housing Authority (DSHA) — Development No. DE-HDF-410-FY12-15",
+        programType:"LIHTC",
+        ref:"Cascades LLC (The Willows at Milford) — DSHA LIHTC allocation DE-HDF-410-FY12-15; Kent County, DE; LIHTC Declaration recorded June 25, 2012; extended use through ~2042",
+        effectiveDate:"2012-06-25",
+        compliancePeriod:"30-year extended use from ~2012 PIS (through ~2042)",
+        complianceEnd:"2042-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/0.%20Acquisitions/z-Acquisitions%20Archive/Milford/Regulatory%20and%20Partnership%20Agreements/Tab%2019-LIHTC%20Declaration%20of%20Land%20Use%20Restrictions.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Kent County, DE",
+        source:"HUD MTSP FY2026 effective 5/01/2026; Kent County, DE; UA: 1BR=$123, 2BR=$135, 3BR=$152 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"30%":{"1":22620,"2":25860,"3":29100,"4":32340,"5":34920},"50%":{"1":37700,"2":43100,"3":48500,"4":53900,"5":58200},"60%":{"1":45240,"2":51720,"3":58200,"4":64680,"5":69840}},
+          grossRentLimits:{"30%":{"1BR":606,"2BR":727,"3BR":840},"50%":{"1BR":1010,"2BR":1212,"3BR":1401},"60%":{"1BR":1212,"2BR":1455,"3BR":1681}},
+          utilityAllowances:{"1BR":123,"2BR":135,"3BR":152},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":50,"unitCount":51},{"pct":60,"unitCount":25}],incomeLimits:{"30%":{"1":22620,"2":25860,"3":29100,"4":32340,"5":34920},"50%":{"1":37700,"2":43100,"3":48500,"4":53900,"5":58200},"60%":{"1":45240,"2":51720,"3":58200,"4":64680,"5":69840}},grossRentLimits:{"30%":{"1BR":606,"2BR":727,"3BR":840},"50%":{"1BR":1010,"2BR":1212,"3BR":1401},"60%":{"1BR":1212,"2BR":1455,"3BR":1681}},utilityAllowances:{"1BR":123,"2BR":135,"3BR":152},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"willow-run-pa", name:"Willow Run Apartments", region:"Pennsylvania",
+    address:"26 Utley Place, Willow Street, PA 17584", // street address TBD; Lancaster County
+    county:"Lancaster",
+    totalUnits:72, unitMix:{"2BR":36,"3BR":36},
+    uaType:"Engineered",
+    placedInService:"2014-01-01", // PHFA IRC recorded in 2014 Construction closing; exact date TBD
+    regulatoryAgreements:[
+      {
+        type:"PHFA Indenture of Restrictive Covenants for Low Income Housing Tax Credits (LIHTC Extended Use Agreement)",
+        with:"Pennsylvania Housing Finance Agency (PHFA)",
+        programType:"LIHTC",
+        ref:"Willow Run Apartments, LP (GP: Pequea Ventures, LLC) — PHFA LIHTC allocation; Lancaster County, PA; Recorded PHFA IRC 2014 (DMEAST_20023128); extended use through ~2044",
+        effectiveDate:"2014-01-01",
+        compliancePeriod:"30-year extended use from ~2014 PIS (through ~2044)",
+        complianceEnd:"2044-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Willow%20Run%20-%20Willow%20Street%2C%20PA/17.%20Closing/Prior%20to%202025/2014%20Construction/Recorded%20PHFA%20Indenture%20of%20Restrictive%20Covenants%20for%20Low%20Income%20Housing%20Tax%20Credits%20DMEAST_20023128%281%29.pdf"
+      },
+      {
+        type:"IRS Form 8609 (LIHTC Allocation)",
+        with:"Pennsylvania Housing Finance Agency (PHFA)",
+        programType:"LIHTC",
+        ref:"Willow Run Apartments — PHFA LIHTC allocation; see document for BIN and credit details",
+        effectiveDate:null,
+        compliancePeriod:"15-year credit period + extended use",
+        complianceEnd:null,
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Willow%20Run%20-%20Willow%20Street%2C%20PA/08.%20Tax%20Credits/8609s/Willow%20Run%208609%27s.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Chester County, PA)",
+        source:"HUD FY2026 MTSP Release effective 5/01/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; Chester County, PA; UA: 2BR=$123, 3BR=$147 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},
+          grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+          utilityAllowances:{"2BR":123,"3BR":147},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":20,"unitCount":4},{"pct":50,"unitCount":33},{"pct":60,"unitCount":24}],incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},utilityAllowances:{"2BR":123,"3BR":147},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"centreville-md", name:"The Willows at Centreville", region:"Maryland",
+    address:"521 Railroad Avenue, Centreville, MD 21617", // street address TBD
+    county:"Queen Anne's",
+    totalUnits:70, unitMix:null,
+    uaType:"Engineered",
+    placedInService:"2018-08-09", // LURA effective date 8/9/2018
+    regulatoryAgreements:[
+      {
+        type:"DHCD Low Income Housing Tax Credit Covenant (LIHTC Extended Use Agreement)",
+        with:"Maryland Department of Housing & Community Development (DHCD)",
+        programType:"LIHTC",
+        ref:"The Willows at Centreville — DHCD LIHTC allocation; Queen Anne's County, MD; LURA effective 8/9/2018; extended use through ~2048; also has HUD Rental Assistance Contract (Section 8 HAP) — document TBD",
+        effectiveDate:"2018-08-09",
+        compliancePeriod:"30-year extended use from 8/9/2018 PIS (through ~2048)",
+        complianceEnd:"2048-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Centreville%20-%20Centreville%2C%20MD/03.%20Legal/Regulatory%20Agmts/Low%20Income%20Housing%20Tax%20Credit%20Covenant-The%20Willows%20at%20Centreville-08.09.18..pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Baltimore-Columbia-Towson, MD MSA (Queen Anne's County, MD)",
+        source:"HUD MTSP FY2026 effective 5/01/2026; Baltimore-Columbia-Towson, MD MSA; Queen Anne's County, MD; UA: 1BR=$93, 2BR=$119, 3BR=$144 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"30%":{"1":28140,"2":32160,"3":36180,"4":40200,"5":43440},"40%":{"1":37520,"2":42880,"3":48240,"4":53600,"5":57920},"50%":{"1":46900,"2":53600,"3":60300,"4":67000,"5":72400},"60%":{"1":56280,"2":64320,"3":72360,"4":80400,"5":86880}},
+          grossRentLimits:{"30%":{"1BR":753,"2BR":904,"3BR":1045},"40%":{"1BR":1005,"2BR":1206,"3BR":1394},"50%":{"1BR":1256,"2BR":1507,"3BR":1742},"60%":{"1BR":1507,"2BR":1809,"3BR":2091}},
+          utilityAllowances:{"1BR":93,"2BR":119,"3BR":144},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":30,"unitCount":20},{"pct":40,"unitCount":20},{"pct":50,"unitCount":23}],incomeLimits:{"30%":{"1":28140,"2":32160,"3":36180,"4":40200,"5":43440},"40%":{"1":37520,"2":42880,"3":48240,"4":53600,"5":57920},"50%":{"1":46900,"2":53600,"3":60300,"4":67000,"5":72400},"60%":{"1":56280,"2":64320,"3":72360,"4":80400,"5":86880}},grossRentLimits:{"30%":{"1BR":753,"2BR":904,"3BR":1045},"40%":{"1BR":1005,"2BR":1206,"3BR":1394},"50%":{"1BR":1256,"2BR":1507,"3BR":1742},"60%":{"1BR":1507,"2BR":1809,"3BR":2091}},utilityAllowances:{"1BR":93,"2BR":119,"3BR":144},actualRents:null},
+    hud:null // Note: HUD Rental Assistance Contract (Section 8 HAP) also exists — TBD
+  },
+
+  {
+    id:"berlin-md", name:"The Willows at Berlin", region:"Maryland",
+    address:"312 Maple Avenue, Berlin, MD 21811",
+    county:"Worcester",
+    totalUnits:65, unitMix:null,
+    uaType:"Engineered",
+    placedInService:"2021-01-01", // TCCP ends 2036 → PIS ~2021 (CDA construction loan Dec 2020)
+    regulatoryAgreements:[
+      {
+        type:"DHCD-CDA Low Income Housing Tax Credit Covenant (LIHTC Extended Use Agreement)",
+        with:"Maryland Department of Housing & Community Development (DHCD) — CDA Project No. RHP 28.624.1300",
+        programType:"LIHTC",
+        ref:"Berlin Housing LIHTC, LLC — DHCD-CDA LIHTC (Income Averaging election; avg ≤60% AMI); 65 units, 100% restricted; Worcester County, MD; Covenant executed 12/18/2020; 15-yr compliance ends ~2036 + 25-yr extended use = total restrictions through ~2061 (per MD CDA covenant); BINs MD-21-11001 through MD-21-11008",
+        effectiveDate:"2020-12-18",
+        compliancePeriod:"15-year compliance period ending ~2036 + 25-year extended use (MD CDA covenant) = total restrictions through ~2061",
+        complianceEnd:"2061-12-31",
+        setAsides:"13u @ ≤20% AMI · 28u @ ≤40% AMI · 12u @ ≤50% AMI · 4u @ ≤60% AMI · 8u @ ≤80% AMI (Income Averaging; avg ≤60% AMI; 100% of units restricted)",
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Berlin%20-%20Berlin%2C%20MD/17.%20Closing/Prior%20to%202025/2020%20Construction%20Loan/CDA%20Loan%20Documents/Tax%20Credit%20Covenant.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Worcester County, MD",
+        source:"HUD MTSP FY2026 effective 5/01/2026; Worcester County, MD; UA: 1BR=$64, 2BR=$83, 3BR=$91 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"20%":{"1":15560,"2":17780,"3":20000,"4":22220,"5":24000},"30%":{"1":23340,"2":26670,"3":30000,"4":33330,"5":36000},"40%":{"1":31120,"2":35560,"3":40000,"4":44440,"5":48000},"50%":{"1":38900,"2":44450,"3":50000,"4":55550,"5":60000},"60%":{"1":46680,"2":53340,"3":60000,"4":66660,"5":72000},"80%":{"1":62240,"2":71120,"3":80000,"4":88880,"5":96000}},
+          grossRentLimits:{"20%":{"1BR":416,"2BR":500,"3BR":577},"30%":{"1BR":625,"2BR":750,"3BR":866},"40%":{"1BR":833,"2BR":1000,"3BR":1155},"50%":{"1BR":1041,"2BR":1250,"3BR":1444},"60%":{"1BR":1250,"2BR":1500,"3BR":1733},"80%":{"1BR":1667,"2BR":2000,"3BR":2311}},
+          utilityAllowances:{"1BR":64,"2BR":83,"3BR":91},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":20,"unitCount":13},{"pct":40,"unitCount":28},{"pct":50,"unitCount":12},{"pct":60,"unitCount":4},{"pct":80,"unitCount":8}],incomeLimits:{"20%":{"1":15560,"2":17780,"3":20000,"4":22220,"5":24000},"30%":{"1":23340,"2":26670,"3":30000,"4":33330,"5":36000},"40%":{"1":31120,"2":35560,"3":40000,"4":44440,"5":48000},"50%":{"1":38900,"2":44450,"3":50000,"4":55550,"5":60000},"60%":{"1":46680,"2":53340,"3":60000,"4":66660,"5":72000},"80%":{"1":62240,"2":71120,"3":80000,"4":88880,"5":96000}},grossRentLimits:{"20%":{"1BR":416,"2BR":500,"3BR":577},"30%":{"1BR":625,"2BR":750,"3BR":866},"40%":{"1BR":833,"2BR":1000,"3BR":1155},"50%":{"1BR":1041,"2BR":1250,"3BR":1444},"60%":{"1BR":1250,"2BR":1500,"3BR":1733},"80%":{"1BR":1667,"2BR":2000,"3BR":2311}},utilityAllowances:{"1BR":64,"2BR":83,"3BR":91},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"cecilton-md", name:"The Willows at Cecilton (Parklands)", region:"Maryland",
+    address:"203 E Main Street, Cecilton, MD 21913", // street address TBD
+    county:"Cecil",
+    totalUnits:62, unitMix:null,
+    uaType:"Engineered",
+    placedInService:"2014-03-07", // LURA recorded March 7, 2014
+    regulatoryAgreements:[
+      {
+        type:"DHCD-CDA Recorded LIHTC Covenant (LIHTC Extended Use Agreement)",
+        with:"Maryland Department of Housing & Community Development (DHCD) — Community Development Administration (CDA)",
+        programType:"LIHTC",
+        ref:"Parklands at Cecilton (now The Willows at Cecilton) — DHCD-CDA LIHTC; 62 units; Cecil County, MD; Recorded LIHTC Covenant March 7, 2014; extended use through ~2055",
+        effectiveDate:"2014-03-07",
+        compliancePeriod:"Extended use through ~2055",
+        complianceEnd:"2055-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Cecilton%20-%20Cecilton%2C%20MD/03.%20Legal/Regulatory%20Agmts/43%20-%20Recorded%20LIHTC%20Covenant%20-%20Parklands%20at%20Cecilton.PDF"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Cecil County, MD)",
+        source:"HUD FY2026 MTSP Release effective 5/01/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; Cecil County, MD; UA: 1BR=$133, 2BR=$160, 3BR=$190 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},
+          grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+          utilityAllowances:{"1BR":133,"2BR":160,"3BR":190},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":30,"unitCount":7},{"pct":40,"unitCount":22},{"pct":50,"unitCount":26},{"pct":60,"unitCount":7}],incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},utilityAllowances:{"1BR":133,"2BR":160,"3BR":190},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"foster-commons-de", name:"The Willows at Foster Commons", region:"Delaware",
+    address:"Old Landing Road, Millsboro, DE 19966", // per interest valuation; confirm recorded address
+    county:"Sussex",
+    totalUnits:60, unitMix:null, // 60-unit mixed-income; unit mix TBD
+    uaType:"Engineered",
+    placedInService:"2021-10-01", // LURA effective date 10/1/2021
+    regulatoryAgreements:[
+      {
+        type:"DSHA LIHTC LURA (Extended Use Agreement)",
+        with:"Delaware State Housing Authority (DSHA) — Development No. DE-HDF-592-FY22-01",
+        programType:"LIHTC",
+        ref:"Millsboro LIHTC, LLC (Foster Commons) — DSHA LIHTC DE-HDF-592-FY22-01; 60 units (mixed-income); Sussex County, DE; LURA effective 10/1/2021; extended use through ~2051",
+        effectiveDate:"2021-10-01",
+        compliancePeriod:"30-year extended use from 10/1/2021 PIS (through ~2051)",
+        complianceEnd:"2051-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Foster%20Commons%20-%20Millsboro%2C%20DE/03.%20Legal/Regulatory%20Agmts/LIHTC%20LURA-Foster%20Commons-10.01.21.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Sussex County, DE",
+        source:"HUD MTSP FY2026 effective 5/01/2026; Sussex County, DE; UA: 1BR=$88, 2BR=$110, 3BR=$132 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"30%":{"1":21690,"2":24780,"3":27870,"4":30960,"5":33450},"40%":{"1":28920,"2":33040,"3":37160,"4":41280,"5":44600},"50%":{"1":36150,"2":41300,"3":46450,"4":51600,"5":55750},"60%":{"1":43380,"2":49560,"3":55740,"4":61920,"5":66900}},
+          grossRentLimits:{"30%":{"1BR":580,"2BR":696,"3BR":805},"40%":{"1BR":774,"2BR":929,"3BR":1073},"50%":{"1BR":968,"2BR":1161,"3BR":1341},"60%":{"1BR":1161,"2BR":1393,"3BR":1610}},
+          utilityAllowances:{"1BR":88,"2BR":110,"3BR":132},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":30,"unitCount":3},{"pct":40,"unitCount":9},{"pct":50,"unitCount":14},{"pct":60,"unitCount":24}],incomeLimits:{"30%":{"1":21690,"2":24780,"3":27870,"4":30960,"5":33450},"40%":{"1":28920,"2":33040,"3":37160,"4":41280,"5":44600},"50%":{"1":36150,"2":41300,"3":46450,"4":51600,"5":55750},"60%":{"1":43380,"2":49560,"3":55740,"4":61920,"5":66900}},grossRentLimits:{"30%":{"1BR":580,"2BR":696,"3BR":805},"40%":{"1BR":774,"2BR":929,"3BR":1073},"50%":{"1BR":968,"2BR":1161,"3BR":1341},"60%":{"1BR":1161,"2BR":1393,"3BR":1610}},utilityAllowances:{"1BR":88,"2BR":110,"3BR":132},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"landisville-pa", name:"The Willows at Landisville", region:"Pennsylvania",
+    address:"611 Caroline Court, Landisville, PA 17538", // street address TBD; East Hempfield Township, Lancaster County
+    county:"Lancaster",
+    totalUnits:60, unitMix:{"1BR":6,"2BR":33,"3BR":21},
+    uaType:"Engineered",
+    placedInService:"2017-01-01", // approximate; PHFA IRC ~2017; building plans PHFA DD submission 2016
+    regulatoryAgreements:[
+      {
+        type:"PHFA Indenture of Restrictive Covenants for LIHTC (Extended Use Agreement)",
+        with:"Pennsylvania Housing Finance Agency (PHFA)",
+        programType:"LIHTC",
+        ref:"Willows at Landisville (East Hempfield Township) — PHFA LIHTC allocation; Lancaster County, PA; PHFA IRC #13 recorded ~2017; extended use through ~2047",
+        effectiveDate:"2017-01-01",
+        compliancePeriod:"30-year extended use from ~2017 PIS (through ~2047)",
+        complianceEnd:"2047-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Landisville%20-%20Landisville%2C%20PA/03.%20Legal/Regulatory%20Agmts/%2313%20PHFA%20INDENTURE%20RESTRICTIVE%20COVENANTS.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Lancaster County, PA (Lancaster County, PA)",
+        source:"HUD MTSP FY2026 effective 5/01/2026; Lancaster County, PA; Lancaster County, PA; UA: 1BR=$79, 2BR=$93, 3BR=$112 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"20%":{"1":15300,"2":17480,"3":19660,"4":21840,"5":23600},"30%":{"1":22950,"2":26220,"3":29490,"4":32760,"5":35400},"50%":{"1":38250,"2":43700,"3":49150,"4":54600,"5":59000},"60%":{"1":45900,"2":52440,"3":58980,"4":65520,"5":70800}},
+          grossRentLimits:{"20%":{"1BR":409,"2BR":491,"3BR":568},"30%":{"1BR":614,"2BR":737,"3BR":852},"50%":{"1BR":1024,"2BR":1228,"3BR":1420},"60%":{"1BR":1229,"2BR":1474,"3BR":1704}},
+          utilityAllowances:{"1BR":79,"2BR":93,"3BR":112},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":20,"unitCount":3},{"pct":50,"unitCount":30},{"pct":60,"unitCount":18}],incomeLimits:{"20%":{"1":15300,"2":17480,"3":19660,"4":21840,"5":23600},"30%":{"1":22950,"2":26220,"3":29490,"4":32760,"5":35400},"50%":{"1":38250,"2":43700,"3":49150,"4":54600,"5":59000},"60%":{"1":45900,"2":52440,"3":58980,"4":65520,"5":70800}},grossRentLimits:{"20%":{"1BR":409,"2BR":491,"3BR":568},"30%":{"1BR":614,"2BR":737,"3BR":852},"50%":{"1BR":1024,"2BR":1228,"3BR":1420},"60%":{"1BR":1229,"2BR":1474,"3BR":1704}},utilityAllowances:{"1BR":79,"2BR":93,"3BR":112},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"valley-run-i", name:"Willows at Valley Run I", region:"Pennsylvania",
+    address:"2131 E Lincoln Highway, Caln Township, PA 19320", // per PHFA Management Certification
+    county:"Chester",
+    totalUnits:60, unitMix:{"1BR":15,"2BR":27,"3BR":18},
+    uaType:"Engineered",
+    placedInService:"2022-01-01", // Construction Loan 2022 closing; exact date TBD
+    regulatoryAgreements:[
+      {
+        type:"PHFA Indenture of Restrictive Covenants (LIHTC Extended Use Agreement)",
+        with:"Pennsylvania Housing Finance Agency (PHFA) — TC2021-443",
+        programType:"LIHTC",
+        ref:"Willows at Valley Run Phase 1, LLC — PHFA LIHTC TC2021-443; Caln Township, Chester County, PA; Recorded PHFA IRC 2022; extended use through ~2052; County of Chester HOME loan also involved",
+        effectiveDate:"2022-01-01",
+        compliancePeriod:"30-year extended use from ~2022 PIS (through ~2052)",
+        complianceEnd:"2052-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Valley%20Run%20I%20-%20Caln%20Township%2C%20PA/17.%20Closing/Prior%20to%202025/Construction%20Loan%202022/Recorded%20Docs/Recorded%20Indenture%20of%20Restrictive%20Covenants%20-%20PHFA.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Chester County, PA)",
+        source:"HUD FY2026 MTSP Release effective 5/01/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; Chester County, PA; UA: 1BR=$66, 2BR=$80, 3BR=$93 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},
+          grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+          utilityAllowances:{"1BR":66,"2BR":80,"3BR":93},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":20,"unitCount":3},{"pct":30,"unitCount":3},{"pct":50,"unitCount":25},{"pct":60,"unitCount":15}],incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},utilityAllowances:{"1BR":66,"2BR":80,"3BR":93},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"valley-run-ii", name:"Willows at Valley Run II", region:"Pennsylvania",
+    address:"2131 E Lincoln Highway, Caln Township, PA 19320", // per PHFA Management Certification
+    county:"Chester",
+    totalUnits:60, unitMix:null,
+    uaType:"Engineered",
+    placedInService:"2023-01-01", // Construction Loan 2023 closing; exact date TBD
+    regulatoryAgreements:[
+      {
+        type:"PHFA Indenture of Restrictive Covenants (LIHTC Extended Use Agreement)",
+        with:"Pennsylvania Housing Finance Agency (PHFA) — IR2022-421 (TC2022-421)",
+        programType:"LIHTC",
+        ref:"Willows at Valley Run Phase 2 — PHFA LIHTC IR2022-421; Caln Township, Chester County, PA; Recorded PHFA IRC 2023; extended use through ~2053; County of Chester HOME loan also involved",
+        effectiveDate:"2023-01-01",
+        compliancePeriod:"30-year extended use from ~2023 PIS (through ~2053)",
+        complianceEnd:"2053-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Valley%20Run%20II%20-%20Caln%20Township%2C%20PA/17.%20Closing/Prior%20to%202025/Construction%20Loan%202023/PHFA%20Documents/IR2022-421%20Willows%20at%20Valley%20Run%20Ph%202.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Chester County, PA)",
+        source:"HUD FY2026 MTSP Release effective 5/01/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; Chester County, PA; UA: 1BR=$66, 2BR=$80, 3BR=$93 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},
+          grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+          utilityAllowances:{"1BR":66,"2BR":80,"3BR":93},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":20,"unitCount":3},{"pct":30,"unitCount":4},{"pct":50,"unitCount":24},{"pct":60,"unitCount":29}],incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},utilityAllowances:{"1BR":66,"2BR":80,"3BR":93},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"alder-creek-de", name:"The Willows at Alder Creek", region:"Delaware",
+    address:"101 Terrace Drive, Newark, DE 19711", // street address TBD; New Castle County
+    county:"New Castle",
+    totalUnits:56, unitMix:{"1BR":10,"2BR":18,"3BR":24,"4BR":4},
+    uaType:null,
+    placedInService:null, // TBD
+    regulatoryAgreements:[
+      {
+        type:"DSHA LIHTC Declaration / Extended Use Agreement",
+        with:"Delaware State Housing Authority (DSHA) — Mixed Finance (HUD involvement)",
+        programType:"LIHTC",
+        ref:"Willows at Alder Creek — DSHA LIHTC allocation; New Castle County, DE; Mixed Finance with HUD involvement; extended use — confirm from recorded declaration",
+        effectiveDate:null,
+        compliancePeriod:"Extended use — confirm from recorded declaration",
+        complianceEnd:null,
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Alder%20Creek%20-%20Newark%2C%20DE/03.%20Legal/Regulatory%20Agmts/DSHA%20LIHTC%20Declaration%20-%20aka%20Extended%20Use%20Agreement.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (New Castle County, DE)",
+        source:"HUD FY2026 MTSP Release effective 5/01/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; New Castle County, DE",
+        snapshot:{
+          incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},
+          grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":30,"unitCount":14},{"pct":40,"unitCount":14},{"pct":50,"unitCount":14},{"pct":60,"unitCount":14}],incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},utilityAllowances:null,actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"reliance-crossing-pa", name:"Willows at Reliance Crossing", region:"Pennsylvania",
+    address:"215 Quinn Court, Souderton, PA 18964", // street address TBD; Montgomery County
+    county:"Montgomery",
+    totalUnits:56, unitMix:{"2BR":31,"3BR":25},
+    uaType:"Engineered",
+    placedInService:"2015-01-01", // approximate; PHFA TC2014-454 → PIS ~2014-2015
+    regulatoryAgreements:[
+      {
+        type:"PHFA Indenture of Restrictive Covenants (LIHTC Extended Use Agreement)",
+        with:"Pennsylvania Housing Finance Agency (PHFA) — TC2014-454",
+        programType:"LIHTC",
+        ref:"Reliance Crossing Limited Partnership — PHFA LIHTC TC2014-454; Montgomery County, PA; PHFA IRC located in acquisitions archive; extended use through ~2044-2045",
+        effectiveDate:"2015-01-01",
+        compliancePeriod:"30-year extended use from ~2014-2015 PIS (through ~2044-2045)",
+        complianceEnd:"2045-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/0.%20Acquisitions/z-Acquisitions%20Archive/Reliance%20Crossing/Mortgage%20Documents/81.%20PHFA%20Indenture.pdf"
+      },
+      {
+        type:"IRS Form 8609 (LIHTC Allocation)",
+        with:"Pennsylvania Housing Finance Agency (PHFA)",
+        programType:"LIHTC",
+        ref:"Reliance Crossing — PHFA LIHTC TC2014-454; see document for BIN and credit details",
+        effectiveDate:null,
+        compliancePeriod:"15-year credit period + extended use",
+        complianceEnd:null,
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Reliance%20Crossing%20-%20Souderton%2C%20PA/08.%20Tax%20Credits/8609s/Reliance%208609%27s.PDF"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Chester County, PA)",
+        source:"HUD FY2026 MTSP Release effective 5/01/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; Chester County, PA; UA: 2BR=$123, 3BR=$148 per existing regulatory/engineered UA study",
+        snapshot:{
+          incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},
+          grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+          utilityAllowances:{"2BR":123,"3BR":148},
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":20,"unitCount":3},{"pct":50,"unitCount":26},{"pct":60,"unitCount":18}],incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},utilityAllowances:{"2BR":123,"3BR":148},actualRents:null},
+    hud:null
+  },
+
+  {
+    id:"walnut-hill-pa", name:"The Willows at Walnut Hill (Chatham Court)", region:"Pennsylvania",
+    address:"242-252 S. 49th St, Philadelphia, PA 19139",
+    county:"Philadelphia",
+    totalUnits:44, unitMix:{"2BR":18,"3BR":22,"4BR":4}, // per InvSummary; unit mix TBD
+    uaType:null,
+    placedInService:"1997-01-01", // PHFA TC97-4f → PIS ~1997; NOTE: extended use expires ~2027 — monitor
+    regulatoryAgreements:[
+      {
+        type:"PHFA Indenture of Restrictive Covenants for Low Income Housing Tax Credits (LIHTC Extended Use Agreement)",
+        with:"Pennsylvania Housing Finance Agency (PHFA) — TC97-4f",
+        programType:"LIHTC",
+        ref:"Chatham Apartment Associates LP / Walnut Hill KRM LLC (a/k/a Chatham Court Apartments) — PHFA LIHTC TC97-4f; 44 units; Philadelphia County, PA; PIS ~1997; CAUTION: all regulatory restrictions expire ~2030 — near end of compliance period; acquired by MRK April 2026; 5-year hold to 2030 then market-rate conversion; acquired by MRK April 2026",
+        effectiveDate:"1997-01-01",
+        compliancePeriod:"30-year extended use from ~1997 PIS (through ~2027) — MONITOR: compliance period nearing end",
+        complianceEnd:"2030-12-31",
+        setAsides:null,
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/2.%20Development/Under%20Contract/Walnut%20Hill%20-%20Philadelphia%2C%20NJ/Due%20Diligence/Regulatory%20Agreements/PHFA%20LURA%20-%20Walnut%20Hill.pdf"
+      }
+    ],
+    certHistory:[{
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits (HERA Special) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Philadelphia County, PA)",
+        source:"HUD FY2026 MTSP Release effective 5/01/2026; Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA; HERA Special hold-harmless; Philadelphia County, PA",
+        snapshot:{
+          incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},
+          grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      }],
+    program:"LIHTC",
+    lihtc:{amiYear:2026,setAsides:[{"pct":50,"unitCount":44}],incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520},"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560}},grossRentLimits:{"20%":{"1BR":460,"2BR":552,"3BR":638},"30%":{"1BR":690,"2BR":828,"3BR":957},"40%":{"1BR":920,"2BR":1105,"3BR":1276},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},utilityAllowances:null,actualRents:null},
+    hud:null
   }
 
 
@@ -7687,7 +8239,7 @@ function render() {
 
   document.getElementById("grid").innerHTML = grouped.map(item => {
     if (item.type === "header") {
-      const rc = { California:"#2d6a8f", Florida:"#0e7490", "New Jersey":"#16a34a", Virginia:"#7c3aed", Maryland:"#9333ea", Missouri:"#d97706", Michigan:"#0284c7" };
+      const rc = { California:"#2d6a8f", Florida:"#0e7490", "New Jersey":"#16a34a", Virginia:"#7c3aed", Maryland:"#9333ea", Missouri:"#d97706", Michigan:"#0284c7", "Delaware":"#0369a1", "Pennsylvania":"#dc2626" };
       const col = rc[item.region] || "#6b7280";
       return '<div style="grid-column:1/-1;display:flex;align-items:center;gap:10px;margin-top:12px;margin-bottom:-2px">'
         + '<div style="width:4px;height:16px;background:'+col+';border-radius:2px"></div>'
@@ -8686,7 +9238,7 @@ function showPanel(id) {
   }
 
   // Unit mix
-  const mixHtml = Object.entries(p.unitMix).filter(([,n]) => n > 0).map(([br,n]) => `
+  const mixHtml = Object.entries(p.unitMix || {}).filter(([,n]) => n > 0).map(([br,n]) => `
     <div class="mix-item"><div class="mix-val">${n}</div><div class="mix-lbl">${br}</div></div>`).join("");
 
   // ── RENT & INCOME LIMITS SECTION ──────────────────────────────────────────
@@ -8749,7 +9301,9 @@ const MAP_REGION_COLORS = {
   "Virginia":    "#7c3aed",
   "Maryland":    "#9333ea",
   "Missouri":    "#d97706",
-  "Michigan":    "#0284c7"
+  "Michigan":    "#0284c7",
+  "Delaware":    "#0369a1",
+  "Pennsylvania": "#dc2626"
 };
 
 function makeMarkerIcon(color) {
@@ -8799,7 +9353,21 @@ const PROPERTY_COORDS = {
   "county-house":             [39.761, -75.110],
   "spring-mill":              [39.741, -75.228],
   "bailey-corner":            [39.634, -75.351],
-  "manalapan":                [40.333, -74.330]
+  "manalapan":                [40.333, -74.330],
+  "salisbury-md":           [38.3606, -75.5994],
+  "port-capital":           [39.1979, -76.7309],
+  "milford-de":             [38.9126, -75.4277],
+  "willow-run-pa":          [39.9759, -76.3780],
+  "centreville-md":         [39.0437, -76.0688],
+  "berlin-md":              [38.3229, -75.2177],
+  "cecilton-md":            [39.3934, -75.8599],
+  "foster-commons-de":      [38.5837, -75.2971],
+  "landisville-pa":         [40.0948, -76.4141],
+  "valley-run-i":           [39.9276, -75.7910],
+  "valley-run-ii":          [39.9286, -75.7920],
+  "alder-creek-de":         [39.6837, -75.7497],
+  "reliance-crossing-pa":   [40.2773, -75.3268],
+  "walnut-hill-pa":         [39.9441, -75.2270]
 };
 
 function openPortfolioMap() {
@@ -9029,7 +9597,7 @@ function closeInspectionSummary() {
   document.getElementById('insp-overlay').style.display = 'none';
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeInspectionSummary(); });
+
 </script>
 </body>
-            
+</html>
