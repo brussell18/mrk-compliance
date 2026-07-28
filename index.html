@@ -1239,7 +1239,7 @@ const PORTFOLIO = [
     // 300_DE_HARO_LEASE_UP_PLAN_6.15.2026.docx (Asset Management/Ops AM Hand Off — MOHCD meeting prep guide, dated June 2026)
     id:"de-haro", name:"De Haro", region:"California",
     address:"300 De Haro Street, San Francisco, CA 94103", county:"San Francisco",
-    lat:37.7659, lng:-122.4009, approxLocation:true, // no authoritative geocode found (WebSearch turned up no precise lat/lng for this address 7/25/2026); Potrero Hill estimate at De Haro St & 16th St pending verification
+    lat:37.765976, lng:-122.402252, // geocode resolved 7/28/2026 (coordinates supplied by Bryan Russell for 300 De Haro Street, SF 94103); supersedes the prior Potrero Hill estimate that was flagged approxLocation
     totalUnits:425, unitMix:{studio:425}, // 100% studio units (avg 294 sqft): 421 leasable affordable studios + 4 non-revenue employee/manager units (counted in the 60% AMI tier below) — confirmed by Lease-Up Plan §1
     uaType:"Master Metered", // property is 100% all-electric (PTAC units, no gas) and owner-paid; Unit Mix Analysis + Lease-Up Plan both confirm UA=$0 across every AMI tier
     underConstruction:true, // drives the "Under Construction" badge on the card + panel; property has no placedInService date and is mid-construction
@@ -12859,7 +12859,7 @@ const PORTFOLIO = [
     id:"jacobs-landing-ii", name:"The Willows at Jacobs Landing Phase II", region:"New Jersey",
     address:"800 Bunns Lane, Woodbridge, NJ 07095", county:"Middlesex",
     lat:40.548312, lng:-74.282934, approxLocation:false, // nudged ~0.0004° from Phase I's pin (40.547912,-74.283334) — same Bunns Lane complex, distinct 5-building Lenape Lane site within it; cosmetic offset for map visibility, not a surveyed position
-    totalUnits:60, unitMix:{"1BR":9,"2BR":30,"3BR":15,"4BR":6}, // derived 2026-07-16 from live rent roll (The Willows at Jacobs Landing Phase II_0326_Rent Roll.xlsx) via unit-code/sqft mapping; sums to 60, matches Final Cost Certification's 5 buildings x 12 units
+    totalUnits:60, unitMix:{"1BR":9,"2BR":30,"3BR":15,"4BR":6}, // derived 2026-07-16 from live rent roll (The Willows at Jacobs Landing Phase II_0326_Rent Roll.xlsx) via unit-code/sqft mapping; sums to 60, matches Final Cost Certification's 5 buildings x 12 units. 4BR RE-CONFIRMED 2026-07-28 by a full unit-by-unit tally of that rent roll (as-of 3/9/2026): unit codes jac21x1/jac21rad = 9 1BR, jac22x1/jac22rad = 30 2BR, jac23x2/jac23rad = 15 3BR, and jac24rad = 6 4BR at units 901, 903, 905, 1801, 1803 and 1805 (1,303-1,324 sq ft, the largest units in the property). 9+30+15+6 = 60, and the rent roll's own footer independently totals 60 units. THE SIX 4-BEDROOM UNITS ARE REAL — see the utility-allowance gap flagged in lihtc.uaGap.
     uaType:"Engineered Utility Allowance Study", // engineered UA studies confirmed effective 1/1/2025 and 1/1/2026 (rates changed between the two — see certHistory)
     placedInService:"2020", // building-by-building: Bldg1 7/30/2019, Bldg2 10/29/2020, Bldg3 5/28/2020, Bldg4 5/20/2020, Bldg5 1/3/2020 — per Cost Cert Final 20.pdf Schedule B; "2020" used as summary PIS year
     regulatoryAgreements:[
@@ -12923,21 +12923,60 @@ const PORTFOLIO = [
     certHistory:[
       {
         effectiveDate:"2025-01-01",
-        trigger:"utility_allowances",
-        label:"Utility Allowance (Engineered Study) — The Willows at Jacobs Landing Phase II",
-        source:"Engineered Utility Allowance Study, effective 1/1/2025 (KRM Compliance Tracking Table); in effect through 12/31/2025, superseded by the 1/1/2026 study below.",
-        snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":76,"2BR":75,"3BR":99}, hudContractRents:null}
+        trigger:"income_limits_and_ua",
+        label:"Opening Baseline — FY2024 MTSP Limits Carried Forward + UA in force (1/1/2025)",
+        source:"TRACKING START (history intentionally begins 1/1/2025, per direction 2026-07-28). Carries the FY2024 MTSP income and gross rent limits for the Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ), effective 4/1/2024 and still governing on 1/1/2025, so no field resolves to null at the start of the history; superseded by the FY2025 release on 4/1/2025. Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2024_income_limits.pdf for NJ; PHFA 2024_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2024 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS: 6 units at 30% AMI and 54 at 60% AMI per audited financials — the unit-by-unit LURA breakdown is NOT independently confirmed. 46 of the 60 units also carry RAD PBRA, where the contract rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":30720,"2":35100,"3":39480,"4":43860,"5":47370,"6":50880},"60%":{"1":61440,"2":70200,"3":78960,"4":87720,"5":94740,"6":101760}},
+          grossRentLimits:{"30%":{"1BR":822,"2BR":987,"3BR":1140,"4BR":1272},"60%":{"1BR":1645,"2BR":1974,"3BR":2280,"4BR":2544}},
+          utilityAllowances:{"1BR":76,"2BR":75,"3BR":99,"4BR":110},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ)",
+        source:"NJHMFA/HUD FY2025 LIHTC Income and Rent Limits effective 04/01/2025 — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2025_income_limits.pdf for NJ; PHFA 2025_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2025 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS: 6 units at 30% AMI and 54 at 60% AMI per audited financials — the unit-by-unit LURA breakdown is NOT independently confirmed. 46 of the 60 units also carry RAD PBRA, where the contract rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":32220,"2":36840,"3":41430,"4":46020,"5":49710,"6":53400},"60%":{"1":64440,"2":73680,"3":82860,"4":92040,"5":99420,"6":106800}},
+          grossRentLimits:{"30%":{"1BR":863,"2BR":1035,"3BR":1196,"4BR":1335},"60%":{"1BR":1726,"2BR":2071,"3BR":2393,"4BR":2670}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       },
       {
         effectiveDate:"2026-01-01",
         trigger:"utility_allowances",
         label:"Utility Allowance (Engineered Study) — The Willows at Jacobs Landing Phase II",
         source:"Engineered Utility Allowance Study, effective 1/1/2026 (KRM Compliance Tracking Table).",
-        snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":84,"2BR":84,"3BR":110}, hudContractRents:null}
+        snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":84,"2BR":84,"3BR":110,"4BR":123}, hudContractRents:null}
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ)",
+        source:"NJHMFA/HUD FY2026 LIHTC Income and Rent Limits effective 05/01/2026 — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2026_income_limits.pdf for NJ; PHFA 2026_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2026 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS: 6 units at 30% AMI and 54 at 60% AMI per audited financials — the unit-by-unit LURA breakdown is NOT independently confirmed. 46 of the 60 units also carry RAD PBRA, where the contract rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":32520,"2":37170,"3":41820,"4":46440,"5":50160,"6":53880},"60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320,"6":107760}},
+          grossRentLimits:{"30%":{"1BR":871,"2BR":1045,"3BR":1207,"4BR":1347},"60%":{"1BR":1742,"2BR":2091,"3BR":2415,"4BR":2694}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       }
     ], // Middlesex County income/rent limit tables still pending
     program:"LIHTC/RAD",
-    lihtc:{amiYear:null, setAsides:[{pct:30,unitCount:6},{pct:60,unitCount:54}], incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":84,"2BR":84,"3BR":110}, actualRents:null}, // UA confirmed via engineered study eff. 1/1/2026; income/rent limit tables pending — Middlesex County FY2026 30%/60% AMI figures not yet loaded
+    // 4BR UTILITY ALLOWANCE — ENTERED BY INFERENCE 2026-07-28, per direction (Bryan). NOT read off this property's own study.
+    // The 6 four-bedroom units are documented (rent-roll tally, see unitMix), but both engineered studies on file carried only
+    // 1BR/2BR/3BR. $110 (eff. 1/1/2025) and $123 (eff. 1/1/2026) were adopted to match the sibling phases:
+    //   Phase I   1/1/2025 = 76/75/99/110    1/1/2026 = 84/84/110/123
+    //   Phase III 1/1/2025 = 75/75/99/110    1/1/2026 = 84/84/110/123
+    //   Phase II  1/1/2025 = 76/75/99/110*   1/1/2026 = 84/84/110/123*     (* = the inferred values)
+    // Basis: Phase II matches Phase I to the dollar at 1BR/2BR/3BR in 2025 and matches BOTH siblings exactly in 2026, and all
+    // three phases are the same sponsor, site and construction type. Still an inference, so: if the actual Phase II engineered
+    // study turns out to carry a HIGHER 4BR rate, the net rents computed for those 6 units are currently OVERSTATED. Verify
+    // against the study and replace this note with the real source when it is located.
+    lihtc:{amiYear:2026, setAsides:[{pct:30,unitCount:6},{pct:60,unitCount:54}], incomeLimits:{"30%":{"1":32520,"2":37170,"3":41820,"4":46440,"5":50160,"6":53880},"60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320,"6":107760}}, grossRentLimits:{"30%":{"1BR":871,"2BR":1045,"3BR":1207,"4BR":1347},"60%":{"1BR":1742,"2BR":2091,"3BR":2415,"4BR":2694}}, utilityAllowances:{"1BR":84,"2BR":84,"3BR":110,"4BR":123}, actualRents:null}, // UA confirmed via engineered study eff. 1/1/2026; income/rent limits loaded 2026-07-28 (FY2026 regular non-HERA MTSP; see certHistory for sources and tier caveats)
     home:null,
     hud:{contractNumber:null, contractAdmin:"Woodbridge Housing Authority (WHA) — RAD PBRA conversion", contractTerm:"46 of 60 units (76%), effective 2018-10-01, expires 2038-09-30", contractRents:null}
   },
@@ -13010,10 +13049,27 @@ const PORTFOLIO = [
     certHistory:[
       {
         effectiveDate:"2025-01-01",
-        trigger:"utility_allowances",
-        label:"Utility Allowance (Engineered Study) — The Willows at Jacobs Landing Phase III",
-        source:"Engineered Utility Allowance Study, effective 1/1/2025 (KRM Compliance Tracking Table); in effect through 12/31/2025, superseded by the 1/1/2026 study below.",
-        snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":75,"2BR":75,"3BR":99,"4BR":110}, hudContractRents:null}
+        trigger:"income_limits_and_ua",
+        label:"Opening Baseline — FY2024 MTSP Limits Carried Forward + UA in force (1/1/2025)",
+        source:"TRACKING START (history intentionally begins 1/1/2025, per direction 2026-07-28). Carries the FY2024 MTSP income and gross rent limits for the Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ), effective 4/1/2024 and still governing on 1/1/2025, so no field resolves to null at the start of the history; superseded by the FY2025 release on 4/1/2025. Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2024_income_limits.pdf for NJ; PHFA 2024_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2024 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIER: only the Section 42 minimum set-aside (>=40% of units at <=60% AMI, bond-financed) is documented — no unit-by-unit tier breakdown has been confirmed, so only the 60% row is carried. Do NOT read the absence of lower tiers as evidence there are none. 38 of the 60 units carry RAD PBRA, where the contract rent governs and these figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"60%":{"1":61440,"2":70200,"3":78960,"4":87720,"5":94740,"6":101760}},
+          grossRentLimits:{"60%":{"1BR":1645,"2BR":1974,"3BR":2280,"4BR":2544}},
+          utilityAllowances:{"1BR":75,"2BR":75,"3BR":99,"4BR":110},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ)",
+        source:"NJHMFA/HUD FY2025 LIHTC Income and Rent Limits effective 04/01/2025 — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2025_income_limits.pdf for NJ; PHFA 2025_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2025 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIER: only the Section 42 minimum set-aside (>=40% of units at <=60% AMI, bond-financed) is documented — no unit-by-unit tier breakdown has been confirmed, so only the 60% row is carried. Do NOT read the absence of lower tiers as evidence there are none. 38 of the 60 units carry RAD PBRA, where the contract rent governs and these figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"60%":{"1":64440,"2":73680,"3":82860,"4":92040,"5":99420,"6":106800}},
+          grossRentLimits:{"60%":{"1BR":1726,"2BR":2071,"3BR":2393,"4BR":2670}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       },
       {
         effectiveDate:"2026-01-01",
@@ -13021,10 +13077,22 @@ const PORTFOLIO = [
         label:"Utility Allowance (Engineered Study) — The Willows at Jacobs Landing Phase III",
         source:"Engineered Utility Allowance Study, effective 1/1/2026 (KRM Compliance Tracking Table).",
         snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":84,"2BR":84,"3BR":110,"4BR":123}, hudContractRents:null}
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ)",
+        source:"NJHMFA/HUD FY2026 LIHTC Income and Rent Limits effective 05/01/2026 — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2026_income_limits.pdf for NJ; PHFA 2026_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2026 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIER: only the Section 42 minimum set-aside (>=40% of units at <=60% AMI, bond-financed) is documented — no unit-by-unit tier breakdown has been confirmed, so only the 60% row is carried. Do NOT read the absence of lower tiers as evidence there are none. 38 of the 60 units carry RAD PBRA, where the contract rent governs and these figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320,"6":107760}},
+          grossRentLimits:{"60%":{"1BR":1742,"2BR":2091,"3BR":2415,"4BR":2694}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       }
     ], // same gap as Phase II: no income-limit/gross-rent table located yet
     program:"LIHTC/RAD",
-    lihtc:{amiYear:null, setAsides:[{pct:60,unitCount:null}], incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":84,"2BR":84,"3BR":110,"4BR":123}, actualRents:null}, // unit-by-unit set-aside not independently confirmed this pass; UA confirmed via engineered study eff. 1/1/2026; income/rent limit tables pending
+    lihtc:{amiYear:2026, setAsides:[{pct:60,unitCount:null}], incomeLimits:{"60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320,"6":107760}}, grossRentLimits:{"60%":{"1BR":1742,"2BR":2091,"3BR":2415,"4BR":2694}}, utilityAllowances:{"1BR":84,"2BR":84,"3BR":110,"4BR":123}, actualRents:null}, // unit-by-unit set-aside not independently confirmed this pass; UA confirmed via engineered study eff. 1/1/2026; income/rent limits loaded 2026-07-28 (FY2026 regular non-HERA MTSP; see certHistory for sources and tier caveats)
     home:null,
     hud:{contractNumber:null, contractAdmin:"Woodbridge Housing Authority (WHA) — RAD PBRA conversion", contractTerm:"38 of 60 units (63%), expires 2040-03-31", contractRents:null}
   },
@@ -13162,10 +13230,27 @@ const PORTFOLIO = [
     certHistory:[
       {
         effectiveDate:"2025-01-01",
-        trigger:"utility_allowances",
-        label:"Utility Allowance (Engineered Study) — Dalina Manor",
-        source:"Engineered Utility Allowance Study, effective 1/1/2025 (KRM Compliance Tracking Table); in effect through 12/31/2025, superseded by the 1/1/2026 study below.",
-        snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":78,"2BR":95}, hudContractRents:null}
+        trigger:"income_limits_and_ua",
+        label:"Opening Baseline — FY2024 MTSP Limits Carried Forward + UA in force (1/1/2025)",
+        source:"TRACKING START (history intentionally begins 1/1/2025, per direction 2026-07-28). Carries the FY2024 MTSP income and gross rent limits for the Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ), effective 4/1/2024 and still governing on 1/1/2025, so no field resolves to null at the start of the history; superseded by the FY2025 release on 4/1/2025. Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2024_income_limits.pdf for NJ; PHFA 2024_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2024 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS CONFIRMED via the 2026 Tenant Selection Plan: 5 units at 20% AMI, 1 at 30%, 10 at 50%, 41 at 60% (57 total, reconciles to unitMix).",
+        snapshot:{
+          incomeLimits:{"20%":{"1":20480,"2":23400,"3":26320,"4":29240,"5":31580,"6":33920},"30%":{"1":30720,"2":35100,"3":39480,"4":43860,"5":47370,"6":50880},"50%":{"1":51200,"2":58500,"3":65800,"4":73100,"5":78950,"6":84800},"60%":{"1":61440,"2":70200,"3":78960,"4":87720,"5":94740,"6":101760}},
+          grossRentLimits:{"20%":{"1BR":548,"2BR":658},"30%":{"1BR":822,"2BR":987},"50%":{"1BR":1371,"2BR":1645},"60%":{"1BR":1645,"2BR":1974}},
+          utilityAllowances:{"1BR":78,"2BR":95},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ)",
+        source:"NJHMFA/HUD FY2025 LIHTC Income and Rent Limits effective 04/01/2025 — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2025_income_limits.pdf for NJ; PHFA 2025_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2025 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS CONFIRMED via the 2026 Tenant Selection Plan: 5 units at 20% AMI, 1 at 30%, 10 at 50%, 41 at 60% (57 total, reconciles to unitMix).",
+        snapshot:{
+          incomeLimits:{"20%":{"1":21480,"2":24560,"3":27620,"4":30680,"5":33140,"6":35600},"30%":{"1":32220,"2":36840,"3":41430,"4":46020,"5":49710,"6":53400},"50%":{"1":53700,"2":61400,"3":69050,"4":76700,"5":82850,"6":89000},"60%":{"1":64440,"2":73680,"3":82860,"4":92040,"5":99420,"6":106800}},
+          grossRentLimits:{"20%":{"1BR":575,"2BR":690},"30%":{"1BR":863,"2BR":1035},"50%":{"1BR":1438,"2BR":1726},"60%":{"1BR":1726,"2BR":2071}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       },
       {
         effectiveDate:"2026-01-01",
@@ -13173,10 +13258,22 @@ const PORTFOLIO = [
         label:"Utility Allowance (Engineered Study) — Dalina Manor",
         source:"Engineered Utility Allowance Study, effective 1/1/2026 (KRM Compliance Tracking Table).",
         snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":88,"2BR":108}, hudContractRents:null}
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ)",
+        source:"NJHMFA/HUD FY2026 LIHTC Income and Rent Limits effective 05/01/2026 — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area (Middlesex County, NJ). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2026_income_limits.pdf for NJ; PHFA 2026_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2026 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS CONFIRMED via the 2026 Tenant Selection Plan: 5 units at 20% AMI, 1 at 30%, 10 at 50%, 41 at 60% (57 total, reconciles to unitMix).",
+        snapshot:{
+          incomeLimits:{"20%":{"1":21680,"2":24780,"3":27880,"4":30960,"5":33440,"6":35920},"30%":{"1":32520,"2":37170,"3":41820,"4":46440,"5":50160,"6":53880},"50%":{"1":54200,"2":61950,"3":69700,"4":77400,"5":83600,"6":89800},"60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320,"6":107760}},
+          grossRentLimits:{"20%":{"1BR":580,"2BR":697},"30%":{"1BR":871,"2BR":1045},"50%":{"1BR":1451,"2BR":1742},"60%":{"1BR":1742,"2BR":2091}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       }
     ], // county income-limit/gross-rent tables still pending; regulatory/loan/unit-mix/AMI-tier research completed
     program:"LIHTC",
-    lihtc:{amiYear:null, setAsides:[{pct:20,unitCount:5},{pct:30,unitCount:1},{pct:50,unitCount:10},{pct:60,unitCount:41}], incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":88,"2BR":108}, actualRents:null}, // set-asides confirmed via 2026 TSP; UA confirmed via engineered study eff. 1/1/2026; income/rent limit tables pending
+    lihtc:{amiYear:2026, setAsides:[{pct:20,unitCount:5},{pct:30,unitCount:1},{pct:50,unitCount:10},{pct:60,unitCount:41}], incomeLimits:{"20%":{"1":21680,"2":24780,"3":27880,"4":30960,"5":33440,"6":35920},"30%":{"1":32520,"2":37170,"3":41820,"4":46440,"5":50160,"6":53880},"50%":{"1":54200,"2":61950,"3":69700,"4":77400,"5":83600,"6":89800},"60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320,"6":107760}}, grossRentLimits:{"20%":{"1BR":580,"2BR":697},"30%":{"1BR":871,"2BR":1045},"50%":{"1BR":1451,"2BR":1742},"60%":{"1BR":1742,"2BR":2091}}, utilityAllowances:{"1BR":88,"2BR":108}, actualRents:null}, // set-asides confirmed via 2026 TSP; UA confirmed via engineered study eff. 1/1/2026; income/rent limits loaded 2026-07-28 (FY2026 regular non-HERA MTSP; see certHistory for sources and tier caveats)
     home:null,
     hud:null
   },
@@ -13551,10 +13648,46 @@ const PORTFOLIO = [
         label:"Utility Allowance (rent-roll observed) — The Willows at Harbor House",
         source:"Observed in property-management system rent roll as of 8/10/2024 (Harbor House RR 8.24.xlsx) — NOT confirmed as a formal engineered utility allowance study.",
         snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":91,"2BR":181}, hudContractRents:null}
+      },
+      {
+        effectiveDate:"2025-01-01",
+        trigger:"income_limits",
+        label:"Opening Baseline — FY2024 MTSP Limits Carried Forward (1/1/2025)",
+        source:"TRACKING START (history intentionally begins 1/1/2025, per direction 2026-07-28). Carries the FY2024 MTSP income and gross rent limits for the Monmouth-Ocean NJ HUD Metro FMR Area (Ocean County, NJ), effective 4/1/2024 and still governing on 1/1/2025, so no field resolves to null at the start of the history; superseded by the FY2025 release on 4/1/2025. Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2024_income_limits.pdf for NJ; PHFA 2024_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2024 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS CONFIRMED 2026-07-17 by a full unit-by-unit tally of the 8/10/2024 rent roll: 3 units at 30% AMI, 13 at 50%, 13 at 60%, 5 at 80%, plus 2 unrestricted market units (36 total). The 2 market units are not represented in the tiers below. NOTE the utility allowance in force is rent-roll-observed, not a formal engineered study (uaType is 'Pending engineered study') — net rents computed from these gross limits inherit that uncertainty.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":27450,"2":31350,"3":35280,"4":39180,"5":42330,"6":45450},"50%":{"1":45750,"2":52250,"3":58800,"4":65300,"5":70550,"6":75750},"60%":{"1":54900,"2":62700,"3":70560,"4":78360,"5":84660,"6":90900},"80%":{"1":73200,"2":83600,"3":94080,"4":104480,"5":112880,"6":121200}},
+          grossRentLimits:{"30%":{"1BR":735,"2BR":882},"50%":{"1BR":1225,"2BR":1470},"60%":{"1BR":1470,"2BR":1764},"80%":{"1BR":1960,"2BR":2352}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Monmouth-Ocean NJ HUD Metro FMR Area (Ocean County, NJ)",
+        source:"NJHMFA/HUD FY2025 LIHTC Income and Rent Limits effective 04/01/2025 — Monmouth-Ocean NJ HUD Metro FMR Area (Ocean County, NJ). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2025_income_limits.pdf for NJ; PHFA 2025_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2025 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS CONFIRMED 2026-07-17 by a full unit-by-unit tally of the 8/10/2024 rent roll: 3 units at 30% AMI, 13 at 50%, 13 at 60%, 5 at 80%, plus 2 unrestricted market units (36 total). The 2 market units are not represented in the tiers below. NOTE the utility allowance in force is rent-roll-observed, not a formal engineered study (uaType is 'Pending engineered study') — net rents computed from these gross limits inherit that uncertainty.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":28740,"2":32850,"3":36960,"4":41040,"5":44340,"6":47610},"50%":{"1":47900,"2":54750,"3":61600,"4":68400,"5":73900,"6":79350},"60%":{"1":57480,"2":65700,"3":73920,"4":82080,"5":88680,"6":95220},"80%":{"1":76640,"2":87600,"3":98560,"4":109440,"5":118240,"6":126960}},
+          grossRentLimits:{"30%":{"1BR":769,"2BR":924},"50%":{"1BR":1283,"2BR":1540},"60%":{"1BR":1539,"2BR":1848},"80%":{"1BR":2053,"2BR":2464}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Monmouth-Ocean NJ HUD Metro FMR Area (Ocean County, NJ)",
+        source:"NJHMFA/HUD FY2026 LIHTC Income and Rent Limits effective 05/01/2026 — Monmouth-Ocean NJ HUD Metro FMR Area (Ocean County, NJ). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2026_income_limits.pdf for NJ; PHFA 2026_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2026 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. TIERS CONFIRMED 2026-07-17 by a full unit-by-unit tally of the 8/10/2024 rent roll: 3 units at 30% AMI, 13 at 50%, 13 at 60%, 5 at 80%, plus 2 unrestricted market units (36 total). The 2 market units are not represented in the tiers below. NOTE the utility allowance in force is rent-roll-observed, not a formal engineered study (uaType is 'Pending engineered study') — net rents computed from these gross limits inherit that uncertainty.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":29550,"2":33750,"3":37980,"4":42180,"5":45570,"6":48930},"50%":{"1":49250,"2":56250,"3":63300,"4":70300,"5":75950,"6":81550},"60%":{"1":59100,"2":67500,"3":75960,"4":84360,"5":91140,"6":97860},"80%":{"1":78800,"2":90000,"3":101280,"4":112480,"5":121520,"6":130480}},
+          grossRentLimits:{"30%":{"1BR":790,"2BR":949},"50%":{"1BR":1318,"2BR":1582},"60%":{"1BR":1582,"2BR":1899},"80%":{"1BR":2110,"2BR":2532}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       }
     ],
     program:"USDA RD §515/LIHTC", // CORRECTED 2026-07-16 from source table's "RAD/LIHTC" label — no RAD approval letter, contract number, or RAD documentation found anywhere in SharePoint; this is a USDA Rural Development Section 515 property with an assumed RD loan and active RD Rental Assistance, layered with NJHMFA LIHTC
-    lihtc:{amiYear:null, setAsides:[{pct:0,unitCount:2},{pct:30,unitCount:3},{pct:50,unitCount:13},{pct:60,unitCount:13},{pct:80,unitCount:5}], incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":91,"2BR":181}, actualRents:null}, // setAsides CONFIRMED 2026-07-17 via unit-by-unit rent-roll tally (2+3+13+13+5=36=totalUnits)
+    lihtc:{amiYear:2026, setAsides:[{pct:0,unitCount:2},{pct:30,unitCount:3},{pct:50,unitCount:13},{pct:60,unitCount:13},{pct:80,unitCount:5}], incomeLimits:{"30%":{"1":29550,"2":33750,"3":37980,"4":42180,"5":45570,"6":48930},"50%":{"1":49250,"2":56250,"3":63300,"4":70300,"5":75950,"6":81550},"60%":{"1":59100,"2":67500,"3":75960,"4":84360,"5":91140,"6":97860},"80%":{"1":78800,"2":90000,"3":101280,"4":112480,"5":121520,"6":130480}}, grossRentLimits:{"30%":{"1BR":790,"2BR":949},"50%":{"1BR":1318,"2BR":1582},"60%":{"1BR":1582,"2BR":1899},"80%":{"1BR":2110,"2BR":2532}}, utilityAllowances:{"1BR":91,"2BR":181}, actualRents:null}, // setAsides CONFIRMED 2026-07-17 via unit-by-unit rent-roll tally (2+3+13+13+5=36=totalUnits)
     home:null,
     hud:null
   },
@@ -13623,10 +13756,27 @@ const PORTFOLIO = [
       },
       {
         effectiveDate:"2025-01-01",
-        trigger:"utility_allowances",
-        label:"Utility Allowance (Engineered Study) — The Pearl Center",
-        source:"Engineered Utility Allowance Study, effective 1/1/2025 (KRM Compliance Tracking Table); in effect through 12/31/2025, superseded by the 1/1/2026 study below. Same note as below applies: single 1BR figure given, no separate PBV/non-PBV split.",
-        snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"Studio":62,"1BR":74,"2BR":109}, hudContractRents:null}
+        trigger:"income_limits_and_ua",
+        label:"Opening Baseline — FY2024 MTSP Limits Carried Forward + UA in force (1/1/2025)",
+        source:"TRACKING START (history intentionally begins 1/1/2025, per direction 2026-07-28). Carries the FY2024 MTSP income and gross rent limits for the Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (New Castle County, DE), effective 4/1/2024 and still governing on 1/1/2025, so no field resolves to null at the start of the history; superseded by the FY2025 release on 4/1/2025. Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2024_income_limits.pdf for NJ; PHFA 2024_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2024 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. AREA CONFIRMED 2026-07-28: New Castle County DE sits in the Philadelphia-Camden-Wilmington MSA and DSHA's published New Castle tables are byte-identical to NJHMFA's Camden County and PHFA's Bucks/Chester County PA tables for FY2025 and FY2026 — one MSA table serves all three states. TIERS CONFIRMED via the DSHA Land Use Covenant Exhibit: 34 units at 30% AMGI, 12 at 40%, 5 at 50%, 0 at 60% (51 total, 100% set-aside). The 60% row is therefore deliberately omitted. 40 of the 51 units carry Section 8 PBV / HUD-VASH, where the contract rent governs and these figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":24090,"2":27540,"3":30990,"4":34410,"5":37170,"6":39930},"40%":{"1":32120,"2":36720,"3":41320,"4":45880,"5":49560,"6":53240},"50%":{"1":40150,"2":45900,"3":51650,"4":57350,"5":61950,"6":66550}},
+          grossRentLimits:{"30%":{"Studio":602,"1BR":645,"2BR":774},"40%":{"Studio":803,"1BR":860,"2BR":1033},"50%":{"Studio":1003,"1BR":1075,"2BR":1291}},
+          utilityAllowances:{"Studio":62,"1BR":74,"2BR":109},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (New Castle County, DE)",
+        source:"NJHMFA/HUD FY2025 LIHTC Income and Rent Limits effective 04/01/2025 — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (New Castle County, DE). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2025_income_limits.pdf for NJ; PHFA 2025_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2025 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. AREA CONFIRMED 2026-07-28: New Castle County DE sits in the Philadelphia-Camden-Wilmington MSA and DSHA's published New Castle tables are byte-identical to NJHMFA's Camden County and PHFA's Bucks/Chester County PA tables for FY2025 and FY2026 — one MSA table serves all three states. TIERS CONFIRMED via the DSHA Land Use Covenant Exhibit: 34 units at 30% AMGI, 12 at 40%, 5 at 50%, 0 at 60% (51 total, 100% set-aside). The 60% row is therefore deliberately omitted. 40 of the 51 units carry Section 8 PBV / HUD-VASH, where the contract rent governs and these figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":25080,"2":28680,"3":32250,"4":35820,"5":38700,"6":41580},"40%":{"1":33440,"2":38240,"3":43000,"4":47760,"5":51600,"6":55440},"50%":{"1":41800,"2":47800,"3":53750,"4":59700,"5":64500,"6":69300}},
+          grossRentLimits:{"30%":{"Studio":627,"1BR":672,"2BR":806},"40%":{"Studio":836,"1BR":896,"2BR":1075},"50%":{"Studio":1045,"1BR":1120,"2BR":1343}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       },
       {
         effectiveDate:"2026-01-01",
@@ -13634,10 +13784,22 @@ const PORTFOLIO = [
         label:"Utility Allowance (Engineered Study) — The Pearl Center",
         source:"Engineered Utility Allowance Study, effective 1/1/2026 (KRM Compliance Tracking Table). Note: this study reports a single 1BR figure ($74, matching the prior PBV-subsidized rate) and does not appear to break out a separate non-PBV 1BR rate the way the 2024 rent-roll observation did ($87) — worth confirming with the property manager whether the PBV/non-PBV UA distinction still applies under this study.",
         snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"Studio":62,"1BR":74,"2BR":114}, hudContractRents:null}
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (New Castle County, DE)",
+        source:"NJHMFA/HUD FY2026 LIHTC Income and Rent Limits effective 05/01/2026 — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (New Castle County, DE). Regular (non-HERA) MTSP Tax Credit block. Verified 2026-07-28 against the agency-published tables (NJHMFA tc_2026_income_limits.pdf for NJ; PHFA 2026_mtxr041.pdf and DSHA for the Philadelphia MSA), cross-checked to HUD's FY2026 Income Limits Documentation System. Sub-tier INCOME rows are exact multiples of the 50% row, verified at every household size 1-6 with zero exceptions. Sub-tier RENTS are the PUBLISHED figures — NOT scaled from the 50% rent, which is wrong by $1-$2 in roughly 1 cell in 7 because each agency computes a tier's rent from that tier's own income limit rather than scaling. AREA CONFIRMED 2026-07-28: New Castle County DE sits in the Philadelphia-Camden-Wilmington MSA and DSHA's published New Castle tables are byte-identical to NJHMFA's Camden County and PHFA's Bucks/Chester County PA tables for FY2025 and FY2026 — one MSA table serves all three states. TIERS CONFIRMED via the DSHA Land Use Covenant Exhibit: 34 units at 30% AMGI, 12 at 40%, 5 at 50%, 0 at 60% (51 total, 100% set-aside). The 60% row is therefore deliberately omitted. 40 of the 51 units carry Section 8 PBV / HUD-VASH, where the contract rent governs and these figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780,"6":42720},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040,"6":56960},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300,"6":71200}},
+          grossRentLimits:{"30%":{"Studio":644,"1BR":690,"2BR":828},"40%":{"Studio":859,"1BR":920,"2BR":1105},"50%":{"Studio":1073,"1BR":1150,"2BR":1381}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       }
     ],
     program:"LIHTC/PBV", // HUD-VASH permanent supportive housing for formerly homeless veterans
-    lihtc:{amiYear:null, setAsides:[{pct:30,unitCount:34},{pct:40,unitCount:12},{pct:50,unitCount:5},{pct:60,unitCount:0}], incomeLimits:null, grossRentLimits:null, utilityAllowances:{"Studio":62,"1BR":74,"2BR":114}, actualRents:null}, // setAsides CONFIRMED 2026-07-17 via DSHA Land Use Covenant Exhibit B (34+12+5+0=51=totalUnits); UA per engineered study eff. 1/1/2026 (see certHistory note on PBV/non-PBV 1BR distinction); Delaware income/rent limit tables still pending
+    lihtc:{amiYear:2026, setAsides:[{pct:30,unitCount:34},{pct:40,unitCount:12},{pct:50,unitCount:5},{pct:60,unitCount:0}], incomeLimits:{"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780,"6":42720},"40%":{"1":34360,"2":39280,"3":44200,"4":49080,"5":53040,"6":56960},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300,"6":71200}}, grossRentLimits:{"30%":{"Studio":644,"1BR":690,"2BR":828},"40%":{"Studio":859,"1BR":920,"2BR":1105},"50%":{"Studio":1073,"1BR":1150,"2BR":1381}}, utilityAllowances:{"Studio":62,"1BR":74,"2BR":114}, actualRents:null}, // setAsides CONFIRMED 2026-07-17 via DSHA Land Use Covenant Exhibit B (34+12+5+0=51=totalUnits); UA per engineered study eff. 1/1/2026 (see certHistory note on PBV/non-PBV 1BR distinction); Delaware income/rent limits loaded 2026-07-28 — New Castle County DE confirmed identical to the Philadelphia-Camden-Wilmington MSA table (DSHA = NJHMFA Camden = PHFA Bucks/Chester)
     home:null,
     hud:{contractNumber:null, contractAdmin:"Wilmington Housing Authority (WHA), via HUD-VASH", contractTerm:"40 of 51 units under Section 8 PBV HAP Contract", contractRents:null}
   },
@@ -13645,8 +13807,8 @@ const PORTFOLIO = [
   {
     id:"hartford-road", name:"The Willows at Hartford Road", region:"New Jersey",
     address:"200 Morley Boulevard, Medford, NJ 08055", county:"Burlington",
-    lat:39.8987, lng:-74.8232, approxLocation:true, // US Census Bureau TIGER geocoder returned NO MATCH for this address (street likely too new for TIGER's address-range data — property is 2022 new construction); using Medford Township, NJ centroid as a placeholder pending a real geocode
-    totalUnits:48, unitMix:{"1BR":9,"2BR":29,"3BR":10}, // derived 2026-07-16 from live rent roll (The Willows at Hartford Road_0326_Rent Roll.xlsx) unit codes hr1x1/hr2x1/hr3x2; sums to 48
+    lat:39.900600, lng:-74.848500, // geocode resolved 7/28/2026 (coordinates supplied by Bryan Russell for 200 Morley Blvd, Medford NJ 08055); supersedes the Medford Township centroid placeholder used when Census TIGER returned NO MATCH on this 2022-new-construction street
+    totalUnits:48, unitMix:{"1BR":9,"2BR":29,"3BR":10}, // derived 2026-07-16 from live rent roll (The Willows at Hartford Road_0326_Rent Roll.xlsx) unit codes hr1x1/hr2x1/hr3x2; sums to 48. INDEPENDENTLY CONFIRMED 2026-07-28 by the NJHMFA Board Resolution (HMFA #03467): "9 one-bedroom (686 sq ft), 29 two-bedrooms (888 sq ft), and 10 three-bedrooms (1,157 sq ft)" — two unrelated sources, exact match
     uaType:"Engineered Utility Allowance Study", // engineered UA studies confirmed effective 1/1/2025 and 1/1/2026 (rates changed between the two — see certHistory)
     placedInService:"2022", // buildings placed in service 7/20/2022 and 8/17/2022 per "2023 audit - Hartford Road LIHTC, LLC.pdf", Note 1
     regulatoryAgreements:[
@@ -13654,13 +13816,26 @@ const PORTFOLIO = [
         type:"NJHMFA LIHTC Regulatory Agreement / Extended Use",
         with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
         programType:"LIHTC",
-        ref:"NJHMFA Project No. 3467. Set-aside by AMI tier: 6 units ≤30% AMI, 23 units ≤50% AMI, 19 units ≤60% AMI (48 total, 100% low-income). Credit type 9% per 2024 valuation (originally applied as 4% in the 2021 application — deal appears restructured/resyndicated as 9% by 2024). Syndicator: Enterprise (Enterprise Housing Partners XXXVIII LP acquired the 99.99% Investor Member interest from Wincopin Circle LLLP effective 5/19/2022). Standalone recorded Regulatory Agreement/LURA document NOT independently located this pass (only referenced in secondary audit/valuation sources).",
+        ref:"NJHMFA Project No. 3467. Set-aside by AMI tier: 6 units ≤30% AMI, 23 units ≤50% AMI, 19 units ≤60% AMI (48 total, 100% low-income). Credit type 9% per 2024 valuation (originally applied as 4% in the 2021 application — deal appears restructured/resyndicated as 9% by 2024). Syndicator: Enterprise (Enterprise Housing Partners XXXVIII LP acquired the 99.99% Investor Member interest from Wincopin Circle LLLP effective 5/19/2022). MINIMUM SET-ASIDE ELECTION CONFIRMED 2026-07-28: 40% at 60% AMI, per the NJHMFA Board Resolution for HMFA #03467. STANDALONE RECORDED LURA STILL NOT LOCATED — now a VERIFIED ABSENCE rather than an incomplete search: a folder-scoped search of 'Hartford Road - Medford, NJ/03. Legal/Regulatory Agmts/' returns exactly two documents, the PILOT and the PILOT Assignment. No LURA, deed restriction or extended-use covenant is in that folder. Both copies of the 2021 4% LIHTC Application (~28 MB each) are scanned with no text layer and cannot be parsed. The Board Resolution entry below is the most authoritative readable affordability source located.",
         effectiveDate:"2022-07-20",
         placedInService:"2022",
         compliancePeriod:"15-year initial compliance through 2036; extended use through 2051",
         complianceEnd:"2051-12-31",
         setAsides:"6u ≤30% AMI · 23u ≤50% AMI · 19u ≤60% AMI (48 total, 100% low-income)",
         spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/0.%20Acquisitions/z-Acquisitions%20Archive/Hartford%20Road/2023%20audit%20-%20Hartford%20Road%20LIHTC,%20LLC.pdf"
+      },
+      {
+        type:"NJHMFA Board Resolution / Mortgage Loan Commitment — HMFA #03467 (Exhibit A)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC/Bond",
+        ref:"LOCATED AND READ IN FULL 2026-07-28 — the most authoritative readable affordability document found for this property, standing in for the still-missing recorded LURA. Developer: MBID of Delaware, LLC. 48 units, Family, new construction: two 3-story buildings plus a community building at Route 70 and Hartford Road, block 401.03 lots 1-2. Legislative District 8, Congressional District 3, Census Tract 7038.02, QCT: No. FMR Area named as 'Burlington'. Income limits chart used: 04/01/2020. MINIMUM SET-ASIDE ELECTION: 40% at 60% AMI. UNIT MIX CONFIRMED: 9 one-bedroom (686 sf), 29 two-bedroom (888 sf), 10 three-bedroom (1,157 sf) = 48, independently matching the rent-roll-derived unitMix exactly. RENTAL HOUSING SUMMARY (original underwriting): 3x1BR + 2x2BR + 1x3BR at 30% AMI (6 units); 4x1BR + 14x2BR + 5x3BR at 47.5% AMI (23 units); 2x1BR + 13x2BR + 4x3BR at 57.5% AMI (19 units). Underwritten NET rents — 30%: $495/$591/$679 · 47.5%: $813/$972/$1,119 · 57.5%: $994/$1,189/$1,370, each net of UA $48/$61/$74, which match the 2020 EAM engineered study to the dollar. Anticipated annual gross rents $584,712. UTILITIES: tenant pays gas heat and hot water plus electric for household/cooking/AC; OWNER pays water and sewer. Financing: Note I $3,191,562 at 3.80%/30yr; Note II $2,206,111 at 1.50%, bond-funded to meet the 55% aggregate basis test. PILOT rate 6.28% of gross sheltered rents. Inducement 8/6/2020; commitment 2/25/2021; commitment expiration 7/31/2022. FLAG: the 47.5%/57.5% tier percentages conflict with the 50%/60% recorded in the 2023 audit — unit counts agree (6/23/19), percentages do not. See certHistory.",
+        effectiveDate:"2021-02-25",
+        recordedDate:null,
+        recordingNo:"NJHMFA HMFA #03467 — Board Resolution, Exhibit A (14 pages)",
+        compliancePeriod:"Mortgage term 30 years; LIHTC compliance/extended use per the LURA (not located)",
+        complianceEnd:null,
+        setAsides:"Minimum set-aside: 40% at 60% AMI. Underwritten distribution: 6u @30% AMI · 23u @47.5% AMI · 19u @57.5% AMI (48 total) — unit counts confirm the 6/23/19 split; AMI percentages conflict with the 50%/60% recorded elsewhere.",
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Hartford%20Road%20-%20Medford%2C%20NJ/08.%20Tax%20Credits/Applications/2020/Follow-Up%20Response/3.%20Willows%20at%20Hartford%20HMFA%2303497%20Board%20Resolution.pdf"
       },
       {
         type:"PILOT Agreement (Payment In Lieu of Taxes)",
@@ -13688,10 +13863,27 @@ const PORTFOLIO = [
     certHistory:[
       {
         effectiveDate:"2025-01-01",
-        trigger:"utility_allowances",
-        label:"Utility Allowance (Engineered Study) — The Willows at Hartford Road",
-        source:"Engineered Utility Allowance Study, effective 1/1/2025 (KRM Compliance Tracking Table); in effect through 12/31/2025, superseded by the 1/1/2026 study below.",
-        snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":62,"2BR":83,"3BR":101}, hudContractRents:null}
+        trigger:"income_limits_and_ua",
+        label:"Opening Baseline — FY2024 MTSP Limits Carried Forward + Engineered UA Study (1/1/2025)",
+        source:"TRACKING START (history intentionally begins here, per direction 2026-07-28). Two components, both already or newly in force on this date: (1) the engineered Utility Allowance Study effective 1/1/2025 — the only NEW item on this date, and the reason the baseline is anchored here (EAM Associates REM/Rate HERS methodology, see lihtc.uaSource; tenant pays gas heat and hot water plus electric for household/cooking/AC, owner pays water and sewer); and (2) the FY2024 MTSP income and gross rent limits for the Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Burlington County), effective 4/1/2024 and still governing on 1/1/2025 — carried forward here as the opening baseline so no field resolves to null at the start of the history. Those limits are superseded by the FY2025 release on 4/1/2025. BURLINGTON COUNTY AREA CONFIRMED 2026-07-28: identical MSA table to Camden County NJ and Philadelphia County PA, verified against four other Burlington properties in this file; the Board Resolution independently names the FMR Area as 'Burlington'. Regular (non-HERA) MTSP block — buildings placed in service 7/20/2022 and 8/17/2022, so HERA Special (PIS on or before 12/31/2008) does not apply. Sub-tier 30% incomes are exact 0.6x multiples of the 50% row; 30% rents are the PUBLISHED figures, not scaled. TIER-PERCENTAGE CONFLICT (found 2026-07-28, UNRESOLVED): the NJHMFA Board Resolution for HMFA #03467 underwrites the 48 units as 6 @ 30% AMI, 23 @ 47.5% AMI and 19 @ 57.5% AMI. The UNIT COUNTS match the 6/23/19 split in setAsides exactly, but the middle and upper AMI PERCENTAGES are 47.5% and 57.5%, not the 50% and 60% recorded here and in the 2023 audit. If the still-unlocated NJHMFA mortgage regulatory agreement locks 47.5%/57.5%, the binding ceiling is LOWER than shown. No published table exists for those tiers, so they have deliberately NOT been derived.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":24090,"2":27540,"3":30990,"4":34410,"5":37170,"6":39930},"50%":{"1":40150,"2":45900,"3":51650,"4":57350,"5":61950,"6":66550},"60%":{"1":48180,"2":55080,"3":61980,"4":68820,"5":74340,"6":79860}},
+          grossRentLimits:{"30%":{"1BR":645,"2BR":774,"3BR":894},"50%":{"1BR":1075,"2BR":1291,"3BR":1491},"60%":{"1BR":1290,"2BR":1549,"3BR":1789}},
+          utilityAllowances:{"1BR":62,"2BR":83,"3BR":101},
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Burlington County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 04/01/2025, Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA. BURLINGTON COUNTY AREA CONFIRMED 2026-07-28: Burlington shares the identical MSA table with Camden County NJ and Philadelphia County PA — verified against four other Burlington properties already in this file, which match at household sizes 1-4 in all three years; the Board Resolution independently names the FMR Area as 'Burlington'. Regular (non-HERA) MTSP block: buildings placed in service 7/20/2022 and 8/17/2022, so HERA Special hold-harmless (PIS on or before 12/31/2008) does NOT apply. Sub-tier 30% INCOME limits are exact 0.6x multiples of the 50% row, verified at every household size; 30% RENTS are the PUBLISHED figures, not scaled. UA carries forward from the engineered study in force on this date. TIER-PERCENTAGE CONFLICT (found 2026-07-28, UNRESOLVED): the NJHMFA Board Resolution for HMFA #03467 underwrites the 48 units as 6 @ 30% AMI, 23 @ 47.5% AMI and 19 @ 57.5% AMI. The UNIT COUNTS match the 6/23/19 split in setAsides exactly — independent confirmation from a second source — but the middle and upper AMI PERCENTAGES are 47.5% and 57.5%, not the 50% and 60% recorded here and in the 2023 audit. NJHMFA routinely underwrites rents below the LIHTC ceiling, so 50%/60% is most likely the correct LIHTC restriction tier while 47.5%/57.5% were underwritten rent targets. BUT if the (still unlocated) NJHMFA mortgage regulatory agreement locks 47.5%/57.5%, the binding ceiling is LOWER than the figures shown here. No published limit table exists for 47.5%/57.5%, so those tiers have deliberately NOT been derived. Resolve before approving any rent increase.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":25080,"2":28680,"3":32250,"4":35820,"5":38700,"6":41580},"50%":{"1":41800,"2":47800,"3":53750,"4":59700,"5":64500,"6":69300},"60%":{"1":50160,"2":57360,"3":64500,"4":71640,"5":77400,"6":83160}},
+          grossRentLimits:{"30%":{"1BR":672,"2BR":806,"3BR":931},"50%":{"1BR":1120,"2BR":1343,"3BR":1552},"60%":{"1BR":1344,"2BR":1612,"3BR":1863}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       },
       {
         effectiveDate:"2026-01-01",
@@ -13699,10 +13891,37 @@ const PORTFOLIO = [
         label:"Utility Allowance (Engineered Study) — The Willows at Hartford Road",
         source:"Engineered Utility Allowance Study, effective 1/1/2026 (KRM Compliance Tracking Table).",
         snapshot:{incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":67,"2BR":90,"3BR":108}, hudContractRents:null}
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Burlington County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 05/01/2026, Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA. BURLINGTON COUNTY AREA CONFIRMED 2026-07-28: Burlington shares the identical MSA table with Camden County NJ and Philadelphia County PA — verified against four other Burlington properties already in this file, which match at household sizes 1-4 in all three years; the Board Resolution independently names the FMR Area as 'Burlington'. Regular (non-HERA) MTSP block: buildings placed in service 7/20/2022 and 8/17/2022, so HERA Special hold-harmless (PIS on or before 12/31/2008) does NOT apply. Sub-tier 30% INCOME limits are exact 0.6x multiples of the 50% row, verified at every household size; 30% RENTS are the PUBLISHED figures, not scaled. UA carries forward from the engineered study in force on this date. TIER-PERCENTAGE CONFLICT (found 2026-07-28, UNRESOLVED): the NJHMFA Board Resolution for HMFA #03467 underwrites the 48 units as 6 @ 30% AMI, 23 @ 47.5% AMI and 19 @ 57.5% AMI. The UNIT COUNTS match the 6/23/19 split in setAsides exactly — independent confirmation from a second source — but the middle and upper AMI PERCENTAGES are 47.5% and 57.5%, not the 50% and 60% recorded here and in the 2023 audit. NJHMFA routinely underwrites rents below the LIHTC ceiling, so 50%/60% is most likely the correct LIHTC restriction tier while 47.5%/57.5% were underwritten rent targets. BUT if the (still unlocated) NJHMFA mortgage regulatory agreement locks 47.5%/57.5%, the binding ceiling is LOWER than the figures shown here. No published limit table exists for 47.5%/57.5%, so those tiers have deliberately NOT been derived. Resolve before approving any rent increase.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780,"6":42720},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300,"6":71200},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560,"6":85440}},
+          grossRentLimits:{"30%":{"1BR":690,"2BR":828,"3BR":957},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
       }
-    ], // county income-limit/gross-rent tables still pending; regulatory/loan/unit-mix research completed
+    ],
     program:"LIHTC",
-    lihtc:{amiYear:null, setAsides:[{pct:30,unitCount:6},{pct:50,unitCount:23},{pct:60,unitCount:19}], incomeLimits:null, grossRentLimits:null, utilityAllowances:{"1BR":67,"2BR":90,"3BR":108}, actualRents:null}, // UA confirmed via engineered study eff. 1/1/2026; Burlington County income/rent limit tables pending
+    lihtc:{amiYear:2026, setAsides:[{pct:30,unitCount:6},{pct:50,unitCount:23},{pct:60,unitCount:19}],
+      incomeLimits:{"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780,"6":42720},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300,"6":71200},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560,"6":85440}},
+      grossRentLimits:{"30%":{"1BR":690,"2BR":828,"3BR":957},"50%":{"1BR":1150,"2BR":1381,"3BR":1595},"60%":{"1BR":1380,"2BR":1657,"3BR":1914}},
+      utilityAllowances:{"1BR":67,"2BR":90,"3BR":108}, actualRents:null,
+      minimumSetAsideElection:"40% at 60% AMI (IRC 42(g)(1)(B)) — CONFIRMED 2026-07-28 from the NJHMFA Board Resolution for HMFA #03467; previously unconfirmed.",
+      uaAgency:"Engineered study (EAM Associates, Inc.) — not a housing-authority schedule",
+      uaSource:{
+        agency:"EAM Associates, Inc. (Frank Swol, Director of Technical Services) — engineered/HERS-modeled study commissioned by the sponsor",
+        method:"REM/Rate v16.0.2 energy modeling across 20 representative unit types in 2 building locations. Tenant pays gas heat and hot water plus electric for household/cooking/AC. OWNER pays water and sewer.",
+        originalStudyDate:"2020-05-19", originalStudyRates:{"1BR":48,"2BR":61,"3BR":74},
+        originalStudySpUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Hartford%20Road%20-%20Medford%2C%20NJ/08.%20Tax%20Credits/Applications/2020/8%20Financial%20Feasibility/b.%20Willows%20at%20Hartford%20Road%20-%20UA%20Letter.pdf",
+        lastChecked:"2026-07-28",
+        note:"2020 study located and read in full 2026-07-28; its $48/$61/$74 rates match the NJHMFA Board Resolution rent table to the dollar, which ties the engineered study to the underwriting. Those rates predate the tracked cert history — the 1/1/2025 and 1/1/2026 studies supersede them. Engineered UA is re-studied annually and is NOT published on any public site, so there is no landing page to poll; new rates arrive via the annual study / KRM Compliance Tracking Table."
+      }},
+    // Limits populated 2026-07-28 from the FY2026 regular (non-HERA) MTSP table, Philadelphia-Camden-Wilmington MSA (Burlington County).
+    // See certHistory for the unresolved 47.5%/57.5%-vs-50%/60% tier-percentage conflict.
     home:null,
     hud:null
   },
