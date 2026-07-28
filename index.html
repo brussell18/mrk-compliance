@@ -535,87 +535,58 @@ const PORTFOLIO = [
       { type:"City of Oakland Amended and Restated Regulatory Agreement", with:"2000 INTL, LLC / Redevelopment Agency of the City of Oakland and City of Oakland", programType:"City / Local HA", ref:"Ventana Townhomes (Marin Way Court) · 2000 International Boulevard, Oakland CA · Supersedes RA (2007-375057) and Disposition Agreement (7/14/1986)", effectiveDate:"2011-03-15", recordedDate:"2011-05-05", recordingNo:"2011138376 (Alameda County)", compliancePeriod:"55 years from recordation — through approximately May 2066", complianceEnd:"2066-05-05", setAsides:"Ventana: 5 units at 50% AMI rent / 80% AMI income · 14 units at 80% AMI rent/income · 1 non-assisted unit; Oakland resident/worker occupancy preference; rent increases require 90-day advance City approval; replacement reserve $500/unit/year; operating reserve 2% of gross rents", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Oakland%20Affordable%20Portfolio%20-%20Oakland%2C%20CA/Disposotion/DD%20for%20Dispo/Reg%20Agreement/Ventana/Ventana%20Regulatory%20Agreement%20Recorded.pdf" },
       { type:"HUD Regulatory Agreement for Multifamily Projects — Section 207/223(f) FHA-Insured Mortgage", with:"Oakland Venture LP / U.S. Department of Housing and Urban Development", programType:"HUD FHA Mortgage", ref:"HUD Project No. 121-11332 · Lender: Merchants Capital Corp. (MAP/TAP) · Original Principal: $19,330,900 · Residual Receipts Rider: Yes · Surplus Cash Distribution: Yes · Covers all 3 sub-properties", effectiveDate:"2024-05-01", recordedDate:"2024-05-01", recordingNo:"2024055770 (Alameda County)", compliancePeriod:"Per HUD mortgage term", complianceEnd:null, setAsides:"HUD-regulated rents; all 3 sub-properties: Granite Pointe (6311 Foothill Blvd), Hillside Terrace (1495 E 22nd St), Ventana (2000 International Blvd)", spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Oakland%20Affordable%20Portfolio%20-%20Oakland%2C%20CA/Closing/5.2.24%20HUD%20refi/A06.%20RD%20-%20Regulatory%20Agreement%20-%20HUD%20-%20Granite%20Pointe%20%28Oakland%20Portfolio%29.pdf" }
     ],
+    // ── CERT HISTORY ────────────────────────────────────────────────────────────
+    // TRACKING START: 2023-05-15. Pre-5/15/2023 events (FY2022 MTSP 4/18/2022, HCD 5/13/2022,
+    // OHA UA 7/1/2022) were intentionally removed to reduce cert volume; the 7/1/2022 UA schedule
+    // is SEEDED into the opening cert below so getEffectiveSnapshot never resolves a null UA.
+    //
+    // DUAL-RELEASE STRUCTURE (rebuilt 2026-07-27): this property is governed by TWO limit
+    // publishers on TWO different annual calendars, so every year produces TWO cert events:
+    //   1. HUD MTSP / CalHFA release  → moves the 60% tier only (Granite Pointe, CalHFA Reg Agmt)
+    //   2. California HCD State Income Limits release → moves the 50% and 80% tiers only
+    //      (Hillside Terrace & Ventana, City of Oakland RDA Reg Agmts)
+    // The MTSP cert therefore CARRIES FORWARD the prior year's HCD figures. Applying new HCD
+    // rents/incomes on the MTSP date would authorize Hillside/Ventana increases 3-7 weeks before
+    // HCD actually published them.
     certHistory:[
-      {
-        effectiveDate:"2022-04-18",
-        trigger:"income_limits",
-        label:"FY2022 MTSP Income & Rent Limits (Oakland-HMFA)",
-        source:"HUD FY2022 MTSP Release; CalHFA effective 4/18/2022; RDA effective 5/13/2022; Oakland-HMFA confirmed; Granite Pointe: ≤60% AMI (CalHFA); Hillside Terrace: ≤50% & ≤80% AMI; Ventana: ≤80% AMI; verified per Granite Pointe Manager's Certification effective 2/1/2023 (WinnResidential)",
-        snapshot:{
-          incomeLimits:{"50%":{"1":50000,"2":57150,"3":64300,"4":71400,"5":77150,"6":82850},"60%":{"1":60000,"2":68580,"3":77160,"4":85680,"5":92580,"6":99420},"80%":{"1":79960,"2":91400,"3":102800,"4":114240,"5":123360,"6":132520}},
-          grossRentLimits:{"60%":{"1BR":1607,"2BR":1929,"3BR":2228}},
-          rentsByAgreement:{
-            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1607,"2BR":1929,"3BR":2228}},
-            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":1999,"1BR":2142,"2BR":2570,"3BR":2970}},
-            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1339,"2BR":1608},"80%":{"1BR":2142,"2BR":2570,"3BR":2970}}
-          },
-          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
-          utilityAllowances:null,
-          hudContractRents:null
-        }
-      },
-      {
-        effectiveDate:"2022-05-13",
-        trigger:"income_limits",
-        label:"FY2022 HCD Rent Limits — City RA Properties (Hillside Terrace & Ventana)",
-        source:"California HCD / City of Oakland RDA; effective 5/13/2022; Hillside Terrace (80% AMI) & Ventana (50%/80% AMI); gross rents per H&SC 50052.5 (1.5 occupancy standard)",
-        snapshot:{
-          incomeLimits:null,
-          grossRentLimits:null,
-          rentsByAgreement:{
-            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1607,"2BR":1929,"3BR":2228}},
-            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":1999,"1BR":2142,"2BR":2570,"3BR":2970}},
-            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1339,"2BR":1608},"80%":{"1BR":2142,"2BR":2570,"3BR":2970}}
-          },
-          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
-          utilityAllowances:null,
-          hudContractRents:null
-        }
-      },
-      {
-        effectiveDate:"2022-07-01",
-        trigger:"utility_allowance",
-        label:"OHA Utility Allowance Update — Effective 7/1/2022",
-        source:"Oakland Housing Authority (OHA) UA Schedule effective 7/1/2022; All-electric; owner-paid water/sewer/trash; covers all 3 sub-properties; implemented 10/1/2022; Components: Heating (Elec): studio=$8, 1BR=$9, 2BR=$16, 3BR=$21 · Cooking (Elec): studio=$31, 1BR=$36, 2BR=$44, 3BR=$52 · Other Electric: studio=$23, 1BR=$30, 2BR=$41, 3BR=$50 · Water Heating (Elec): studio=$32, 1BR=$38, 2BR=$54, 3BR=$73; verified per Granite Pointe Manager's Certification effective 2/1/2023 (WinnResidential)",
-        snapshot:{
-          incomeLimits:null,
-          grossRentLimits:null,
-          utilityAllowances:{"studio":94,"1BR":113,"2BR":155,"3BR":196},
-          hudContractRents:null
-        }
-      },
       {
         effectiveDate:"2023-05-15",
         trigger:"income_limits",
-        label:"FY2023 MTSP Income & Rent Limits (Oakland-HMFA)",
-        source:"HUD FY2023 MTSP Release; CalHFA effective 5/15/2023; RDA effective 6/6/2023; Oakland-HMFA confirmed; Granite Pointe: ≤60% AMI (CalHFA); Hillside Terrace/Ventana: ≤80% AMI (RDA); verified per Granite Pointe Manager's Certification effective 12/1/2023 (WinnResidential)",
+        label:"FY2023 MTSP Income & Rent Limits (Oakland-HMFA) — Granite Pointe only; HCD tiers still 2022",
+        source:"TRACKING START (history intentionally begins here). HUD FY2023 MTSP Release; CalHFA effective 5/15/2023; Oakland-HMFA confirmed. MOVES ONLY THE 60% TIER — Granite Pointe (CalHFA Reg. Agmt, 100% @ ≤60% AMI). Hillside Terrace (80%) and Ventana (50%/80%) are City of Oakland RDA properties on HCD's calendar and DO NOT change on this date — their 50%/80% income limits and rents below are the 2022 HCD figures carried forward, and remain governing until the HCD 2023 release on 6/6/2023. Utility allowances shown are the OHA schedule effective 7/1/2022 (implemented 10/1/2022), seeded here as the opening baseline because the pre-5/15/2023 UA cert was removed; verified per Granite Pointe Manager's Certification effective 2/1/2023 (WinnResidential).",
         snapshot:{
-          incomeLimits:{"50%":{"1":51800,"2":59200,"3":66600,"4":73950,"5":79900,"6":85800},"60%":{"1":62160,"2":71040,"3":79920,"4":88740,"5":95880,"6":102960},"80%":{"1":82840,"2":94640,"3":106480,"4":118320,"5":127800,"6":137240}},
+          incomeLimits:{"50%":{"1":50000,"2":57150,"3":64300,"4":71400,"5":77150,"6":82850},"60%":{"1":62160,"2":71040,"3":79920,"4":88740,"5":95880,"6":102960},"80%":{"1":79960,"2":91400,"3":102800,"4":114240,"5":123360,"6":132520}},
           grossRentLimits:{"60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
           rentsByAgreement:{
-            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
-            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2071,"1BR":2218,"2BR":2662,"3BR":3076}},
-            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1388,"2BR":1665},"80%":{"1BR":2218,"2BR":2662,"3BR":3076}}
+            "Granite Pointe (CalHFA — 60% MTSP) — UPDATED 5/15/2023":{"source":"HUD MTSP FY2023","60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
+            "Hillside Terrace (City RA — 80% HCD) — 2022 limits carried forward":{"source":"HCD 2022 (eff. 5/13/2022), not yet superseded","80%":{"studio":1999,"1BR":2142,"2BR":2570,"3BR":2970}},
+            "Ventana (City RA — 50%/80% HCD) — 2022 limits carried forward":{"source":"HCD 2022 (eff. 5/13/2022), not yet superseded","50%":{"1BR":1339,"2BR":1608},"80%":{"1BR":2142,"2BR":2570,"3BR":2970}}
           },
-          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
-          utilityAllowances:null,
+          incomeLimitSources:{"50%":"HCD 2022","60%":"MTSP FY2023","80%":"HCD 2022"},
+          utilityAllowances:{"studio":94,"1BR":113,"2BR":155,"3BR":196},
+          uaBreakdown:{
+            "studio":{ heating:8,  cooking:31, waterHeating:32, lights:23 },
+            "1BR":  { heating:9,  cooking:36, waterHeating:38, lights:30 },
+            "2BR":  { heating:16, cooking:44, waterHeating:54, lights:41 },
+            "3BR":  { heating:21, cooking:52, waterHeating:73, lights:50 }
+          },
           hudContractRents:null
         }
       },
       {
         effectiveDate:"2023-06-06",
-        trigger:"income_limits",
-        label:"FY2023 HCD Rent Limits — City RA Properties (Hillside Terrace & Ventana)",
-        source:"California HCD / City of Oakland RDA; effective 6/6/2023; Hillside Terrace (80% AMI) & Ventana (50%/80% AMI); gross rents per H&SC 50052.5 (1.5 occupancy standard)",
+        trigger:"hcd_income_limits",
+        label:"HCD 2023 State Income Limits (Alameda County) — Hillside Terrace & Ventana",
+        source:"California HCD 2023 State Income Limits memorandum dated 6/6/2023 (hcd.ca.gov/sites/default/files/docs/grants-and-funding/income-limits-2023.pdf); based on HUD's 4/1/2023 Section 8 release. MOVES ONLY THE 50% AND 80% TIERS — Hillside Terrace (100% @ ≤80% AMI) and Ventana (5u @ 50% rent / 80% income + 14u @ 80%), both City of Oakland RDA Regulatory Agreements. Granite Pointe's 60% tier is unchanged (already updated 5/15/2023 on the MTSP calendar). Rents computed per H&SC 50053 using the 1.5-persons-per-bedroom occupancy standard (federally assisted project). Verified per Granite Pointe Manager's Certification effective 12/1/2023 (WinnResidential).",
         snapshot:{
-          incomeLimits:null,
-          grossRentLimits:null,
+          incomeLimits:{"50%":{"1":51800,"2":59200,"3":66600,"4":73950,"5":79900,"6":85800},"60%":{"1":62160,"2":71040,"3":79920,"4":88740,"5":95880,"6":102960},"80%":{"1":82840,"2":94640,"3":106480,"4":118320,"5":127800,"6":137240}},
+          grossRentLimits:{"60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
           rentsByAgreement:{
-            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
-            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2071,"1BR":2218,"2BR":2662,"3BR":3076}},
-            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1388,"2BR":1665},"80%":{"1BR":2218,"2BR":2662,"3BR":3076}}
+            "Granite Pointe (CalHFA — 60% MTSP) — unchanged":{"source":"HUD MTSP FY2023 (eff. 5/15/2023)","60%":{"1BR":1665,"2BR":1998,"3BR":2308}},
+            "Hillside Terrace (City RA — 80% HCD) — UPDATED 6/6/2023":{"source":"HCD 2023","80%":{"studio":2071,"1BR":2218,"2BR":2662,"3BR":3076}},
+            "Ventana (City RA — 50%/80% HCD) — UPDATED 6/6/2023":{"source":"HCD 2023","50%":{"1BR":1388,"2BR":1665},"80%":{"1BR":2218,"2BR":2662,"3BR":3076}}
           },
-          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
+          incomeLimitSources:{"50%":"HCD 2023","60%":"MTSP FY2023","80%":"HCD 2023"},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -624,7 +595,7 @@ const PORTFOLIO = [
         effectiveDate:"2023-09-01",
         trigger:"utility_allowance",
         label:"OHA Utility Allowance Update — Effective 9/1/2023",
-        source:"Oakland Housing Authority (OHA) UA Schedule effective 9/1/2023; All-electric; owner-paid water/sewer/trash; covers all 3 sub-properties; implemented 12/1/2023; verified per Granite Pointe Manager's Certification effective 12/1/2023 (WinnResidential)",
+        source:"Oakland Housing Authority (OHA) UA Schedule effective 9/1/2023; All-electric; owner-paid water/sewer/trash; covers all 3 sub-properties; implemented 12/1/2023; verified per Granite Pointe Manager's Certification effective 12/1/2023 (WinnResidential).",
         snapshot:{
           incomeLimits:null,
           grossRentLimits:null,
@@ -641,17 +612,35 @@ const PORTFOLIO = [
       {
         effectiveDate:"2024-04-01",
         trigger:"income_limits",
-        label:"FY2024 MTSP Income & Rent Limits (Oakland-HMFA)",
-        source:"HUD FY2024 MTSP Release effective 4/1/2024, Oakland-HMFA confirmed; CalHFA 60% AMI limits per calhfa.ca.gov/multifamily/asset/mtsp; Granite Pointe: ≤60% AMI · Hillside Terrace: ≤80% AMI · Ventana: 50%/80% AMI mixed; gross rent limits at 60% AMI per LIHTC formula",
+        label:"FY2024 MTSP Income & Rent Limits (Oakland-HMFA) — Granite Pointe only; HCD tiers still 2023",
+        source:"HUD FY2024 MTSP Release effective 4/1/2024, Oakland-HMFA confirmed; CalHFA 60% AMI limits per calhfa.ca.gov/multifamily/asset/mtsp. MOVES ONLY THE 60% TIER — Granite Pointe. Hillside Terrace and Ventana stay on the HCD 2023 figures below until HCD's 2024 release on 5/9/2024 (a 38-day gap during which the 2023 HCD rents remain the ceiling for those two sub-properties).",
+        snapshot:{
+          incomeLimits:{"50%":{"1":51800,"2":59200,"3":66600,"4":73950,"5":79900,"6":85800},"60%":{"1":65400,"2":74760,"3":84120,"4":93420,"5":100920,"6":108420},"80%":{"1":82840,"2":94640,"3":106480,"4":118320,"5":127800,"6":137240}},
+          grossRentLimits:{"60%":{"1BR":1752,"2BR":2103,"3BR":2429}},
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP) — UPDATED 4/1/2024":{"source":"HUD MTSP FY2024","60%":{"1BR":1752,"2BR":2103,"3BR":2429}},
+            "Hillside Terrace (City RA — 80% HCD) — 2023 limits carried forward":{"source":"HCD 2023 (eff. 6/6/2023), not yet superseded","80%":{"studio":2071,"1BR":2218,"2BR":2662,"3BR":3076}},
+            "Ventana (City RA — 50%/80% HCD) — 2023 limits carried forward":{"source":"HCD 2023 (eff. 6/6/2023), not yet superseded","50%":{"1BR":1388,"2BR":1665},"80%":{"1BR":2218,"2BR":2662,"3BR":3076}}
+          },
+          incomeLimitSources:{"50%":"HCD 2023","60%":"MTSP FY2024","80%":"HCD 2023"},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2024-05-09",
+        trigger:"hcd_income_limits",
+        label:"HCD 2024 State Income Limits (Alameda County) — Hillside Terrace & Ventana",
+        source:"California HCD 2024 State Income Limits memorandum dated 5/9/2024 (Megan Kirkeby, Deputy Director; hcd.ca.gov/sites/default/files/docs/grants-and-funding/income-limits-2024.pdf); based on HUD's 4/1/2024 Section 8 release. Alameda County AMI $155,700. MOVES ONLY THE 50% AND 80% TIERS. HCD-published Alameda figures: Very Low (50%) $54,500/$62,300/$70,100/$77,850/$84,100/$90,350 (1-6p) — matches the 50% row below exactly. ⚠ 80%-TIER METHODOLOGY FLAG: HCD's published Low Income (80%) for Alameda 2024 is $84,600/$96,650/$108,750/$120,800/$130,500/$140,150, which is LOWER than the 1.6×VLI MTSP derivation used in the 80% row below ($87,200/$99,680/$112,160/$124,560/$134,560/$144,560) by roughly $2,600-$4,400. The City RA text says '30% × 80% AMI per HUD/TCAC standards,' which supports the MTSP derivation retained here, but incomeLimitSources labels this tier 'HCD.' UNRESOLVED — confirm the governing methodology with the City of Oakland (Brian Warwick) before relying on the 80% figures for a rent increase.",
         snapshot:{
           incomeLimits:{"50%":{"1":54500,"2":62300,"3":70100,"4":77850,"5":84100,"6":90350},"60%":{"1":65400,"2":74760,"3":84120,"4":93420,"5":100920,"6":108420},"80%":{"1":87200,"2":99680,"3":112160,"4":124560,"5":134560,"6":144560}},
           grossRentLimits:{"60%":{"1BR":1752,"2BR":2103,"3BR":2429}},
           rentsByAgreement:{
-            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1752,"2BR":2103,"3BR":2429}},
-            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2180,"1BR":2336,"2BR":2804,"3BR":3239}},
-            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1460,"2BR":1752},"80%":{"1BR":2336,"2BR":2804,"3BR":3239}}
+            "Granite Pointe (CalHFA — 60% MTSP) — unchanged":{"source":"HUD MTSP FY2024 (eff. 4/1/2024)","60%":{"1BR":1752,"2BR":2103,"3BR":2429}},
+            "Hillside Terrace (City RA — 80% HCD) — UPDATED 5/9/2024":{"source":"HCD 2024","80%":{"studio":2180,"1BR":2336,"2BR":2804,"3BR":3239}},
+            "Ventana (City RA — 50%/80% HCD) — UPDATED 5/9/2024":{"source":"HCD 2024","50%":{"1BR":1460,"2BR":1752},"80%":{"1BR":2336,"2BR":2804,"3BR":3239}}
           },
-          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
+          incomeLimitSources:{"50%":"HCD 2024","60%":"MTSP FY2024","80%":"HCD 2024"},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -659,17 +648,35 @@ const PORTFOLIO = [
       {
         effectiveDate:"2025-04-01",
         trigger:"income_limits",
-        label:"FY2025 MTSP Income & Rent Limits (Oakland-HMFA)",
-        source:"HUD FY2025 MTSP Release effective 4/1/2025, Oakland-HMFA confirmed; CalHFA limits per calhfa.ca.gov/multifamily/asset/mtsp",
+        label:"FY2025 MTSP Income & Rent Limits (Oakland-HMFA) — Granite Pointe only; HCD tiers still 2024",
+        source:"HUD FY2025 MTSP Release effective 4/1/2025, Oakland-HMFA confirmed; CalHFA limits per calhfa.ca.gov/multifamily/asset/mtsp. MOVES ONLY THE 60% TIER — Granite Pointe. Hillside Terrace and Ventana stay on the HCD 2024 figures below until HCD's 2025 release on 4/23/2025 (a 22-day gap).",
+        snapshot:{
+          incomeLimits:{"50%":{"1":54500,"2":62300,"3":70100,"4":77850,"5":84100,"6":90350},"60%":{"1":67140,"2":76740,"3":86340,"4":95880,"5":103560,"6":111240},"80%":{"1":87200,"2":99680,"3":112160,"4":124560,"5":134560,"6":144560}},
+          grossRentLimits:{"60%":{"1BR":1798,"2BR":2158,"3BR":2493}},
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP) — UPDATED 4/1/2025":{"source":"HUD MTSP FY2025","60%":{"1BR":1798,"2BR":2158,"3BR":2493}},
+            "Hillside Terrace (City RA — 80% HCD) — 2024 limits carried forward":{"source":"HCD 2024 (eff. 5/9/2024), not yet superseded","80%":{"studio":2180,"1BR":2336,"2BR":2804,"3BR":3239}},
+            "Ventana (City RA — 50%/80% HCD) — 2024 limits carried forward":{"source":"HCD 2024 (eff. 5/9/2024), not yet superseded","50%":{"1BR":1460,"2BR":1752},"80%":{"1BR":2336,"2BR":2804,"3BR":3239}}
+          },
+          incomeLimitSources:{"50%":"HCD 2024","60%":"MTSP FY2025","80%":"HCD 2024"},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-23",
+        trigger:"hcd_income_limits",
+        label:"HCD 2025 State Income Limits (Alameda County) — Hillside Terrace & Ventana",
+        source:"California HCD 2025 State Income Limits memorandum dated 4/23/2025 (Megan Kirkeby, Deputy Director; hcd.ca.gov/sites/default/files/docs/grants-and-funding/income-limits-2025.pdf); based on HUD's 4/1/2025 Section 8 release. Alameda County AMI $159,800. MOVES ONLY THE 50% AND 80% TIERS. HCD-published Alameda figures: Very Low (50%) $55,950/$63,950/$71,950/$79,900/$86,300/$92,700 (1-6p) — matches the 50% row below exactly. ⚠ 80%-TIER METHODOLOGY FLAG (largest divergence of any year): HCD's published Low Income (80%) for Alameda 2025 is $87,550/$100,050/$112,550/$125,050/$135,100/$145,100, LOWER than the 1.6×VLI MTSP derivation retained below ($89,520/$102,320/$115,120/$127,840/$138,080/$148,320) by roughly $1,970-$3,270 — HUD applied a cap adjustment to the Alameda low-income limit in FY2025 so it is not exactly 1.6×VLI. If HCD's published table is the governing source, the 80% rents below are overstated by roughly $50-$75/month. UNRESOLVED — see the 2024 cert flag.",
         snapshot:{
           incomeLimits:{"50%":{"1":55950,"2":63950,"3":71950,"4":79900,"5":86300,"6":92700},"60%":{"1":67140,"2":76740,"3":86340,"4":95880,"5":103560,"6":111240},"80%":{"1":89520,"2":102320,"3":115120,"4":127840,"5":138080,"6":148320}},
           grossRentLimits:{"60%":{"1BR":1798,"2BR":2158,"3BR":2493}},
           rentsByAgreement:{
-            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1798,"2BR":2158,"3BR":2493}},
-            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2238,"1BR":2398,"2BR":2878,"3BR":3324}},
-            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1499,"2BR":1799},"80%":{"1BR":2398,"2BR":2878,"3BR":3324}}
+            "Granite Pointe (CalHFA — 60% MTSP) — unchanged":{"source":"HUD MTSP FY2025 (eff. 4/1/2025)","60%":{"1BR":1798,"2BR":2158,"3BR":2493}},
+            "Hillside Terrace (City RA — 80% HCD) — UPDATED 4/23/2025":{"source":"HCD 2025","80%":{"studio":2238,"1BR":2398,"2BR":2878,"3BR":3324}},
+            "Ventana (City RA — 50%/80% HCD) — UPDATED 4/23/2025":{"source":"HCD 2025","50%":{"1BR":1499,"2BR":1799},"80%":{"1BR":2398,"2BR":2878,"3BR":3324}}
           },
-          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
+          incomeLimitSources:{"50%":"HCD 2025","60%":"MTSP FY2025","80%":"HCD 2025"},
           utilityAllowances:null,
           hudContractRents:null
         }
@@ -678,14 +685,16 @@ const PORTFOLIO = [
         effectiveDate:"2025-09-01",
         trigger:"utility_allowance",
         label:"OHA Utility Allowance Update — Effective 9/1/2025",
-        source:"Oakland Housing Authority (OHA) UA Schedule effective 9/1/2025; All-electric (space heat, cooking, hot water, lighting); owner-paid water/sewer/trash; covers all 3 sub-properties; confirmed live at oakha.org 5/23/2026",
+        source:"Oakland Housing Authority (OHA) UA Schedule effective 9/1/2025; All-electric (space heat, cooking, hot water, lighting); owner-paid water/sewer/trash; confirmed live at oakha.org 5/23/2026. RE-VERIFIED 7/27/2026 line-by-line against the published PDF (see lihtc.uaSource): 1BR/2BR/3BR match the APARTMENTS table exactly at every component. ONE CORRECTION — the studio row was taking Cooking from the SRO column ($8) instead of the 0 BR column ($11); studio UA corrected 131 -> 134. Understating a UA overstates the allowable net rent, so the single studio unit carried a $3/month ceiling overstatement from 9/1/2025 until this fix. VENTANA CLASSIFICATION — RESOLVED 7/27/2026: OHA publishes two tables, page 1 APARTMENTS and page 2 HOUSES, with no townhome category. Ventana Townhomes (2000 International Blvd) is assigned to APARTMENTS per owner determination (B. Russell, MRK, 7/27/2026), consistent with the other two sub-properties — so all three sub-properties use the page 1 APARTMENTS table and the figures in this cert are unchanged by the decision. Recorded for audit trail: the HOUSES table would have produced materially higher allowances (1BR heating $62 vs $52, lighting $64 vs $50; 2BR heating $83 vs $63, lighting $98 vs $78), i.e. a lower net rent ceiling on Ventana's 20 units. This is an owner determination, not a written OHA classification — if OHA is ever asked to confirm in writing and says HOUSES, Ventana rents would need to come down, so keep the distinction visible. NOTE: no OHA schedule for 2024 has been located — the 9/1/2023 schedule is treated as remaining in force for the full 24 months to 9/1/2025. OHA normally publishes annually, so this is more likely a documentation gap than a skipped year; not researched per direction 7/27/2026.",
         snapshot:{
           incomeLimits:null,
           grossRentLimits:null,
-          utilityAllowances:{"studio":131,"1BR":163,"2BR":222,"3BR":281},
+          // STUDIO CORRECTED 7/27/2026: cooking was $8 (the SRO column) — the 0 BR column is $11.
+          // Studio total 131 -> 134. 1BR/2BR/3BR were already exact against the published table.
+          utilityAllowances:{"studio":134,"1BR":163,"2BR":222,"3BR":281},
           hudContractRents:null,
           uaBreakdown:{
-            "studio":{ heating:44, cooking:8, waterHeating:39, lights:40 },
+            "studio":{ heating:44, cooking:11, waterHeating:39, lights:40 },
             "1BR":  { heating:52, cooking:15, waterHeating:46, lights:50 },
             "2BR":  { heating:63, cooking:23, waterHeating:58, lights:78 },
             "3BR":  { heating:74, cooking:30, waterHeating:71, lights:106 }
@@ -695,25 +704,37 @@ const PORTFOLIO = [
       {
         effectiveDate:"2026-05-01",
         trigger:"income_limits",
-        label:"FY2026 MTSP Income & Rent Limits (Oakland-HMFA)",
-        source:"HUD FY2026 MTSP Release effective 5/1/2026, Oakland-HMFA confirmed; CalHFA limits per calhfa.ca.gov/multifamily/asset/mtsp",
+        label:"FY2026 MTSP Income & Rent Limits (Oakland-HMFA) — Granite Pointe only; HCD tiers still 2025",
+        source:"HUD FY2026 MTSP Release effective 5/1/2026 (NOT 4/1 — HUD's FY2026 Section 8 / MTSP effective date is 5/1/2026, confirmed in HCD's own 2026 briefing materials), Oakland-HMFA confirmed; CalHFA limits per calhfa.ca.gov/multifamily/asset/mtsp. MOVES ONLY THE 60% TIER — Granite Pointe. Hillside Terrace and Ventana stay on the HCD 2025 figures below until HCD's revised 2026 release on 6/23/2026 — a 53-day gap, the longest of any year in this history.",
+        snapshot:{
+          incomeLimits:{"50%":{"1":55950,"2":63950,"3":71950,"4":79900,"5":86300,"6":92700},"60%":{"1":71280,"2":81480,"3":91680,"4":101820,"5":109980,"6":118140},"80%":{"1":89520,"2":102320,"3":115120,"4":127840,"5":138080,"6":148320}},
+          grossRentLimits:{"60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
+          rentsByAgreement:{
+            "Granite Pointe (CalHFA — 60% MTSP) — UPDATED 5/1/2026":{"source":"HUD MTSP FY2026","60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
+            "Hillside Terrace (City RA — 80% HCD) — 2025 limits carried forward":{"source":"HCD 2025 (eff. 4/23/2025), not yet superseded","80%":{"studio":2238,"1BR":2398,"2BR":2878,"3BR":3324}},
+            "Ventana (City RA — 50%/80% HCD) — 2025 limits carried forward":{"source":"HCD 2025 (eff. 4/23/2025), not yet superseded","50%":{"1BR":1499,"2BR":1799},"80%":{"1BR":2398,"2BR":2878,"3BR":3324}}
+          },
+          incomeLimitSources:{"50%":"HCD 2025","60%":"MTSP FY2026","80%":"HCD 2025"},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-06-23",
+        trigger:"hcd_income_limits",
+        label:"HCD Revised 2026 State Income Limits (Alameda County) — Hillside Terrace & Ventana",
+        source:"California HCD REVISED 2026 State Income Limits memorandum dated 6/23/2026 (David Zisser, Deputy Director; hcd.ca.gov/sites/default/files/docs/grants-and-funding/income-limits-2026.pdf), which expressly replaces the earlier 2026 State Income Limits dated 5/29/2026 — the 6/23/2026 version is the operative one and is used here. Based on HUD's 5/1/2026 Section 8 release. Alameda County AMI $162,800. MOVES ONLY THE 50% AND 80% TIERS. HCD-published Alameda figures: Very Low (50%) $59,400/$67,900/$76,400/$84,850/$91,650/$98,450 (1-6p) — matches the 50% row below exactly. ⚠ 80%-TIER METHODOLOGY FLAG (immaterial this year): HCD's published Low Income (80%) for Alameda 2026 is $95,050/$108,600/$122,200/$135,750/$146,650/$157,500 vs. the 1.6×VLI derivation below ($95,040/$108,640/$122,240/$135,760/$146,640/$157,520) — the two agree within $10-$40 (HCD rounds to the nearest $50), unlike 2024 and 2025 where the gap was material. CROSS-PROPERTY NOTE: the Vista Woods entry in this file records the HCD 2026 date as 5/29/2026 (the superseded memo) and should be re-checked against the 6/23/2026 revision.",
         snapshot:{
           incomeLimits:{"50%":{"1":59400,"2":67900,"3":76400,"4":84850,"5":91650,"6":98450},"60%":{"1":71280,"2":81480,"3":91680,"4":101820,"5":109980,"6":118140},"80%":{"1":95040,"2":108640,"3":122240,"4":135760,"5":146640,"6":157520}},
           grossRentLimits:{"60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
           rentsByAgreement:{
-            "Granite Pointe (CalHFA — 60% MTSP)":{"source":"HUD MTSP","60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
-            "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2376,"1BR":2546,"2BR":3056,"3BR":3530}},
-            "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1591,"2BR":1910},"80%":{"1BR":2546,"2BR":3056,"3BR":3530}}
+            "Granite Pointe (CalHFA — 60% MTSP) — unchanged":{"source":"HUD MTSP FY2026 (eff. 5/1/2026)","60%":{"1BR":1909,"2BR":2292,"3BR":2647}},
+            "Hillside Terrace (City RA — 80% HCD) — UPDATED 6/23/2026":{"source":"HCD Revised 2026","80%":{"studio":2376,"1BR":2546,"2BR":3056,"3BR":3530}},
+            "Ventana (City RA — 50%/80% HCD) — UPDATED 6/23/2026":{"source":"HCD Revised 2026","50%":{"1BR":1591,"2BR":1910},"80%":{"1BR":2546,"2BR":3056,"3BR":3530}}
           },
-          incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
-          utilityAllowances:{"studio":131,"1BR":163,"2BR":222,"3BR":281},
-          hudContractRents:null,
-          uaBreakdown:{
-            "studio":{ heating:44, cooking:8, waterHeating:39, lights:40 },
-            "1BR":  { heating:52, cooking:15, waterHeating:46, lights:50 },
-            "2BR":  { heating:63, cooking:23, waterHeating:58, lights:78 },
-            "3BR":  { heating:74, cooking:30, waterHeating:71, lights:106 }
-          }
+          incomeLimitSources:{"50%":"HCD 2026","60%":"MTSP FY2026","80%":"HCD 2026"},
+          utilityAllowances:null,
+          hudContractRents:null
         }
       }
     ],
@@ -735,8 +756,48 @@ const PORTFOLIO = [
         "Hillside Terrace (City RA — 80% HCD)":{"source":"HCD","80%":{"studio":2376,"1BR":2546,"2BR":3056,"3BR":3530}},
         "Ventana (City RA — 50%/80% HCD)":{"source":"HCD","50%":{"1BR":1591,"2BR":1910},"80%":{"1BR":2546,"2BR":3056,"3BR":3530}}
       },
-      incomeLimitSources:{"50%":"HCD","60%":"HUD MTSP","80%":"HCD"},
-      utilityAllowances:{"studio":131,"1BR":163,"2BR":222,"3BR":281},
+      incomeLimitSources:{"50%":"HCD 2026","60%":"MTSP FY2026","80%":"HCD 2026"},
+      uaAgency:"Oakland Housing Authority",
+      // ── UA SOURCE OF RECORD — CHECK THIS FOR NEW RELEASES ──────────────────────
+      uaSource:{
+        agency:"Oakland Housing Authority (OHA)",
+        landingUrl:"https://www.oakha.org/propertyowners/paymentstandards/",
+        linkText:"Standard Monthly Allowances PDF",
+        currentDocUrl:"https://www.oakha.org/wp-content/uploads/2025/LH/2025%20OHA%20Utility%20Allowances.pdf",
+        currentEffective:"2025-09-01",
+        unitTypeTable:"APARTMENTS (page 1 of 2) — applies to all 3 sub-properties incl. Ventana",
+        lastChecked:"2026-07-27",
+        replacedInPlace:false,
+        machineReadable:true,
+        // HOW TO CHECK FOR A NEW RELEASE:
+        // Landing page has two tabs — "Standard Monthly Allowances" (the UA table) and "Voucher
+        // Payment Standards". The UA PDF filename carries the YEAR ("2025 OHA Utility Allowances.pdf")
+        // and the effective date is printed inside ("Effective September 1, 2025"). Compare both to
+        // currentEffective above. This PDF HAS a clean text layer — pdf.js extracts it fine, unlike
+        // the Oxnard schedules used by sea-breeze.
+        // The two tabs move on SEPARATE cycles: as of 7/27/2026 the UA is still the 2025 schedule
+        // while the payment standards are already 2026
+        // (.../wp-content/uploads/2025/11/OHA-2026-VOUCHER-PAYMENT-STANDARDS-1.pdf).
+        // A new payment-standard PDF does NOT mean a new utility allowance.
+        //
+        // TWO TABLES IN ONE PDF: page 1 = APARTMENTS, page 2 = HOUSES. Columns run
+        // SRO | 0 BR | 1 BR | 2 BR | 3 BR | 4 BR | 5 BR | 6 BR — the SRO column comes FIRST, so an
+        // off-by-one read silently returns SRO figures for a studio. That is exactly the error
+        // corrected 7/27/2026 (studio cooking $8 = SRO, should be $11 = 0 BR).
+        // ALWAYS USE PAGE 1 (APARTMENTS) for this property — all three sub-properties including
+        // Ventana Townhomes. Settled 7/27/2026, do not re-open on the next refresh.
+        //
+        // NAME COLLISION: "OHA" is also the Oceanside Housing Authority (shadow-way). Different
+        // agency, different site, different schedule.
+        ventanaClassification:{
+          table:"APARTMENTS (page 1)",
+          decidedBy:"Owner determination — B. Russell, MRK Partners",
+          decidedOn:"2026-07-27",
+          basis:"OHA publishes no townhome category; treated consistently with the other two sub-properties. No figures changed — this confirms the table already in use.",
+          caveat:"Owner determination, not a written OHA classification. The HOUSES table would yield higher allowances and therefore lower net rents on Ventana's 20 units, so revisit if OHA ever rules in writing."
+        }
+      },
+      utilityAllowances:{"studio":134,"1BR":163,"2BR":222,"3BR":281},
       actualRents:null
     }
   },
@@ -2248,12 +2309,24 @@ const PORTFOLIO = [
         spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/Closed%20Deals/Shadow%20Way%20-%20Oceanside%2C%20CA/Closing/Recorded%20Docs/Rec%20-%20City%20-%20Shadow%20-%20Asgmt%20Asmpt%20Consent%20&%20Amend%20Agmt.pdf"
       }
     ],
+    // ── CERT HISTORY ────────────────────────────────────────────────────────────
+    // TRACKING START: 2023-08-01. FY2023 MTSP (eff. 5/15/2023) and HCD 2023 (eff. 6/6/2023) both
+    // predate the start date, so the opening cert carries both plus the new UA as its baseline.
+    //
+    // DUAL-RELEASE STRUCTURE (rebuilt 2026-07-27): Shadow Way runs THREE tiers off TWO publishers
+    // on TWO different annual calendars, so each year produces TWO cert events:
+    //   1. HUD MTSP / CTCAC release → moves 60%-LIHTC only (65u, TCAC LURA CA-2008-950)
+    //   2. California HCD State Income Limits release → moves 50%-HCD (15u) and 60%-HCD (64u) only
+    //      (City of Oceanside RA — "City 1+1" tiers)
+    // The property's own executed Rent & Income Matrix (4/23/2025) prints these as two separate
+    // fields — "MTSP Income and Rent Effective Date" and "HCD Income and Rent Effective Date" —
+    // confirming the two calendars are tracked separately in practice, not merged.
     certHistory:[
       {
         effectiveDate:"2023-08-01",
-        trigger:"utility_allowance",
-        label:"FY2023 Income & Rent Limits + UA Update — All Three Tiers (8/1/2023)",
-        source:"HCD FY2023 State Income Limits effective 6/6/2023 (San Diego County AMI $116,800; City RA 50%/60% = pct × AMI × household-size factor); HUD FY2023 MTSP effective 5/15/2023 (San Diego-Carlsbad MSA; HERA Special / TCAC CA-2008-950); City of Oceanside Housing Authority UA $140 effective 8/1/2023, implemented 11/1/2023. HCD tiers derived from AMI × pct × size factor (confirmed formula via FY2025 rent matrix); LIHTC 60% from existing tracker confirmed data. NOTE: UA implemented 11/1/2023 per WinnResidential rent matrix — prior residents charged $0 UA.",
+        trigger:"income_limits_and_ua",
+        label:"Opening Baseline — FY2023 MTSP + HCD 2023 Limits + First UA (8/1/2023)",
+        source:"TRACKING START (history intentionally begins here). Carries three items that were all already in force on this date: (1) HUD FY2023 MTSP effective 5/15/2023 (San Diego-Carlsbad MSA; TCAC CA-2008-950) → 60%-LIHTC tier; (2) HCD 2023 State Income Limits effective 6/6/2023 (San Diego County AMI $116,800) → 50%-HCD and 60%-HCD tiers, computed as pct × AMI × household-size factor, then 2BR gross rent = floor(pct × AMI × 0.90 × 0.30 ÷ 12); (3) City of Oceanside Housing Authority UA $140/2BR effective 8/1/2023 — the only new item on this date, and the reason the baseline is anchored here. UA implemented 11/1/2023 per the WinnResidential rent matrix; residents in place before implementation were charged $0 UA.",
         snapshot:{
           incomeLimits:{
             "50%-HCD":{"1":40900,"2":46700,"3":52550,"4":58400,"5":63100,"6":67750},
@@ -2266,23 +2339,52 @@ const PORTFOLIO = [
             "60%-LIHTC":{"2BR":1861}
           },
           rentsByAgreement:{
-            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":1861}},
-            "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1576}},
-            "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1314}}
+            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP FY2023 (eff. 5/15/2023)","60%-LIHTC":{"2BR":1861}},
+            "City RA — HCD 60% (64u)":{"source":"HCD 2023 (eff. 6/6/2023)","60%-HCD":{"2BR":1576}},
+            "City RA — HCD 50% (15u)":{"source":"HCD 2023 (eff. 6/6/2023)","50%-HCD":{"2BR":1314}}
           },
-          incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
+          incomeLimitSources:{"50%-HCD":"HCD 2023","60%-HCD":"HCD 2023","60%-LIHTC":"MTSP FY2023"},
           utilityAllowances:{"2BR":140},
           hudContractRents:null,
           uaBreakdown:{
-            "2BR":{ heating:43, cooking:7, waterHeating:0, lights:0, otherElectric:74, ac:16, waterSewer:0, trash:0, otherGas:0 }
+            // LABEL CORRECTION: the executed rent matrix lists this $16 line as "Air Conditioning (Gas)",
+            // but OHA's published schedule has no AC row — $16 is Water Heating (Natural Gas), 2BR, Garden/High
+            // Rise Apartments column. Total is $140 either way, so no rent impact; label corrected for accuracy.
+            "2BR":{ heating:43, cooking:7, waterHeating:16, lights:0, otherElectric:74, ac:0, waterSewer:0, trash:0, otherGas:0 }
           }
         }
       },
       {
         effectiveDate:"2024-04-01",
         trigger:"income_limits",
-        label:"FY2024 Income & Rent Limits — All Three Tiers",
-        source:"HCD FY2024 State Income Limits effective 5/9/2024 (San Diego County AMI $119,500; City RA tiers derived: 50% = $59,750 4p, 60% = $71,700 4p); HUD FY2024 MTSP effective ~4/1/2024 (San Diego-Carlsbad MSA; TCAC CA-2008-950); City of Oceanside Housing Authority UA $140 (no change). HCD tiers calculated via AMI × pct × household-size factor (same formula confirmed per FY2025 rent matrix).",
+        label:"FY2024 MTSP Income & Rent Limits — 60%-LIHTC only; HCD tiers still 2023",
+        source:"HUD FY2024 MTSP release effective 4/1/2024 (San Diego-Carlsbad MSA; TCAC CA-2008-950). MOVES ONLY THE 60%-LIHTC TIER (65u under the TCAC LURA). The 15 units at 50%-HCD and 64 units at 60%-HCD are City of Oceanside RA tiers on HCD's calendar and DO NOT change on this date — the HCD figures below are the 2023 limits carried forward and remain the governing ceiling until HCD's 2024 release on 5/9/2024 (a 38-day gap). CTCAC 60% derived as 0.60 × the published 100% Income Level (San Diego 2024: $106,100/$121,200/$136,400/$151,500) — method verified against the FY2025 and FY2026 published tables.",
+        snapshot:{
+          incomeLimits:{
+            "50%-HCD":{"1":40900,"2":46700,"3":52550,"4":58400,"5":63100,"6":67750},
+            "60%-HCD":{"1":49050,"2":56050,"3":63100,"4":70100,"5":75700,"6":81300},
+            "60%-LIHTC":{"1":63660,"2":72720,"3":81840,"4":90900}
+          },
+          grossRentLimits:{
+            "50%-HCD":{"2BR":1314},
+            "60%-HCD":{"2BR":1576},
+            "60%-LIHTC":{"2BR":2046}
+          },
+          rentsByAgreement:{
+            "TCAC LURA — LIHTC/MTSP 60% (65u) — UPDATED 4/1/2024":{"source":"HUD MTSP FY2024","60%-LIHTC":{"2BR":2046}},
+            "City RA — HCD 60% (64u) — 2023 limits carried forward":{"source":"HCD 2023 (eff. 6/6/2023), not yet superseded","60%-HCD":{"2BR":1576}},
+            "City RA — HCD 50% (15u) — 2023 limits carried forward":{"source":"HCD 2023 (eff. 6/6/2023), not yet superseded","50%-HCD":{"2BR":1314}}
+          },
+          incomeLimitSources:{"50%-HCD":"HCD 2023","60%-HCD":"HCD 2023","60%-LIHTC":"MTSP FY2024"},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2024-05-09",
+        trigger:"hcd_income_limits",
+        label:"HCD 2024 State Income Limits (San Diego County) — City RA tiers",
+        source:"California HCD 2024 State Income Limits memorandum dated 5/9/2024 (Megan Kirkeby, Deputy Director; hcd.ca.gov/sites/default/files/docs/grants-and-funding/income-limits-2024.pdf); based on HUD's 4/1/2024 Section 8 release. San Diego County AMI $119,500. MOVES ONLY THE 50%-HCD AND 60%-HCD TIERS (79 units total under the City of Oceanside RA). The 60%-LIHTC tier is unchanged — already updated 4/1/2024 on the MTSP calendar. Tiers = pct × AMI × household-size factor (70/80/90/100/108/116%); 2BR gross rent = floor(pct × $119,500 × 0.90 × 0.30 ÷ 12).",
         snapshot:{
           incomeLimits:{
             "50%-HCD":{"1":41800,"2":47800,"3":53800,"4":59750,"5":64500,"6":69300},
@@ -2295,20 +2397,46 @@ const PORTFOLIO = [
             "60%-LIHTC":{"2BR":2046}
           },
           rentsByAgreement:{
-            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":2046}},
-            "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1613}},
-            "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1344}}
+            "TCAC LURA — LIHTC/MTSP 60% (65u) — unchanged":{"source":"HUD MTSP FY2024 (eff. 4/1/2024)","60%-LIHTC":{"2BR":2046}},
+            "City RA — HCD 60% (64u) — UPDATED 5/9/2024":{"source":"HCD 2024","60%-HCD":{"2BR":1613}},
+            "City RA — HCD 50% (15u) — UPDATED 5/9/2024":{"source":"HCD 2024","50%-HCD":{"2BR":1344}}
           },
-          incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
-          utilityAllowances:{"2BR":140},
+          incomeLimitSources:{"50%-HCD":"HCD 2024","60%-HCD":"HCD 2024","60%-LIHTC":"MTSP FY2024"},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — 60%-LIHTC only; HCD tiers still 2024",
+        source:"HUD FY2025 MTSP release effective 4/1/2025 (San Diego-Carlsbad MSA; TCAC CA-2008-950) — the property's own Rent & Income Matrix names 4/1/2025 as the 'MTSP Income and Rent Effective Date,' distinct from its 'HCD Income and Rent Effective Date' of 4/23/2025. MOVES ONLY THE 60%-LIHTC TIER. HCD tiers below are the 2024 limits carried forward until 4/23/2025 (a 22-day gap). CTCAC 60% = 0.60 × published 100% Income Level (San Diego 2025: $115,800/$132,300/$148,900/$165,400/$178,700/$191,900); figures confirmed against the executed matrix.",
+        snapshot:{
+          incomeLimits:{
+            "50%-HCD":{"1":41800,"2":47800,"3":53800,"4":59750,"5":64500,"6":69300},
+            "60%-HCD":{"1":50200,"2":57350,"3":64550,"4":71700,"5":77450,"6":83200},
+            "60%-LIHTC":{"1":69480,"2":79380,"3":89340,"4":99240,"5":107220,"6":115140}
+          },
+          grossRentLimits:{
+            "50%-HCD":{"2BR":1344},
+            "60%-HCD":{"2BR":1613},
+            "60%-LIHTC":{"2BR":2233}
+          },
+          rentsByAgreement:{
+            "TCAC LURA — LIHTC/MTSP 60% (65u) — UPDATED 4/1/2025":{"source":"HUD MTSP FY2025","60%-LIHTC":{"2BR":2233}},
+            "City RA — HCD 60% (64u) — 2024 limits carried forward":{"source":"HCD 2024 (eff. 5/9/2024), not yet superseded","60%-HCD":{"2BR":1613}},
+            "City RA — HCD 50% (15u) — 2024 limits carried forward":{"source":"HCD 2024 (eff. 5/9/2024), not yet superseded","50%-HCD":{"2BR":1344}}
+          },
+          incomeLimitSources:{"50%-HCD":"HCD 2024","60%-HCD":"HCD 2024","60%-LIHTC":"MTSP FY2025"},
+          utilityAllowances:null,
           hudContractRents:null
         }
       },
       {
         effectiveDate:"2025-04-23",
-        trigger:"income_limits",
-        label:"FY2025 Income & Rent Limits — All Three Tiers — CONFIRMED",
-        source:"Shadow Way Rent and Income Matrix effective 4/23/2025 (WinnResidential / MRK Partners); HCD FY2025 State Income Limits effective 4/23/2025 (San Diego County AMI $130,800); HUD FY2025 MTSP effective 4/1/2025 (San Diego-Carlsbad MSA; TCAC CA-2008-950) — MTSP available 4/1/2025, combined cert anchored to HCD effective date 4/23/2025 (later of the two). City of Oceanside Housing Authority UA $140 (no change). All three income tiers, gross rents, net rents, and UA breakdown CONFIRMED against executed rent matrix.",
+        trigger:"hcd_income_limits",
+        label:"HCD 2025 State Income Limits (San Diego County) — City RA tiers — CONFIRMED",
+        source:"California HCD 2025 State Income Limits memorandum dated 4/23/2025 (Megan Kirkeby, Deputy Director; hcd.ca.gov/sites/default/files/docs/grants-and-funding/income-limits-2025.pdf); San Diego County AMI $130,800. MOVES ONLY THE 50%-HCD AND 60%-HCD TIERS. FULLY CONFIRMED against the executed Shadow Way Rent and Income Matrix effective 4/23/2025 (WinnResidential / MRK Partners, revised 5/20/2025) — all three tiers, gross rents, net rents and the UA breakdown reconcile exactly. That matrix also carries 7- and 8-person figures not stored here (HCD 50%: $81,100/$86,325 · HCD 60%: $97,320/$103,590 · LIHTC 60%: $123,060/$131,040) — available if the model is ever extended past 6 persons. Net rents at this cert: 50%-HCD $1,331 · 60%-HCD $1,625 · LIHTC 60% $2,093 (each gross less the $140 UA).",
         snapshot:{
           incomeLimits:{
             "50%-HCD":{"1":45775,"2":52325,"3":58850,"4":65400,"5":70625,"6":75875},
@@ -2321,41 +2449,85 @@ const PORTFOLIO = [
             "60%-LIHTC":{"2BR":2233}
           },
           rentsByAgreement:{
-            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":2233}},
-            "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1765}},
-            "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1471}}
+            "TCAC LURA — LIHTC/MTSP 60% (65u) — unchanged":{"source":"HUD MTSP FY2025 (eff. 4/1/2025)","60%-LIHTC":{"2BR":2233}},
+            "City RA — HCD 60% (64u) — UPDATED 4/23/2025":{"source":"HCD 2025","60%-HCD":{"2BR":1765}},
+            "City RA — HCD 50% (15u) — UPDATED 4/23/2025":{"source":"HCD 2025","50%-HCD":{"2BR":1471}}
           },
-          incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
+          incomeLimitSources:{"50%-HCD":"HCD 2025","60%-HCD":"HCD 2025","60%-LIHTC":"MTSP FY2025"},
           utilityAllowances:{"2BR":140},
           hudContractRents:null,
           uaBreakdown:{
-            "2BR":{ heating:43, cooking:7, waterHeating:0, lights:0, otherElectric:74, ac:16, waterSewer:0, trash:0, otherGas:0 }
+            // LABEL CORRECTION: the executed rent matrix lists this $16 line as "Air Conditioning (Gas)",
+            // but OHA's published schedule has no AC row — $16 is Water Heating (Natural Gas), 2BR, Garden/High
+            // Rise Apartments column. Total is $140 either way, so no rent impact; label corrected for accuracy.
+            "2BR":{ heating:43, cooking:7, waterHeating:16, lights:0, otherElectric:74, ac:0, waterSewer:0, trash:0, otherGas:0 }
           }
         }
       },
       {
-        effectiveDate:"2026-05-29",
+        effectiveDate:"2026-05-01",
         trigger:"income_limits",
-        label:"FY2026 Income & Rent Limits — All Three Tiers",
-        source:"HCD FY2026 State Income Limits effective 5/29/2026 (San Diego County AMI $130,900; City RA tiers: 50% = $65,450 4p → 2BR gross rent $1,472; 60% = $78,550 4p → 2BR gross rent $1,767); LIHTC/MTSP 60% estimated at $104,940 4p (= 1.2 × HCD VLI $87,450; pattern confirmed FY2024 and FY2025 — CONFIRM vs. TCAC FY2026 income limit table when available); City of Oceanside Housing Authority UA $140 (no change pending next scheduled update).",
+        label:"FY2026 MTSP Income & Rent Limits — 60%-LIHTC only; HCD tiers still 2025",
+        source:"HUD FY2026 MTSP release effective 5/1/2026 (NOT 4/1 — HUD's FY2026 Section 8 / MTSP effective date is 5/1/2026, confirmed in HCD's own 2026 briefing materials). MOVES ONLY THE 60%-LIHTC TIER. HCD tiers below are the 2025 limits carried forward until HCD's revised 2026 release on 6/23/2026 — a 53-day gap, the longest in this history. FIGURES NOW CONFIRMED, previously estimated: pulled from CTCAC's published 2026 income limit table (treasurer.ca.gov/sites/default/files/ctcac/2026 INCOME Limits 5-1-26+.pdf), San Diego 60% row = $73,500/$84,000/$94,500/$104,940/$113,340/$121,740. The prior estimate (1.2 × HCD VLI, then size-factored off the 4-person figure) was correct at 4 persons but off by $50 at 1-3 persons and $10 at 5-6 persons; the 3-person figure drives the 2BR rent, so the gross rent corrects from $2,361 to $2,362.",
+        snapshot:{
+          incomeLimits:{
+            "50%-HCD":{"1":45775,"2":52325,"3":58850,"4":65400,"5":70625,"6":75875},
+            "60%-HCD":{"1":54930,"2":62790,"3":70620,"4":78480,"5":84750,"6":91050},
+            "60%-LIHTC":{"1":73500,"2":84000,"3":94500,"4":104940,"5":113340,"6":121740}
+          },
+          grossRentLimits:{
+            "50%-HCD":{"2BR":1471},
+            "60%-HCD":{"2BR":1765},
+            "60%-LIHTC":{"2BR":2362}
+          },
+          rentsByAgreement:{
+            "TCAC LURA — LIHTC/MTSP 60% (65u) — UPDATED 5/1/2026":{"source":"HUD MTSP FY2026 (CTCAC published table)","60%-LIHTC":{"2BR":2362}},
+            "City RA — HCD 60% (64u) — 2025 limits carried forward":{"source":"HCD 2025 (eff. 4/23/2025), not yet superseded","60%-HCD":{"2BR":1765}},
+            "City RA — HCD 50% (15u) — 2025 limits carried forward":{"source":"HCD 2025 (eff. 4/23/2025), not yet superseded","50%-HCD":{"2BR":1471}}
+          },
+          incomeLimitSources:{"50%-HCD":"HCD 2025","60%-HCD":"HCD 2025","60%-LIHTC":"MTSP FY2026"},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-06-01",
+        trigger:"utility_allowance",
+        label:"City of Oceanside Housing Authority UA Update — Effective 6/1/2026",
+        source:"Oceanside Housing Authority \"Payment Std. Utilities\" schedule, revision \"26-June\", UA section effective 6/1/2026 (ci.oceanside.ca.us/home/showpublisheddocument/12658). FIRST UA CHANGE SINCE 8/1/2023 — supersedes the $140 schedule. Shadow Way maps to the GARDEN, HIGH RISE APARTMENTS, CONDOS column, 2BR, with the same four resident-paid components as the executed rent matrix: Heating (Electric) $43→$39 · Cooking (Natural Gas) $7→$9 · Other Electric $74→$70 · Water Heating (Natural Gas) $16→$21. New total $139, a $1 DECREASE — which RAISES the maximum net rent by $1 at every tier. Owner continues to pay water, sewer and trash. NOTE: OHA publishes this as a single living document that is replaced in place rather than versioned per year, so an intermediate schedule between 8/1/2023 and 6/1/2026 cannot be ruled out from the website alone; however the executed Shadow Way Rent & Income Matrix (revised 5/20/2025) independently confirms $140 was still in force at that date, leaving only 5/2025-6/2026 unverified. The Voucher Payment Standards on the same PDF are still dated 11/1/2023 and did not change.",
+        snapshot:{
+          incomeLimits:null,
+          grossRentLimits:null,
+          utilityAllowances:{"2BR":139},
+          hudContractRents:null,
+          uaBreakdown:{
+            "2BR":{ heating:39, cooking:9, waterHeating:21, lights:0, otherElectric:70, ac:0, waterSewer:0, trash:0, otherGas:0 }
+          }
+        }
+      },
+      {
+        effectiveDate:"2026-06-23",
+        trigger:"hcd_income_limits",
+        label:"HCD Revised 2026 State Income Limits (San Diego County) — City RA tiers",
+        source:"California HCD REVISED 2026 State Income Limits memorandum dated 6/23/2026 (David Zisser, Deputy Director; hcd.ca.gov/sites/default/files/docs/grants-and-funding/income-limits-2026.pdf), which expressly replaces the earlier 2026 State Income Limits dated 5/29/2026 — DATE CORRECTED: this cert previously sat at 5/29/2026, the superseded memo. San Diego County AMI is $130,900 in the revised table, the same figure the prior calculation used, so the dollar amounts are unchanged and only the effective date moves (25 days later). MOVES ONLY THE 50%-HCD AND 60%-HCD TIERS. Tiers = pct × $130,900 × household-size factor; 2BR gross rent = floor(pct × $130,900 × 0.90 × 0.30 ÷ 12). Note the year-over-year AMI move is only +$100 ($130,800 → $130,900), so HCD rents rise just $1-2/month.",
         snapshot:{
           incomeLimits:{
             "50%-HCD":{"1":45800,"2":52350,"3":58900,"4":65450,"5":70700,"6":75950},
             "60%-HCD":{"1":54950,"2":62850,"3":70700,"4":78550,"5":84800,"6":91100},
-            "60%-LIHTC":{"1":73450,"2":83950,"3":94450,"4":104940,"5":113350,"6":121750}
+            "60%-LIHTC":{"1":73500,"2":84000,"3":94500,"4":104940,"5":113340,"6":121740}
           },
           grossRentLimits:{
             "50%-HCD":{"2BR":1472},
             "60%-HCD":{"2BR":1767},
-            "60%-LIHTC":{"2BR":2361}
+            "60%-LIHTC":{"2BR":2362}
           },
           rentsByAgreement:{
-            "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":2361}},
-            "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1767}},
-            "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1472}}
+            "TCAC LURA — LIHTC/MTSP 60% (65u) — unchanged":{"source":"HUD MTSP FY2026 (eff. 5/1/2026)","60%-LIHTC":{"2BR":2362}},
+            "City RA — HCD 60% (64u) — UPDATED 6/23/2026":{"source":"HCD Revised 2026","60%-HCD":{"2BR":1767}},
+            "City RA — HCD 50% (15u) — UPDATED 6/23/2026":{"source":"HCD Revised 2026","50%-HCD":{"2BR":1472}}
           },
-          incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
-          utilityAllowances:{"2BR":140},
+          incomeLimitSources:{"50%-HCD":"HCD 2026","60%-HCD":"HCD 2026","60%-LIHTC":"MTSP FY2026"},
+          utilityAllowances:null,
           hudContractRents:null
         }
       }
@@ -2379,36 +2551,67 @@ const PORTFOLIO = [
       //   (2) HCD 60% → 64 units (City "1+1" / Lower Income)
       //   (3) LIHTC/MTSP 60% → 65 units (City / Low Income per TCAC)
       // HCD limits = pct × HCD AMI × household-size factor (straight percentage, NOT hold-harmless VLI)
-      // LIHTC/MTSP 60% = 1.2 × HCD VLI (confirmed for FY2024 and FY2025; FY2026 estimated pending TCAC table)
+      // LIHTC/MTSP 60% = 0.60 × CTCAC published 100% Income Level (San Diego). FY2026 now CONFIRMED
+      // against CTCAC's published 2026 table — no longer an estimate.
       setAsides:[{pct:50,unitCount:15},{pct:60,unitCount:128}],
       incomeLimits:{
         // FY2026 — HCD confirmed (AMI $130,900); LIHTC est. (pending TCAC FY2026 income limits)
         "50%-HCD":{"1":45800,"2":52350,"3":58900,"4":65450,"5":70700,"6":75950},
         "60%-HCD":{"1":54950,"2":62850,"3":70700,"4":78550,"5":84800,"6":91100},
-        "60%-LIHTC":{"1":73450,"2":83950,"3":94450,"4":104940,"5":113350,"6":121750}
+        "60%-LIHTC":{"1":73500,"2":84000,"3":94500,"4":104940,"5":113340,"6":121740}
       },
       grossRentLimits:{
         // FY2026 2BR gross rents — HCD: floor(AMI×pct×0.90×0.30/12); LIHTC: floor(94450×0.30/12)
         "50%-HCD":{"2BR":1472},
         "60%-HCD":{"2BR":1767},
-        "60%-LIHTC":{"2BR":2361}
+        "60%-LIHTC":{"2BR":2362}
       },
       rentsByAgreement:{
-        "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP","60%-LIHTC":{"2BR":2361}},
-        "City RA — HCD 60% (64u)":{"source":"HCD","60%-HCD":{"2BR":1767}},
-        "City RA — HCD 50% (15u)":{"source":"HCD","50%-HCD":{"2BR":1472}}
+        "TCAC LURA — LIHTC/MTSP 60% (65u)":{"source":"HUD MTSP FY2026 (eff. 5/1/2026)","60%-LIHTC":{"2BR":2362}},
+        "City RA — HCD 60% (64u)":{"source":"HCD Revised 2026 (eff. 6/23/2026)","60%-HCD":{"2BR":1767}},
+        "City RA — HCD 50% (15u)":{"source":"HCD Revised 2026 (eff. 6/23/2026)","50%-HCD":{"2BR":1472}}
       },
-      incomeLimitSources:{"50%-HCD":"HCD","60%-HCD":"HCD","60%-LIHTC":"HUD MTSP"},
-      utilityAllowances:{"2BR":140},
+      incomeLimitSources:{"50%-HCD":"HCD 2026","60%-HCD":"HCD 2026","60%-LIHTC":"MTSP FY2026"},
+      uaAgency:"City of Oceanside Housing Authority",
+      // ── UA SOURCE OF RECORD — CHECK THIS FOR NEW RELEASES ──────────────────────
+      // Landing page (always links the CURRENT revision):
+      //   https://www.ci.oceanside.ca.us/government/housing-neighborhood-services/housing/section-8-housing-choice-voucher-program/rental-owners-property-managers
+      //   → link text: "Utility Allowances and Payment Standards"
+      // Direct doc (versioned permalink to the 6/1/2026 revision, published 6/2/2026):
+      //   https://www.ci.oceanside.ca.us/home/showpublisheddocument/12658/639160080728730000
+      uaSource:{
+        agency:"City of Oceanside Housing Authority (OHA)",
+        landingUrl:"https://www.ci.oceanside.ca.us/government/housing-neighborhood-services/housing/section-8-housing-choice-voucher-program/rental-owners-property-managers",
+        linkText:"Utility Allowances and Payment Standards",
+        docId:"12658",
+        currentDocUrl:"https://www.ci.oceanside.ca.us/home/showpublisheddocument/12658/639160080728730000",
+        currentVersionPublished:"2026-06-02",
+        currentEffective:"2026-06-01",
+        unitTypeTable:"GARDEN, HIGH RISE APARTMENTS, CONDOS",
+        lastChecked:"2026-07-27",
+        // HOW TO CHECK FOR A NEW RELEASE — do not skip this:
+        // OHA replaces this PDF IN PLACE. Doc id 12658 never changes; only the trailing
+        // .NET-ticks version stamp does. A plain HTML fetch of the landing page can return a
+        // STALE href (that is how the 6/1/2026 schedule was missed on first pass — the cached
+        // href still pointed at ...638344432042230000, the Nov-2023 revision). Read the <a href>
+        // from the RENDERED DOM (browser), not from fetched HTML, then compare the version stamp
+        // to currentDocUrl above. Decode a stamp to a date with:
+        //   (ticks - 621355968000000000) / 10000000  ->  Unix seconds
+        // Note the same PDF also carries Voucher Payment Standards on a SEPARATE cycle
+        // (still dated 11/1/2023) — a UA change does not imply a payment-standard change.
+        replacedInPlace:true
+      },
+      utilityAllowances:{"2BR":139},
       uaBreakdown:{
-        // City of Oceanside Housing Authority — effective 8/1/2023, implemented 11/1/2023 — CONFIRMED
-        "2BR":{ heating:43, cooking:7, waterHeating:0, lights:0, otherElectric:74, ac:16, waterSewer:0, trash:0, otherGas:0 }
+        // City of Oceanside Housing Authority — effective 6/1/2026 (rev. "26-June"), Garden/High Rise Apartments 2BR
+        // Supersedes the $140 schedule that ran 8/1/2023 - 5/31/2026.
+        "2BR":{ heating:39, cooking:9, waterHeating:21, lights:0, otherElectric:70, ac:0, waterSewer:0, trash:0, otherGas:0 }
       },
       actualRents:{
-        // Net rents (gross − UA $140) FY2026 — LIHTC est.
-        "2BR (50%-HCD, 15u)":1332,
-        "2BR (60%-HCD, 64u)":1627,
-        "2BR (60%-LIHTC, 65u)":2221,
+        // Net rents (gross − UA $139, eff. 6/1/2026); LIHTC gross now confirmed from CTCAC 2026 table
+        "2BR (50%-HCD, 15u)":1333,
+        "2BR (60%-HCD, 64u)":1628,
+        "2BR (60%-LIHTC, 65u)":2223,
         "2BR (Exempt, 1u)":null
       }
     },
@@ -2528,6 +2731,38 @@ const PORTFOLIO = [
       setAsides:[{pct:50,unitCount:10},{pct:60,unitCount:81}],
       incomeLimits:{"50%":{"1":54950,"2":62800,"3":70650,"4":78500,"5":84800,"6":91100,"7":97350,"8":103650},"60%":{"1":65940,"2":75360,"3":84780,"4":94200,"5":101760,"6":109320,"7":116820,"8":124380}},
       grossRentLimits:{"50%":{"1BR":1471,"2BR":1766},"60%":{"1BR":1766,"2BR":2119}},
+      uaAgency:"Housing Authority of the City of Oxnard",
+      // ── UA SOURCE OF RECORD — CHECK THIS FOR NEW RELEASES ──────────────────────
+      uaSource:{
+        agency:"Housing Authority of the City of Oxnard (OHA)",
+        landingUrl:"https://www.oxnard.gov/housing/section-8",
+        linkText:"Utility Allowance Apartment/Walk-up",
+        currentDocUrl:"https://www.oxnard.gov/wp-content/uploads/pdfs/departments/housing/utility-allowance-apartment-walk-up-effective-1-01-2026.pdf",
+        currentEffective:"2026-01-01",
+        unitTypeTable:"Apartment / Walk-up",
+        lastChecked:"2026-07-27",
+        replacedInPlace:false,
+        // HOW TO CHECK FOR A NEW RELEASE — easy here, the date is IN THE FILENAME:
+        // Oxnard posts a separate PDF per unit type and encodes the effective date in the URL
+        // ("...-effective-1-01-2026.pdf"). Read the anchor list on landingUrl and compare the
+        // date in the href to currentEffective above. A new schedule = a new filename, so no
+        // version-stamp decoding is needed (contrast Shadow Way / Oceanside, which replaces one
+        // file in place — see that property's uaSource).
+        // Sibling schedules on the same page (NOT applicable to Sea Breeze, listed so they are
+        // not grabbed by mistake): Townhouse & Semi-Detached/Duplex · Detached House ·
+        // "Las Cortes 45-plex One and Two Bedrooms" · "Las Cortes 2-Story Building".
+        // Oxnard evidently publishes PROPERTY-SPECIFIC schedules (the two Las Cortes ones) — if a
+        // Sea Breeze-specific schedule ever appears it would supersede Apartment/Walk-up.
+        //
+        // ⚠ THESE PDFs HAVE NO USABLE TEXT LAYER. The fonts are subsetted with no ToUnicode map,
+        // so pdf.js / pdftotext / web_fetch all return raw glyph codes, not characters (verified
+        // 7/27/2026). The figures below therefore come from the executed Sea Breeze Rent and
+        // Income Matrix (1/1/2026), NOT from parsing this PDF. Any automated UA sweep can confirm
+        // the EFFECTIVE DATE from the filename but must OCR or read the PDF visually to get the
+        // dollar amounts.
+        figuresVerifiedFrom:"Sea Breeze Rent and Income Matrix 1/1/2026 (executed) — PDF not machine-readable",
+        note:"Building 3620 (4 units) is on common-area electric/gas paid by Ownership — UA = $0 for those units regardless of this schedule; see lihtc.building3620."
+      },
       utilityAllowances:{"1BR":50,"2BR":66},
       uaBreakdown:{
         "1BR":{ heating:17, cooking:4, waterHeating:0, lights:1, otherElectric:23, ac:0, waterSewer:0, trash:0, otherGas:5 },
@@ -11332,7 +11567,7 @@ const PORTFOLIO = [
     address:"4 Harvey Avenue, Jersey City, NJ 07306",
     county:"Hudson",
     lat:40.730876, lng:-74.084670, approxLocation:false, // user-provided geocode, 2026-07-16; nudged ~0.0003° NW of shared address so Phase I/II render as adjacent (not overlapping) pins — cosmetic offset, not a surveyed position
-    totalUnits:66, unitMix:{"1BR":6,"2BR":28,"3BR":26,"4BR":6}, // INFERRED 2026-07-16 from live rent roll (The Willows at Gloria Robinson I_0326_Rent Roll.xlsx) unit-type codes gr1-1x1(6), gr1-2x1(28), gr1-3x1.5(12)+gr1-3x2(14)=26, gr1-4x2(6); total 66. Bedroom-count mapping (digit after property-phase prefix = bedroom count) is inferred from convention, not an explicit legend — but this exact convention was independently validated against Gloria Robinson II's authoritative 2007 LIHTC application unit-distribution table (see GR II entry), which matched its own rent-roll codes exactly, so confidence is high despite no GR-I-specific legend document.
+    totalUnits:66, unitMix:{"1BR":6,"2BR":28,"3BR":26,"4BR":6}, // CONFIRMED 2026-07-27 (upgraded from "inferred"). Two independent authoritative sources now agree cell-for-cell with the earlier rent-roll inference: (1) the 2006 NJHMFA LIHTC Application "Rent Qualification Chart" (GR-Tab 8.PDF, see regulatoryAgreements) and (2) the NJHMFA-approved "02. GR1 - Mgmt Mktg Plan_2026.docx" dated 1/22/2026, which states verbatim: "NUMBER AND TYPE OF DWELLING UNITS: 66 / One-Bedroom 6 / Two Bedroom 28 / Three Bedroom 26 / Four Bedroom 6". The prior rent-roll code inference (gr1-1x1=6, gr1-2x1=28, gr1-3x1.5+gr1-3x2=26, gr1-4x2=6) was correct.
     uaType:null,
     placedInService:null,
     regulatoryAgreements:[
@@ -11346,8 +11581,30 @@ const PORTFOLIO = [
         recordingNo:"Hudson County Bk 8647 Pg 148",
         compliancePeriod:"45-year covenant: 30-year extended compliance + 15-year extended use",
         complianceEnd:"2054-01-23",
-        setAsides:"53 of 66 units are LIHTC units (applicable fraction 80.30%); min. set-aside test: 40% of units @ ≤60% AMI (≈26-27u) — confirmed via full-text read 2026-07-15; no tiered AMI breakdown found",
+        setAsides:"53 of 66 units are LIHTC units (applicable fraction 80.303%); federal min. set-aside election: '40% AT 60%' test. TIERED BREAKDOWN NOW RESOLVED 2026-07-27 — not from this LURA (which contains only the test language) but from the 2006 LIHTC Application Rent Qualification Chart + 2026 NJHMFA-approved Mgmt/Mktg Plan (see the two entries immediately below): 46u @ ≤50% AMI + 7u @ ≤60% AMI = 53 LIHTC; plus 5u PHA-Assisted-Only (non-LIHTC) and 8u market-rate unrestricted.",
         spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Gloria%20Robinson%20I%20-%20Jersey%20City%2C%20NJ/03.%20Legal/Regulatory%20Agmts/LURA-Gloria%20Robinson%20I-01.23.09.pdf"
+      },
+      {
+        type:"2006 NJHMFA LIHTC Application — Rent Qualification Chart (Tab 8)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC",
+        ref:"BREAKTHROUGH SOURCE, found 2026-07-27 after two prior passes concluded no tiered set-aside existed. The GR I tax credit application is NOT one oversized file (the earlier 135MB blocker was a false lead) — it is filed as individually split, small, text-extractable tab PDFs under '08. Tax Credits/Applications/2006/LIHTC App/LIHTC 8-18-06 Binder 1/' and 'Binder 2/'. GR-Tab 8.PDF (2.0 MB) contains the Rent Qualification Chart with an explicit affordability-% column. Verbatim rows (# units / # bedrooms / net rent / UA / gross rent / affordability %): 3×1BR $512+$88=$600 @50%; 16×2BR $608+$112=$720 @50%; 22×3BR $697+$136=$833 @50%; 5×4BR $758+$172=$930 @50%; 4×2BR $753+$112=$865 @60%; 3×3BR $863+$136=$999 @60%; then 1×1BR @80%, 3×2BR @80%, 1×4BR @80%, and 2×1BR @89% / 5×2BR @87% / 1×3BR @83% (market). Tally: 46u@50% + 7u@60% = 53 LIHTC (3×1BR/20×2BR/25×3BR/5×4BR), 5u@80% PHA-assisted-only, 8u market — reconciles exactly to 66 units and to the LURA's 80.303% applicable fraction. Also confirmed in Binder 2 (GR-Part 3 Tab 22.PDF): 'Additional Income Restrictions: This Section Not Applicable' — i.e. no deeper elected tiers exist. NOTE: the 2006 net rents/UAs above are historical underwriting figures, NOT current compliance limits.",
+        effectiveDate:"2006-08-18",
+        compliancePeriod:"Federal minimum set-aside election: '40% AT 60%' test; applicable fraction 80.303% (unit fraction 53/66; floor-space fraction 70,710/85,226 = 82.97%)",
+        complianceEnd:null,
+        setAsides:"46u @ ≤50% AMI (3×1BR/16×2BR/22×3BR/5×4BR) · 7u @ ≤60% AMI (4×2BR/3×3BR) · 5u PHA-Assisted-Only non-LIHTC @80% (1×1BR/3×2BR/1×4BR) · 8u market unrestricted (2×1BR/5×2BR/1×3BR) — 66 total",
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Gloria%20Robinson%20I%20-%20Jersey%20City%2C%20NJ/08.%20Tax%20Credits/Applications/2006/LIHTC%20App/LIHTC%208-18-06%20Binder%201/GR-Tab%208.PDF"
+      },
+      {
+        type:"NJHMFA-Approved Management & Marketing Plan (2026)",
+        with:"New Jersey Housing and Mortgage Finance Agency (NJHMFA)",
+        programType:"LIHTC/HUD Mixed-Finance",
+        ref:"Dated 1/22/2026 — the CURRENT, agency-approved statement of unit mix and set-asides, and an independent corroboration of the 2006 application chart. Verbatim: '(a) fifty-three (53) units are set aside and operated as both qualified low-income units under Section 42... (b) five (5) units are to be set aside and operated as PHA-Assisted Units that are not Tax Credit Units; and (c) eight (8) units are to be operated as market rate unrestricted units.' Per-bedroom allocation table (PHA Only / PHA+LIHTC / Market): 1BR 1/3/2; 2BR 3/20/5; 3BR 0/25/1; 4BR 1/5/0; Totals 5/53/8 — matches the 2006 Rent Qualification Chart cell-for-cell. SEPARATE, DO-NOT-CONFLATE FIGURE: the Plan also sets an initial-lease-up income-TARGETING priority for the 53 PHA/LIHTC units — '21 Units ... 30% of area median income or less; 20 Units ... 31% to 50%; and 12 Units ... 51% to 60%'. That 21/20/12 split is a tenant-selection occupancy preference, NOT a rent-restriction set-aside; the binding rent restrictions remain 46@50% / 7@60%. HMFA project #1498; Owner: A. Harry Moore Phase I Associates, LLC.",
+        effectiveDate:"2026-01-22",
+        compliancePeriod:null,
+        complianceEnd:null,
+        setAsides:"53u PHA-Assisted/Tax Credit · 5u PHA-Assisted-Only (non-LIHTC) · 8u market-rate unrestricted = 66",
+        spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/0.%20Legal%20Consolidated/Consents/NJHMFA/Property%20Management/0.%20Approved/W%20at%20GR%20I/02.%20GR1%20-%20Mgmt%20Mktg%20Plan_2026.docx"
       },
       {
         type:"NJHMFA Financing, Deed Restriction and Regulatory Agreement",
@@ -11398,18 +11655,68 @@ const PORTFOLIO = [
         type:"HUD Approval Letter (Mixed-Finance ACC Amendment No. 106)",
         with:"U.S. Department of Housing and Urban Development (HUD) / Jersey City Housing Authority (JCHA)",
         programType:"HUD Mixed-Finance",
-        ref:"Approval letter dated 2/5/2026; covers both Gloria Robinson I & II under JCHA master ACC; HAP runs through JCHA's master ACC rather than a standalone owner-entity HAP contract",
+        ref:"Approval letter dated 2/5/2026, covering both phases. CORRECTION 2026-07-27: an earlier note here described the subsidy as a HAP contract — that was wrong. There is NO Section 8 HAP or AHAP contract and no per-bedroom contract rent schedule for either phase; searches across every SharePoint path returned zero HAP/AHAP/PBV documents. The subsidy is PUBLIC HOUSING OPERATING SUBSIDY on ACC units under a Mixed-Finance Amendment to Consolidated ACC No. NY415. Consequently tenant rent on the ACC units is the public-housing Total Tenant Payment (30% of adjusted income, subject to JCHA's ACOP flat/ceiling rent), NOT a contract-rent table — which is why hudContractRents stays null in certHistory. Also corrected: ACC Amendment No. 106 (dated 5/27/2007) governs GR I ONLY; GR II is governed by ACC Amendment No. 110 (dated 6/17/2008) — both verbatim from the recitals of the 2026 First Amendments attached to this letter. Letter's unit-mix table, verbatim: GR I = 5 ACC / 53 ACC+LIHTC / 8 Market = 66; GR II = 6 ACC / 65 ACC+LIHTC / 7 Market = 78 (independently matches the 2006 application chart and the 2026 Mgmt Plan). Letter also states: 'The Projects' unit mix will not change with these changes in ownership, and no rehabilitation work is anticipated at this time' and 'The Projects' Declaration of Restrictive Covenants and Regulatory and Operating Agreements will remain in place as is.' Both phases were developed 2008-2009 under the A. Harry Moore Apartments FY2009 HOPE VI Revitalization grant plus LIHTC. Manager becomes MRK Property Management, LLC (renamed Ingerman Management Company). NOT FILED IN SHAREPOINT: the underlying Mixed-Finance ACC Amendments (106/110) and the Regulatory & Operating Agreement itself — only the 2026 First Amendments and references to them.",
         effectiveDate:"2026-02-05",
         compliancePeriod:null,
         complianceEnd:null,
-        setAsides:null,
+        setAsides:"Per HUD letter: 5u ACC-only · 53u ACC+LIHTC · 8u market = 66",
         spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Gloria%20Robinson%20I%20-%20Jersey%20City%2C%20NJ/17.%20Closing/2026/Closing%20Binder/ED%20%5B02.05.26%5D%20-%20HUD%20Approval%20-%20Gloria%20Robinson%20I.pdf"
       }
     ],
-    certHistory:[],
-    program:"LIHTC/PBV",
-    lihtc:{amiYear:null, setAsides:null, incomeLimits:null, grossRentLimits:null, utilityAllowances:null, actualRents:null}, // Blended "Average AMI Set-Aside" per Project Erving Offering Memo: 51% (NOT a tiered breakdown — informational only). Second pass 2026-07-16: found the property's 2006 LIHTC Tax Credit Application (tab_0031.pdf) which likely has the real tiered unit-distribution table (like GR II's did), but at 135MB it exceeds the available read tool's 100MB size cap — could not be opened. Bedroom unit mix now known (see above, inferred from rent-roll codes); tiered AMI breakdown still not recoverable — genuine documentation gap (blocked by file size, not unsearched). TODO: certHistory & AMI income/rent limits also pending follow-up pass
-    hud:null // HAP administered via JCHA master ACC (#NY415), not a standalone owner HAP contract; no contract number located
+    certHistory:[
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Jersey City, NJ HUD Metro FMR Area (Hudson County)",
+        source:"HUD FY2025 MTSP limits effective 4/1/2025, cross-published by NJHMFA as 'HUD Area 17 – Hudson County' (tc_2025_income_limits.pdf) and cross-checked against HUD's FY2025 NJ HOME limit tables — VLI and 60% rows match to the dollar. AREA DEFINITION CONFIRMED (not inferred): HUD's own FY2025/FY2026 documentation states 'Hudson County is part of the Jersey City, NJ HUD Metro FMR Area' and that the area 'contains the following areas: Hudson County, NJ' — it is a standalone HMFA carved out of the New York-Newark-Jersey City MSA (CBSA sub-code METRO35620MM3640) and must NOT be grouped with Newark or Bergen-Passaic. FY2025 4-person AMI = $107,500. Jersey City HMFA is NOT a HERA Special / hold-harmless area (HUD: 'was not impacted by the Income Limit Hold Harmless policy prior to HERA'), so no separate pre-2009 vintage limit set applies — NJHMFA's 2025 PDF does print a 'HERA Income Limits' block for Hudson County but every figure is identical to the regular Tax Credit block. Ratio checks all clean, both years: 60%=1.2x50%, 30%=0.6x50%, 80%=1.6x50%, exact at every household size 1-6 (no 5-person rounding anomaly in this area). GOVERNING RENT RESTRICTIONS for this property = 46u@50% + 7u@60% (see regulatoryAgreements). UTILITY ALLOWANCE IS UNRESOLVED — see the utilityAllowances note below; net max rents cannot be computed until it is settled.",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":28140,"2":32160,"3":36180,"4":40200,"5":43440,"6":46650},
+            "50%":{"1":46900,"2":53600,"3":60300,"4":67000,"5":72400,"6":77750},
+            "60%":{"1":56280,"2":64320,"3":72360,"4":80400,"5":86880,"6":93300},
+            "80%":{"1":75040,"2":85760,"3":96480,"4":107200,"5":115840,"6":124400}
+          },
+          grossRentLimits:{
+            "50%":{"1BR":1256,"2BR":1507,"3BR":1742,"4BR":1943},
+            "60%":{"1BR":1507,"2BR":1809,"3BR":2091,"4BR":2332}
+          },
+          rentsByAgreement:{
+            "LIHTC — NJHMFA LURA · 46 units @ ≤50% AMI (3×1BR/16×2BR/22×3BR/5×4BR)":{"source":"HUD MTSP FY2025 / NJHMFA HUD Area 17","50%":{"1BR":1256,"2BR":1507,"3BR":1742,"4BR":1943}},
+            "LIHTC — NJHMFA LURA · 7 units @ ≤60% AMI (4×2BR/3×3BR)":{"source":"HUD MTSP FY2025 / NJHMFA HUD Area 17","60%":{"2BR":1809,"3BR":2091}}
+          },
+          utilityAllowances:null, // GENUINELY UNRESOLVED as of 2026-07-27, not an un-run search. (1) No engineered UA study exists for either Gloria Robinson phase (tenant-wide search returned 17 UA studies, none for this property). (2) No NJHMFA property-specific approved UA schedule is filed. (3) JCHA's only PUBLISHED UA schedule is the '2018-19 HCVP Utility Allowance' effective 1/2/2019 — seven years stale, and it is an HCV schedule while these are ACC/public-housing units; JCHA publishes NO public-housing UA schedule at all (its PH documents page has a 2026 ACOP but no UA schedule). (4) The likely operative fallback is NJHMFA's STATEWIDE LIHTC Utility Allowance Schedule effective 10/1/2025 (mandatory implementation by 1/1/2026, nj.gov/dca/hmfa .../tc_2025_Utility_Allowance_Schedule.pdf) — but its 'Locality/PHA' field is blank (statewide, not Jersey City specific) and its line-item-to-value mapping did not extract reliably, so no figures are entered here rather than entering guesses. ACTION REQUIRED: confirm with MRK Property Management (Ingerman, contact Mary French) which schedule is actually being applied, and/or OPRA-request JCHA's current public-housing UA schedule. Until then the gross limits above are ceilings only — net max rents are NOT computable.
+          hudContractRents:null // Deliberately null. These are public-housing ACC units, not PBV — there is no HAP contract and no per-bedroom contract rent. 58 of 66 units are ACC-assisted (5 ACC-only + 53 ACC+LIHTC); tenant rent on those = public-housing Total Tenant Payment (30% of adjusted income, subject to JCHA ACOP flat/ceiling rent), which is a per-household calculation, not a schedule that can be tabulated. The LIHTC gross limits above remain the binding rent CEILING on the 53 LIHTC units. See the HUD Approval Letter entry in regulatoryAgreements for the full correction.
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Jersey City, NJ HUD Metro FMR Area (Hudson County)",
+        source:"HUD FY2026 MTSP limits effective 5/1/2026 (note: NOT 4/1 — HUD's FY2026 effective date is 5/1/2026; the income-averaging Excel was re-issued 5/18/2026 to remove rounding from non-50% tiers). Triple-confirmed: HUD FY2026 MTSP Documentation System, HUD's official MTSP-Data-FY26.xlsx / MTSP-IncAvg-Data-FY26.xlsx, and NJHMFA's tc_2026_income_limits.pdf ('HUD Area 17 – Hudson County, Effective Date 05/01/2026'); HUD's FY2026 NJ HOME tables match on the VLI and 60% rows. FY2026 4-person AMI = $110,100. MATERIAL FLAG: the FY2026 4-person VLI of $73,700 is exactly 110.0% of FY2025's $67,000 — Jersey City hit HUD's 10% annual increase CAP (FY2026 ceiling 10.00%; twice the national MFI change was 10.09%). These 50% limits are therefore CAP-DRIVEN, not median-driven: MFI cannot be back-derived from them, and a comparable ~10% jump must NOT be assumed for FY2027. Hold-harmless: MTSP limits can never decline for an existing project, and FY2026 exceeds FY2025 here, so FY2026 applies to every placed-in-service vintage (HUD and NJHMFA vintage tables both show 'FY 2026' for all rows). Implementation deadline: no later than 45 days after the effective date (≈6/15/2026); rent increases are permitted, not required. TRAP AVOIDED: HUD's Section 8/HOME 'Extremely Low' and 'Low (80%)' limits are computed differently and are NOT interchangeable with the MTSP 30%/80% tiers (FY2026 4p: MTSP 30% = $44,220 vs ELI $44,200; MTSP 80% = $117,920 vs Low Income $117,900) — the MTSP figures below are the correct ones for LIHTC.",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":30930,"2":35370,"3":39780,"4":44220,"5":47760,"6":51300},
+            "50%":{"1":51550,"2":58950,"3":66300,"4":73700,"5":79600,"6":85500},
+            "60%":{"1":61860,"2":70740,"3":79560,"4":88440,"5":95520,"6":102600},
+            "80%":{"1":82480,"2":94320,"3":106080,"4":117920,"5":127360,"6":136800}
+          },
+          grossRentLimits:{
+            "50%":{"1BR":1381,"2BR":1657,"3BR":1916,"4BR":2137},
+            "60%":{"1BR":1657,"2BR":1989,"3BR":2299,"4BR":2565}
+          },
+          rentsByAgreement:{
+            "LIHTC — NJHMFA LURA · 46 units @ ≤50% AMI (3×1BR/16×2BR/22×3BR/5×4BR)":{"source":"HUD MTSP FY2026 / NJHMFA HUD Area 17","50%":{"1BR":1381,"2BR":1657,"3BR":1916,"4BR":2137}},
+            "LIHTC — NJHMFA LURA · 7 units @ ≤60% AMI (4×2BR/3×3BR)":{"source":"HUD MTSP FY2026 / NJHMFA HUD Area 17","60%":{"2BR":1989,"3BR":2299}}
+          },
+          utilityAllowances:null, // Still unresolved — see the FY2025 event's utilityAllowances note for the full trail and the action required.
+          hudContractRents:null // Public-housing ACC units, not PBV — no contract rent schedule exists. See FY2025 event note.
+        }
+      }
+    ],
+    program:"LIHTC/Public Housing (ACC)", // CORRECTED 2026-07-27 from "LIHTC/PBV" — there is no Section 8 PBV or HAP contract; subsidy is public-housing operating subsidy under JCHA Consolidated ACC No. NY415 (Mixed-Finance Amendment No. 106, 5/27/2007)
+    lihtc:{amiYear:2026, setAsides:[{pct:50,unitCount:46},{pct:60,unitCount:7}], incomeLimits:{"30%":{"1":30930,"2":35370,"3":39780,"4":44220,"5":47760,"6":51300},"50%":{"1":51550,"2":58950,"3":66300,"4":73700,"5":79600,"6":85500},"60%":{"1":61860,"2":70740,"3":79560,"4":88440,"5":95520,"6":102600},"80%":{"1":82480,"2":94320,"3":106080,"4":117920,"5":127360,"6":136800}}, grossRentLimits:{"50%":{"1BR":1381,"2BR":1657,"3BR":1916,"4BR":2137},"60%":{"1BR":1657,"2BR":1989,"3BR":2299,"4BR":2565}}, utilityAllowances:null, actualRents:null},
+    // setAsides RESOLVED 2026-07-27 (previously null after two passes concluded the data didn't exist): 46u@≤50% + 7u@≤60% = 53 LIHTC units, from the 2006 LIHTC Application Rent Qualification Chart (GR-Tab 8.PDF) and independently corroborated by the NJHMFA-approved 1/22/2026 Management & Marketing Plan. The remaining 13 units are outside the LIHTC setAsides array by design: 5u PHA-Assisted-Only (ACC, non-LIHTC) + 8u market-rate unrestricted. The Offering Memo's blended "Average AMI Set-Aside" of 51% is informational only and is NOT a tier. DO NOT confuse the Mgmt Plan's 21/20/12 initial-lease-up income-targeting priority (30%/31-50%/51-60%) with these rent-restriction tiers — different instruments, different purpose. utilityAllowances intentionally null; see certHistory note.
+    hud:null // Public-housing operating subsidy via JCHA Consolidated ACC No. NY415 / Mixed-Finance Amendment No. 106 (5/27/2007). No HAP contract number exists because there is no HAP contract. The underlying ACC amendment and Regulatory & Operating Agreement are NOT filed in SharePoint — only the 2026 First Amendment attached to the HUD approval letter.
   },
 
   {
@@ -11481,18 +11788,68 @@ const PORTFOLIO = [
         type:"HUD Approval Letter (Mixed-Finance ACC Amendment No. 106)",
         with:"U.S. Department of Housing and Urban Development (HUD) / Jersey City Housing Authority (JCHA)",
         programType:"HUD Mixed-Finance",
-        ref:"Same combined approval letter as Gloria Robinson I, dated 2/5/2026; covers both phases under JCHA master ACC",
+        ref:"Same combined approval letter as Gloria Robinson I, dated 2/5/2026. CORRECTION 2026-07-27: GR II is governed by ACC Amendment No. 110, dated 6/17/2008 — NOT Amendment No. 106, which covers GR I only (verbatim from the recitals of the 2026 First Amendments attached to this letter). Also corrected: there is NO Section 8 HAP/AHAP/PBV contract for this phase — zero such documents exist anywhere in SharePoint. The subsidy is public-housing operating subsidy on ACC units under JCHA Consolidated ACC No. NY415, so tenant rent on the ACC units is the public-housing Total Tenant Payment (30% of adjusted income, subject to JCHA ACOP flat/ceiling rent), not a per-bedroom contract rent schedule. Letter's unit-mix table for GR II, verbatim: 6 ACC / 65 ACC+LIHTC / 7 Market = 78 — independently matches the 2007 LIHTC Application's 65 affordable / 6 moderate / 7 market split. Letter states the unit mix will not change with the ownership transfer, no rehab is anticipated, and the Declaration of Restrictive Covenants and Regulatory & Operating Agreements 'will remain in place as is.' Note this letter is also mis-filed once under GR II's '17. Closing/2025/Consent/' folder despite its 2026 date. NOT FILED IN SHAREPOINT: ACC Amendment No. 110 itself, and the Regulatory & Operating Agreement (a comparable R&OA form exists for Pleasantville I at '.../Pleasantville I - Pleasantville, NJ/17. Closing/Prior to 2026/2004/Richman/Binder/tab_0046.pdf' if the form language is needed).",
         effectiveDate:"2026-02-05",
         compliancePeriod:null,
         complianceEnd:null,
-        setAsides:null,
+        setAsides:"Per HUD letter: 6u ACC-only · 65u ACC+LIHTC · 7u market = 78",
         spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Gloria%20Robinson%20I%20-%20Jersey%20City%2C%20NJ/17.%20Closing/2026/Closing%20Binder/ED%20%5B02.05.26%5D%20-%20HUD%20Approval%20-%20Gloria%20Robinson%20I.pdf"
       }
     ],
-    certHistory:[],
-    program:"LIHTC/PBV",
-    lihtc:{amiYear:null, setAsides:[{pct:60,unitCount:65},{pct:80,unitCount:6}], incomeLimits:null, grossRentLimits:null, utilityAllowances:null, actualRents:null}, // setAsides confirmed 2026-07-16 via 2007 LIHTC Application (see regulatoryAgreements) — 65u@≤60% AMI + 6u moderate-income@>60-80% AMI + 7 market-rate units (not restricted, excluded from setAsides array). Blended "Average AMI Set-Aside" per Offering Memo was 52% for context. TODO: certHistory & AMI income/rent limits still pending follow-up pass
-    hud:null // HAP administered via JCHA master ACC; no standalone contract number located
+    certHistory:[
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Jersey City, NJ HUD Metro FMR Area (Hudson County)",
+        source:"HUD FY2025 MTSP limits effective 4/1/2025, cross-published by NJHMFA as 'HUD Area 17 – Hudson County' (tc_2025_income_limits.pdf) and cross-checked against HUD's FY2025 NJ HOME limit tables — VLI and 60% rows match to the dollar. AREA DEFINITION CONFIRMED (not inferred): HUD states 'Hudson County is part of the Jersey City, NJ HUD Metro FMR Area' and that the area 'contains the following areas: Hudson County, NJ' — a standalone HMFA carved out of the New York-Newark-Jersey City MSA (CBSA sub-code METRO35620MM3640); do NOT group with Newark or Bergen-Passaic. FY2025 4-person AMI = $107,500. Jersey City HMFA is NOT a HERA Special / hold-harmless area, so no separate pre-2009 vintage limit set applies. Ratio checks clean at every household size 1-6 (60%=1.2x50%, 30%=0.6x50%, 80%=1.6x50%). GOVERNING RENT RESTRICTIONS for this property = 65u@≤60% AMI + 6u moderate-income@>60-80% AMI, per the 2007 LIHTC Application Part I Unit Distribution table (see regulatoryAgreements); the 7 market-rate 1BR units are unrestricted. IMPORTANT CAVEAT on the 80% tier: the 6 'moderate income' units are a NJHMFA >60-80% AMI band, not a federal LIHTC tier — the 80% figures below are the MTSP 1.6x-VLI derivation (correct for this purpose) and are shown as the applicable ceiling, but the exact instrument language governing that band should be re-read if a rent increase is contemplated. UTILITY ALLOWANCE IS UNRESOLVED — see note below; net max rents are not computable.",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":28140,"2":32160,"3":36180,"4":40200,"5":43440,"6":46650},
+            "50%":{"1":46900,"2":53600,"3":60300,"4":67000,"5":72400,"6":77750},
+            "60%":{"1":56280,"2":64320,"3":72360,"4":80400,"5":86880,"6":93300},
+            "80%":{"1":75040,"2":85760,"3":96480,"4":107200,"5":115840,"6":124400}
+          },
+          grossRentLimits:{
+            "60%":{"1BR":1507,"2BR":1809,"3BR":2091},
+            "80%":{"1BR":2010,"2BR":2412,"3BR":2788}
+          },
+          rentsByAgreement:{
+            "LIHTC — NJHMFA LURA · 65 units @ ≤60% AMI (24×1BR/16×2BR/25×3BR)":{"source":"HUD MTSP FY2025 / NJHMFA HUD Area 17","60%":{"1BR":1507,"2BR":1809,"3BR":2091}},
+            "NJHMFA Moderate Income — 6 units @ >60-80% AMI (2×1BR/3×2BR/1×3BR)":{"source":"HUD MTSP FY2025 80% tier (1.6x VLI) — ceiling for the moderate-income band","80%":{"1BR":2010,"2BR":2412,"3BR":2788}}
+          },
+          utilityAllowances:null, // GENUINELY UNRESOLVED as of 2026-07-27, not an un-run search — identical situation to GR I. (1) No engineered UA study exists for either Gloria Robinson phase. (2) No NJHMFA property-specific approved UA schedule is filed. (3) JCHA's only PUBLISHED schedule is the '2018-19 HCVP Utility Allowance' effective 1/2/2019 — seven years stale, and it is an HCV schedule while these are ACC/public-housing units; JCHA publishes no public-housing UA schedule at all. (4) Likely operative fallback is NJHMFA's STATEWIDE LIHTC Utility Allowance Schedule effective 10/1/2025 (mandatory by 1/1/2026, nj.gov/dca/hmfa .../tc_2025_Utility_Allowance_Schedule.pdf), but its 'Locality/PHA' field is blank (statewide, not Jersey City specific) and line-item values did not extract reliably — no figures entered rather than guesses. One possible additional lead not yet opened: the 2007 LIHTC application (tab_0031.pdf) may contain a 2007-era UA table, but a 2007 table is not a valid current compliance UA. ACTION REQUIRED: confirm with MRK Property Management (Ingerman, contact Mary French) which schedule is in use, and/or OPRA-request JCHA's current public-housing UA schedule. Until then the gross limits above are ceilings only.
+          hudContractRents:null // Deliberately null. Public-housing ACC units, not PBV — no HAP contract and no per-bedroom contract rent. 71 of 78 units are ACC-assisted (6 ACC-only + 65 ACC+LIHTC); tenant rent on those = public-housing Total Tenant Payment (30% of adjusted income, subject to JCHA ACOP flat/ceiling rent), a per-household calculation that cannot be tabulated. LIHTC gross limits above remain the binding ceiling on the 65 LIHTC units. See the HUD Approval Letter entry in regulatoryAgreements.
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Jersey City, NJ HUD Metro FMR Area (Hudson County)",
+        source:"HUD FY2026 MTSP limits effective 5/1/2026 (NOT 4/1 — HUD's FY2026 effective date is 5/1/2026; the income-averaging Excel was re-issued 5/18/2026 to remove rounding from non-50% tiers). Triple-confirmed: HUD FY2026 MTSP Documentation System, HUD's MTSP-Data-FY26.xlsx / MTSP-IncAvg-Data-FY26.xlsx, and NJHMFA's tc_2026_income_limits.pdf ('HUD Area 17 – Hudson County, Effective Date 05/01/2026'); HUD's FY2026 NJ HOME tables match on VLI and 60%. FY2026 4-person AMI = $110,100. MATERIAL FLAG: the FY2026 4-person VLI of $73,700 is exactly 110.0% of FY2025's $67,000 — Jersey City hit HUD's 10% annual increase CAP, so these 50% limits are CAP-DRIVEN, not median-driven; MFI cannot be back-derived and a similar ~10% jump must NOT be assumed for FY2027. Hold-harmless: FY2026 exceeds FY2025 here, so FY2026 applies to every placed-in-service vintage. Implementation deadline ≈6/15/2026 (45 days after effective date); increases permitted, not required. TRAP AVOIDED: HUD's Section 8/HOME 'Extremely Low' and 'Low (80%)' limits are computed differently and are NOT interchangeable with the MTSP 30%/80% tiers (FY2026 4p: MTSP 80% = $117,920 vs HUD Low Income $117,900) — the MTSP figures below are correct for LIHTC and for the >60-80% moderate band.",
+        snapshot:{
+          incomeLimits:{
+            "30%":{"1":30930,"2":35370,"3":39780,"4":44220,"5":47760,"6":51300},
+            "50%":{"1":51550,"2":58950,"3":66300,"4":73700,"5":79600,"6":85500},
+            "60%":{"1":61860,"2":70740,"3":79560,"4":88440,"5":95520,"6":102600},
+            "80%":{"1":82480,"2":94320,"3":106080,"4":117920,"5":127360,"6":136800}
+          },
+          grossRentLimits:{
+            "60%":{"1BR":1657,"2BR":1989,"3BR":2299},
+            "80%":{"1BR":2210,"2BR":2652,"3BR":3066}
+          },
+          rentsByAgreement:{
+            "LIHTC — NJHMFA LURA · 65 units @ ≤60% AMI (24×1BR/16×2BR/25×3BR)":{"source":"HUD MTSP FY2026 / NJHMFA HUD Area 17","60%":{"1BR":1657,"2BR":1989,"3BR":2299}},
+            "NJHMFA Moderate Income — 6 units @ >60-80% AMI (2×1BR/3×2BR/1×3BR)":{"source":"HUD MTSP FY2026 80% tier (1.6x VLI) — ceiling for the moderate-income band","80%":{"1BR":2210,"2BR":2652,"3BR":3066}}
+          },
+          utilityAllowances:null, // Still unresolved — see the FY2025 event's utilityAllowances note for the full trail and the action required.
+          hudContractRents:null // Public-housing ACC units, not PBV — no contract rent schedule exists. See FY2025 event note.
+        }
+      }
+    ],
+    program:"LIHTC/Public Housing (ACC)", // CORRECTED 2026-07-27 from "LIHTC/PBV" — no Section 8 PBV or HAP contract exists; subsidy is public-housing operating subsidy under JCHA Consolidated ACC No. NY415 (Mixed-Finance Amendment No. 110, 6/17/2008 — NOT No. 106, which is GR I's)
+    lihtc:{amiYear:2026, setAsides:[{pct:60,unitCount:65},{pct:80,unitCount:6}], incomeLimits:{"30%":{"1":30930,"2":35370,"3":39780,"4":44220,"5":47760,"6":51300},"50%":{"1":51550,"2":58950,"3":66300,"4":73700,"5":79600,"6":85500},"60%":{"1":61860,"2":70740,"3":79560,"4":88440,"5":95520,"6":102600},"80%":{"1":82480,"2":94320,"3":106080,"4":117920,"5":127360,"6":136800}}, grossRentLimits:{"60%":{"1BR":1657,"2BR":1989,"3BR":2299},"80%":{"1BR":2210,"2BR":2652,"3BR":3066}}, utilityAllowances:null, actualRents:null},
+    // setAsides confirmed 2026-07-16 via the 2007 LIHTC Application Part I Unit Distribution table (see regulatoryAgreements) and re-confirmed 2026-07-27 against the 2/5/2026 HUD approval letter's own unit-mix table (6 ACC / 65 ACC+LIHTC / 7 market) — 65u@≤60% AMI + 6u moderate-income@>60-80% AMI; the 7 market-rate 1BR units are unrestricted and excluded from setAsides by design. Blended "Average AMI Set-Aside" per Offering Memo was 52% — informational only, NOT a tier. Income/rent limits added 2026-07-27 (FY2026, Jersey City NJ HMFA). utilityAllowances intentionally null; see certHistory note.
+    hud:null // Public-housing operating subsidy via JCHA Consolidated ACC No. NY415 / Mixed-Finance Amendment No. 110 (6/17/2008). No HAP contract number exists because there is no HAP contract. The ACC amendment and Regulatory & Operating Agreement are NOT filed in SharePoint — only the 2026 First Amendment attached to the HUD approval letter.
   },
 
   {
@@ -12032,10 +12389,74 @@ const PORTFOLIO = [
         spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/0.%20Legal%20Consolidated/Consents/HUD/Mixed%20Finance/Willow%20Pond%20Village%20-%20Replacement%20HAP%20Contract.PDF"
       }
     ],
-    certHistory:[],
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HMFA (Middlesex County) — PLACEHOLDER TIERS",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 04/01/2024, HUD Area 23 (Middlesex County) — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area. AREA CONFIRMED 2026-07-27 for all three years via HUD's IL/MTSP Documentation System: Middlesex County stayed in this HMFA throughout, even though HUD re-delineated several other NJ areas for FY2025 (Atlantic City, Ocean City/Cape May, Trenton-Princeton, Vineland). Regular (non-HERA) MTSP block. Sub-tier INCOME limits are exact multiples of the 50% row (30% = 0.6x, verified at every household size); sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent gives a $1 error at 1BR in both FY2025 and FY2026 here. UA intentionally null: no utility allowance schedule could be located for this property, and the Housing Authority of Perth Amboy does not publish one (see hud.utilityAllowanceNote). ⚠ TIERS ARE PLACEHOLDERS, NOT CONFIRMED SET-ASIDES: this property's tiered AMI breakdown remains a genuine documentation gap after three passes (2026-07-15, 07-16 and 07-27). The only figure on record is a blended 'Average AMI Set-Aside' of 56% from the Project Erving offering memo, which is informational and not a tiered election. The 30/50/60% rows below bracket that blend and are shown so the property is not blank — they must NOT be treated as the governing set-aside until the NJHMFA deed restriction or the LURA is read. Both remain scanned images with no OCR text layer. Separately, 29 of the 70 units are RAD-PBV, where the PBV contract rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":30720,"2":35100,"3":39480,"4":43860,"5":47370,"6":50880},"50%":{"1":51200,"2":58500,"3":65800,"4":73100,"5":78950,"6":84800},"60%":{"1":61440,"2":70200,"3":78960,"4":87720,"5":94740,"6":101760}},
+          grossRentLimits:{"30%":{"1BR":822,"2BR":987,"3BR":1140},"50%":{"1BR":1371,"2BR":1645,"3BR":1900},"60%":{"1BR":1645,"2BR":1974,"3BR":2280}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HMFA (Middlesex County) — PLACEHOLDER TIERS",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 04/01/2025, HUD Area 23 (Middlesex County) — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area. AREA CONFIRMED 2026-07-27 for all three years via HUD's IL/MTSP Documentation System: Middlesex County stayed in this HMFA throughout, even though HUD re-delineated several other NJ areas for FY2025 (Atlantic City, Ocean City/Cape May, Trenton-Princeton, Vineland). Regular (non-HERA) MTSP block. Sub-tier INCOME limits are exact multiples of the 50% row (30% = 0.6x, verified at every household size); sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent gives a $1 error at 1BR in both FY2025 and FY2026 here. UA intentionally null: no utility allowance schedule could be located for this property, and the Housing Authority of Perth Amboy does not publish one (see hud.utilityAllowanceNote). ⚠ TIERS ARE PLACEHOLDERS, NOT CONFIRMED SET-ASIDES: this property's tiered AMI breakdown remains a genuine documentation gap after three passes (2026-07-15, 07-16 and 07-27). The only figure on record is a blended 'Average AMI Set-Aside' of 56% from the Project Erving offering memo, which is informational and not a tiered election. The 30/50/60% rows below bracket that blend and are shown so the property is not blank — they must NOT be treated as the governing set-aside until the NJHMFA deed restriction or the LURA is read. Both remain scanned images with no OCR text layer. Separately, 29 of the 70 units are RAD-PBV, where the PBV contract rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":32220,"2":36840,"3":41430,"4":46020,"5":49710,"6":53400},"50%":{"1":53700,"2":61400,"3":69050,"4":76700,"5":82850,"6":89000},"60%":{"1":64440,"2":73680,"3":82860,"4":92040,"5":99420,"6":106800}},
+          grossRentLimits:{"30%":{"1BR":863,"2BR":1035,"3BR":1196},"50%":{"1BR":1438,"2BR":1726,"3BR":1994},"60%":{"1BR":1726,"2BR":2071,"3BR":2393}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Middlesex-Somerset-Hunterdon NJ HMFA (Middlesex County) — PLACEHOLDER TIERS",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 05/01/2026, HUD Area 23 (Middlesex County) — Middlesex-Somerset-Hunterdon NJ HUD Metro FMR Area. AREA CONFIRMED 2026-07-27 for all three years via HUD's IL/MTSP Documentation System: Middlesex County stayed in this HMFA throughout, even though HUD re-delineated several other NJ areas for FY2025 (Atlantic City, Ocean City/Cape May, Trenton-Princeton, Vineland). Regular (non-HERA) MTSP block. Sub-tier INCOME limits are exact multiples of the 50% row (30% = 0.6x, verified at every household size); sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent gives a $1 error at 1BR in both FY2025 and FY2026 here. UA intentionally null: no utility allowance schedule could be located for this property, and the Housing Authority of Perth Amboy does not publish one (see hud.utilityAllowanceNote). ⚠ TIERS ARE PLACEHOLDERS, NOT CONFIRMED SET-ASIDES: this property's tiered AMI breakdown remains a genuine documentation gap after three passes (2026-07-15, 07-16 and 07-27). The only figure on record is a blended 'Average AMI Set-Aside' of 56% from the Project Erving offering memo, which is informational and not a tiered election. The 30/50/60% rows below bracket that blend and are shown so the property is not blank — they must NOT be treated as the governing set-aside until the NJHMFA deed restriction or the LURA is read. Both remain scanned images with no OCR text layer. Separately, 29 of the 70 units are RAD-PBV, where the PBV contract rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":32520,"2":37170,"3":41820,"4":46440,"5":50160,"6":53880},"50%":{"1":54200,"2":61950,"3":69700,"4":77400,"5":83600,"6":89800},"60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320,"6":107760}},
+          grossRentLimits:{"30%":{"1BR":871,"2BR":1045,"3BR":1207},"50%":{"1BR":1451,"2BR":1742,"3BR":2012},"60%":{"1BR":1742,"2BR":2091,"3BR":2415}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      }
+    ],
     program:"LIHTC/PBV",
-    lihtc:{amiYear:null, setAsides:null, incomeLimits:null, grossRentLimits:null, utilityAllowances:null, actualRents:null}, // Blended "Average AMI Set-Aside" per Project Erving Offering Memo: 56% (NOT a tiered breakdown — informational only). Bedroom unit mix now confirmed (see above). The 1,519-page LURA closing binder was checked twice (2026-07-15 and 2026-07-16) but only surfaced page-index text, not a summary/TOC with unit data; NJHMFA financing/deed restriction doc remains a scanned image with no OCR text; no LIHTC "Part I" application with a unit-distribution table (like GR II's) was located for this property. Tiered AMI set-aside still not recoverable — genuine documentation gap. TODO: certHistory & AMI income/rent limits also pending follow-up pass
-    hud:null // 29 of 70 units are RAD-PBV per HUD approval letter above; contract number not located
+    lihtc:{amiYear:2026, setAsides:null,
+      incomeLimits:{"30%":{"1":32520,"2":37170,"3":41820,"4":46440,"5":50160,"6":53880},"50%":{"1":54200,"2":61950,"3":69700,"4":77400,"5":83600,"6":89800},"60%":{"1":65040,"2":74340,"3":83640,"4":92880,"5":100320,"6":107760}},
+      grossRentLimits:{"30%":{"1BR":871,"2BR":1045,"3BR":1207},"50%":{"1BR":1451,"2BR":1742,"3BR":2012},"60%":{"1BR":1742,"2BR":2091,"3BR":2415}},
+      utilityAllowances:null, actualRents:null},
+    // Limits populated 2026-07-27 from the FY2026 regular (non-HERA) MTSP table, Middlesex-Somerset-Hunterdon NJ HMFA (NJHMFA HUD Area 23).
+    // setAsides deliberately left NULL: the 30/50/60% rows above are PLACEHOLDER brackets, not a confirmed election — see certHistory.
+    // Blended "Average AMI Set-Aside" of 56% per the Project Erving offering memo is informational only, NOT a tiered breakdown.
+    // Bedroom unit mix IS confirmed (rent roll, 2026-07-16). The 1,519-page LURA closing binder was checked twice and yields only page-index
+    // text; the NJHMFA financing/deed restriction remains a scanned image with no OCR layer; no NJHMFA LIHTC "Part I" application with a
+    // unit-distribution table (the source that cracked Gloria Robinson II) was ever located. Tiered set-aside is a genuine documentation gap.
+    hud:{
+      program:"RAD Project-Based Voucher (PBV)",
+      contractNumber:null,
+      contractAdmin:"Housing Authority of Perth Amboy (HAPA) — PIH-administered, NOT HUD Multifamily",
+      assistedUnits:29, totalUnits:70,
+      contractTerm:"20-year HAP, RAD-PBV conversion effective 2021-09-01",
+      contractRents:null,
+      pbvPaymentStandards:{ effective:"2026-01-01", "0BR":1840, "1BR":2017, "2BR":2535, "3BR":3040, "4BR":3361, "5BR":3866, "6BR":4370,
+        source:"perthamboyha.org — Housing Choice Voucher page",
+        caution:"These are PAYMENT STANDARDS (a cap), NOT contract rents. For a RAD PBV contract, initial rents are set at the converted public housing subsidy level and thereafter adjusted by OCAF or the PHA's chosen method under Section 8(o)(13)(I) — the payment standard does not tell you the contract rent. HAPA's page also still says the standard is '100% of FMR' while Board Resolution 3391-21 (7/14/2021) set the 1BR at 110% of FMR, so the narrative on that page is stale; the table itself is the current published one." },
+      // CONTRACT RENTS ARE NOT PUBLIC — confirmed, not assumed: RAD PBV contracts are administered PHA-side (PIH), so they are absent from
+      // HUD's Multifamily Assistance & Section 8 Contracts database entirely, and HUD publishes no property-level PBV rent file. The figures
+      // live in the executed RAD Conversion Commitment (RCC) and Exhibit A of the PBV HAP contract between HAPA and ownership — obtainable
+      // from HAPA via OPRA request, or from the owner. Until then no hud_contract cert events can be created.
+      // The 9/1/2021 conversion is corroborated by HAPA Board of Commissioners minutes of 7/14/2021 (Executive Director's report references
+      // the Willow Pond and Birchwood/Parkview RAD closings then in progress). Willow Pond is distinct from HAPA's two larger RAD deals
+      // (Dunlap/Otlowski/Dzema/Sofield, 213 units; Hansen/Stack, 147 units).
+      utilityAllowanceNote:"HAPA publishes NO utility allowance schedule — verified 2026-07-27, the site carries only the Administrative Plan (Nan McKay template, Board-approved 1/8/2025). HAPA does maintain one (confirmed via its 2021 COVID waiver adoption); request Form HUD-52667 directly (dsantiago@perthamboyha.org, 732-826-3110). TRAP: the 'utility allowance approved by DCA' language in the City of Perth Amboy municipal affordable-housing ordinance (ecode360 Art. XVII) governs municipal COAH-type units and is NOT HAPA's HCV/PBV schedule — do not substitute it."
+    }
   },
 
   {
@@ -13330,11 +13751,71 @@ const PORTFOLIO = [
         spUrl:"https://mrkpartners.sharepoint.com/sites/MRKShared/Shared%20Documents/MRK/3.%20Portfolio/KRM%20CLOSED%20DEALS/Mount%20Vernon%20-%20Philadelphia,%20PA/17.%20Closing/Prior%20to%202026/2016/Saul%20Ewing/Index.pdf"
       }
     ],
-    certHistory:[], // PENDING 2026-07-16 — PA income-limit/gross-rent/UA tables not yet loaded; HAP contract, LIHTC covenant, and loan structure fully documented
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Philadelphia County, PA)",
+        source:"PHFA / HUD FY2024 MTSP limits effective 04/01/2024 for the Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA. Regular (non-HERA) MTSP limits — NOT the HERA Special block. Verified 2026-07-27 against NJHMFA tc_2024_income_limits.pdf and PHFA 2024_mtxr041.pdf, which are byte-identical at every tier and household size 1-8; cross-checked to HUD's FY2024 MTSP Documentation System. Sub-tier INCOME limits are exact multiples of the 50% row (30%=0.6x, 20%=0.4x, verified at every household size, zero breaks). Sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent produces a $1 error in roughly 1 cell in 7. UA intentionally null (no UA source located for this property). PLACED IN SERVICE 3/20/2018 — this property is NOT eligible for HERA Special hold-harmless limits (those apply only to buildings placed in service on or before 12/31/2008), so the regular block is correct here. Note several older Birchwood properties in this file are labelled 'HERA Special' with PIS dates of 2011 and 2013 and should be re-checked separately. TIERS: 50% is the documented covenant tier (min. 25 of 42 units) and 20% is the PHFA Exhibit B overlay (5 of those 25, first 15 years). The 60% row is carried for reference only — the covenant's Section 42(g)(1) minimum-set-aside election is OCR-garbled in the scanned original and has never been confirmed. All 42 units also carry project-based Section 8 (HAP PA26L000007), so contract rent generally governs revenue and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"20%":{"1":16060,"2":18360,"3":20660,"4":22940,"5":24780,"6":26620},"50%":{"1":40150,"2":45900,"3":51650,"4":57350,"5":61950,"6":66550},"60%":{"1":48180,"2":55080,"3":61980,"4":68820,"5":74340,"6":79860}},
+          grossRentLimits:{"20%":{"studio":401,"1BR":430,"2BR":516},"50%":{"studio":1003,"1BR":1075,"2BR":1291},"60%":{"studio":1204,"1BR":1290,"2BR":1549}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Philadelphia County, PA)",
+        source:"PHFA / HUD FY2025 MTSP limits effective 04/01/2025 for the Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA. Regular (non-HERA) MTSP limits — NOT the HERA Special block. Verified 2026-07-27 against NJHMFA tc_2025_income_limits.pdf and PHFA 2025_mtxr041.pdf, which are byte-identical at every tier and household size 1-8; cross-checked to HUD's FY2025 MTSP Documentation System. Sub-tier INCOME limits are exact multiples of the 50% row (30%=0.6x, 20%=0.4x, verified at every household size, zero breaks). Sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent produces a $1 error in roughly 1 cell in 7. UA intentionally null (no UA source located for this property). PLACED IN SERVICE 3/20/2018 — this property is NOT eligible for HERA Special hold-harmless limits (those apply only to buildings placed in service on or before 12/31/2008), so the regular block is correct here. Note several older Birchwood properties in this file are labelled 'HERA Special' with PIS dates of 2011 and 2013 and should be re-checked separately. TIERS: 50% is the documented covenant tier (min. 25 of 42 units) and 20% is the PHFA Exhibit B overlay (5 of those 25, first 15 years). The 60% row is carried for reference only — the covenant's Section 42(g)(1) minimum-set-aside election is OCR-garbled in the scanned original and has never been confirmed. All 42 units also carry project-based Section 8 (HAP PA26L000007), so contract rent generally governs revenue and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"20%":{"1":16720,"2":19120,"3":21500,"4":23880,"5":25800,"6":27720},"50%":{"1":41800,"2":47800,"3":53750,"4":59700,"5":64500,"6":69300},"60%":{"1":50160,"2":57360,"3":64500,"4":71640,"5":77400,"6":83160}},
+          grossRentLimits:{"20%":{"studio":418,"1BR":448,"2BR":537},"50%":{"studio":1045,"1BR":1120,"2BR":1343},"60%":{"studio":1254,"1BR":1344,"2BR":1612}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Philadelphia County, PA)",
+        source:"PHFA / HUD FY2026 MTSP limits effective 05/01/2026 for the Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA. Regular (non-HERA) MTSP limits — NOT the HERA Special block. Verified 2026-07-27 against NJHMFA tc_2026_income_limits.pdf and PHFA 2026_mtxr041.pdf, which are byte-identical at every tier and household size 1-8; cross-checked to HUD's FY2026 MTSP Documentation System. Sub-tier INCOME limits are exact multiples of the 50% row (30%=0.6x, 20%=0.4x, verified at every household size, zero breaks). Sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent produces a $1 error in roughly 1 cell in 7. UA intentionally null (no UA source located for this property). PLACED IN SERVICE 3/20/2018 — this property is NOT eligible for HERA Special hold-harmless limits (those apply only to buildings placed in service on or before 12/31/2008), so the regular block is correct here. Note several older Birchwood properties in this file are labelled 'HERA Special' with PIS dates of 2011 and 2013 and should be re-checked separately. TIERS: 50% is the documented covenant tier (min. 25 of 42 units) and 20% is the PHFA Exhibit B overlay (5 of those 25, first 15 years). The 60% row is carried for reference only — the covenant's Section 42(g)(1) minimum-set-aside election is OCR-garbled in the scanned original and has never been confirmed. All 42 units also carry project-based Section 8 (HAP PA26L000007), so contract rent generally governs revenue and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520,"6":28480},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300,"6":71200},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560,"6":85440}},
+          grossRentLimits:{"20%":{"studio":429,"1BR":460,"2BR":552},"50%":{"studio":1073,"1BR":1150,"2BR":1381},"60%":{"studio":1288,"1BR":1380,"2BR":1657}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      }
+    ],
     program:"HAP/LIHTC",
-    lihtc:{amiYear:null, setAsides:[{pct:50,unitCount:25},{pct:20,unitCount:5}], incomeLimits:null, grossRentLimits:null, utilityAllowances:null, actualRents:null}, // CONFIRMED 2026-07-17 via recorded Indenture of Restrictive Covenants (REC# 16-127942): min. 25 of 42 units ≤50% AMI, of which 5 (a subset, not additive) are further restricted ≤20% AMI for first 15 years. Philadelphia County income/rent/UA tables still pending.
+    lihtc:{amiYear:2026, setAsides:[{pct:50,unitCount:25},{pct:20,unitCount:5}],
+      incomeLimits:{"20%":{"1":17180,"2":19640,"3":22100,"4":24540,"5":26520,"6":28480},"50%":{"1":42950,"2":49100,"3":55250,"4":61350,"5":66300,"6":71200},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560,"6":85440}},
+      grossRentLimits:{"20%":{"studio":429,"1BR":460,"2BR":552},"50%":{"studio":1073,"1BR":1150,"2BR":1381},"60%":{"studio":1288,"1BR":1380,"2BR":1657}},
+      utilityAllowances:null, actualRents:null}, // Set-asides CONFIRMED 2026-07-17 via recorded Indenture of Restrictive Covenants (REC# 16-127942): min. 25 of 42 units <=50% AMI,
+    // of which 5 (a subset, NOT additive) are further restricted <=20% AMI for the first 15 years. Limits populated 2026-07-27 from the
+    // FY2026 regular MTSP table for the Philadelphia-Camden-Wilmington MSA; 60% row is reference only (see certHistory note). UA still null.
     home:null,
-    hud:{contractNumber:"PA26L000007", contractAdmin:"U.S. Department of Housing and Urban Development (HUD) — direct project-based Section 8, Option 1a Mark-Up-to-Market renewal (2016)", contractTerm:"42 of 42 units (100%), expires 2036-12-22", contractRents:null}
+    hud:{contractNumber:"PA26L000007", hudPropertyId:"800018643", hudNameOfRecord:"Maple Mount Vernon Apartments",
+      contractAdmin:"U.S. Department of Housing and Urban Development (HUD) — direct project-based Section 8, Option 1a Mark-Up-to-Market renewal (2016)",
+      programType:"LMSA (Loan Management Set-Aside)",
+      contractTerm:"42 assisted units (100% of the LIHTC unit count), expires 2036-12-22",
+      assistedUnits:42, bedroomMixOnContract:{"studio":5,"1BR":10,"2BR":27},
+      grossContractRentPctOfFMR:133.88,
+      contractRents:null,
+      // VERIFIED 2026-07-27 against HUD's Multifamily Assistance & Section 8 Contracts database (file current 7/1/2026):
+      // contract number, 42 assisted units, 12/22/2036 expiration and the 5/10/27 bedroom mix all confirmed, and the mix matches
+      // this property's rent-roll-derived unitMix exactly. The 133.88% gross-rent-to-FMR ratio is consistent with Mark-Up-to-Market.
+      // CONTRACT RENTS ARE NOT PUBLIC — confirmed, not assumed: HUD publishes only the rent-to-FMR RATIO, and the full published field
+      // schema (170+ fields) contains bedroom COUNTS and the ratio but no dollar rent field. The figures live in the executed HUD-9642
+      // rent schedule and the annual HUD-9625 Rent Adjustment Worksheets in the owner/agent files or the Philadelphia HUD Multifamily
+      // field office. Until those are loaded, no hud_contract cert events can be created for this property.
+      // OCAF factors if/when the rent schedule is obtained (Pennsylvania): 2024 = 6.1%, 2025 = 4.1%, 2026 = 4.7%. The contract
+      // ANNIVERSARY date is not public either — a 12/23 anniversary is inferred from the 12/22/2036 expiration but NOT confirmed, so
+      // do not date OCAF events off it without the executed contract.
+      unitCountDiscrepancy:"HUD shows 43 total units at the property vs 42 assisted and 42 in this file's unitMix — the 43rd is most likely a non-revenue/manager unit, but it is unreconciled. Worth confirming, since the covenant requires applicable fraction >=100%."
+    }
   },
 
   {
@@ -13393,11 +13874,73 @@ const PORTFOLIO = [
         spUrl:null
       }
     ],
-    certHistory:[], // PENDING 2026-07-16 — Camden County income-limit/gross-rent/UA tables not yet loaded; regulatory/loan/unit-mix/set-aside research completed
+    certHistory:[
+      {
+        effectiveDate:"2024-04-01",
+        trigger:"income_limits",
+        label:"FY2024 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Camden County, NJ)",
+        source:"NJHMFA FY2024 LIHTC Income and Rent Limits effective 04/01/2024, HUD Area 7 (Camden County) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA. Regular (non-HERA) MTSP limits — NOT the HERA Special block. Verified 2026-07-27 against NJHMFA tc_2024_income_limits.pdf and PHFA 2024_mtxr041.pdf, which are byte-identical at every tier and household size 1-8; cross-checked to HUD's FY2024 MTSP Documentation System. Sub-tier INCOME limits are exact multiples of the 50% row (30%=0.6x, 20%=0.4x, verified at every household size, zero breaks). Sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent produces a $1 error in roughly 1 cell in 7. UA intentionally null (no UA source located for this property). ACQUISITION PIS 12/22/2022 with rehab PIS running 9/28/2023-4/25/2024 — NOT eligible for HERA Special hold-harmless limits, so the regular block is correct. TIERS reflect the recorded LIHTC Extended Use Covenant election (federal minimum 40% of units at 60% AMI plus the NJHMFA state set-aside of >=10% of units at <=30% AMI), netting ~3 units @30% and ~26 units @60%. That split is percentage-derived, NOT a document-confirmed unit-by-unit list — re-verified 2026-07-17 across the covenant, the 2020 LIHTC application and the rent roll, none of which tie unit numbers to an AMI tier. Separately, the 2024 NJHMFA AHPF-SA deed restriction restricts ALL 29 units to <=60% AMI, so the 60% row is the binding ceiling portfolio-wide regardless of the LIHTC tier split. 23-24 of the 29 units also carry USDA RD Section 515 project-based Rental Assistance, where the USDA-approved rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":24090,"2":27540,"3":30990,"4":34410,"5":37170,"6":39930},"60%":{"1":48180,"2":55080,"3":61980,"4":68820,"5":74340,"6":79860}},
+          grossRentLimits:{"30%":{"2BR":774,"3BR":894},"60%":{"2BR":1549,"3BR":1789}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2025-04-01",
+        trigger:"income_limits",
+        label:"FY2025 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Camden County, NJ)",
+        source:"NJHMFA FY2025 LIHTC Income and Rent Limits effective 04/01/2025, HUD Area 7 (Camden County) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA. Regular (non-HERA) MTSP limits — NOT the HERA Special block. Verified 2026-07-27 against NJHMFA tc_2025_income_limits.pdf and PHFA 2025_mtxr041.pdf, which are byte-identical at every tier and household size 1-8; cross-checked to HUD's FY2025 MTSP Documentation System. Sub-tier INCOME limits are exact multiples of the 50% row (30%=0.6x, 20%=0.4x, verified at every household size, zero breaks). Sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent produces a $1 error in roughly 1 cell in 7. UA intentionally null (no UA source located for this property). ACQUISITION PIS 12/22/2022 with rehab PIS running 9/28/2023-4/25/2024 — NOT eligible for HERA Special hold-harmless limits, so the regular block is correct. TIERS reflect the recorded LIHTC Extended Use Covenant election (federal minimum 40% of units at 60% AMI plus the NJHMFA state set-aside of >=10% of units at <=30% AMI), netting ~3 units @30% and ~26 units @60%. That split is percentage-derived, NOT a document-confirmed unit-by-unit list — re-verified 2026-07-17 across the covenant, the 2020 LIHTC application and the rent roll, none of which tie unit numbers to an AMI tier. Separately, the 2024 NJHMFA AHPF-SA deed restriction restricts ALL 29 units to <=60% AMI, so the 60% row is the binding ceiling portfolio-wide regardless of the LIHTC tier split. 23-24 of the 29 units also carry USDA RD Section 515 project-based Rental Assistance, where the USDA-approved rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":25080,"2":28680,"3":32250,"4":35820,"5":38700,"6":41580},"60%":{"1":50160,"2":57360,"3":64500,"4":71640,"5":77400,"6":83160}},
+          grossRentLimits:{"30%":{"2BR":806,"3BR":931},"60%":{"2BR":1612,"3BR":1863}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      },
+      {
+        effectiveDate:"2026-05-01",
+        trigger:"income_limits",
+        label:"FY2026 MTSP Income & Rent Limits — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA (Camden County, NJ)",
+        source:"NJHMFA FY2026 LIHTC Income and Rent Limits effective 05/01/2026, HUD Area 7 (Camden County) — Philadelphia-Camden-Wilmington PA-NJ-DE-MD MSA. Regular (non-HERA) MTSP limits — NOT the HERA Special block. Verified 2026-07-27 against NJHMFA tc_2026_income_limits.pdf and PHFA 2026_mtxr041.pdf, which are byte-identical at every tier and household size 1-8; cross-checked to HUD's FY2026 MTSP Documentation System. Sub-tier INCOME limits are exact multiples of the 50% row (30%=0.6x, 20%=0.4x, verified at every household size, zero breaks). Sub-tier RENTS are the PUBLISHED figures, not scaled — scaling the 50% rent produces a $1 error in roughly 1 cell in 7. UA intentionally null (no UA source located for this property). ACQUISITION PIS 12/22/2022 with rehab PIS running 9/28/2023-4/25/2024 — NOT eligible for HERA Special hold-harmless limits, so the regular block is correct. TIERS reflect the recorded LIHTC Extended Use Covenant election (federal minimum 40% of units at 60% AMI plus the NJHMFA state set-aside of >=10% of units at <=30% AMI), netting ~3 units @30% and ~26 units @60%. That split is percentage-derived, NOT a document-confirmed unit-by-unit list — re-verified 2026-07-17 across the covenant, the 2020 LIHTC application and the rent roll, none of which tie unit numbers to an AMI tier. Separately, the 2024 NJHMFA AHPF-SA deed restriction restricts ALL 29 units to <=60% AMI, so the 60% row is the binding ceiling portfolio-wide regardless of the LIHTC tier split. 23-24 of the 29 units also carry USDA RD Section 515 project-based Rental Assistance, where the USDA-approved rent governs tenant contribution and these LIHTC figures act as the ceiling.",
+        snapshot:{
+          incomeLimits:{"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780,"6":42720},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560,"6":85440}},
+          grossRentLimits:{"30%":{"2BR":828,"3BR":957},"60%":{"2BR":1657,"3BR":1914}},
+          utilityAllowances:null,
+          hudContractRents:null
+        }
+      }
+    ],
     program:"USDA RD §515/LIHTC", // CORRECTED 2026-07-16 from source table's "RAD/LIHTC" label — see regulatoryAgreements entry above
-    lihtc:{amiYear:null, setAsides:[{pct:30,unitCount:3},{pct:60,unitCount:26}], incomeLimits:null, grossRentLimits:null, utilityAllowances:null, actualRents:null}, // Camden County income/rent/UA tables pending
+    lihtc:{amiYear:2026, setAsides:[{pct:30,unitCount:3},{pct:60,unitCount:26}],
+      incomeLimits:{"30%":{"1":25770,"2":29460,"3":33150,"4":36810,"5":39780,"6":42720},"60%":{"1":51540,"2":58920,"3":66300,"4":73620,"5":79560,"6":85440}},
+      grossRentLimits:{"30%":{"2BR":828,"3BR":957},"60%":{"2BR":1657,"3BR":1914}},
+      utilityAllowances:null, actualRents:null}, // Limits populated 2026-07-27 from the FY2026 regular (non-HERA) MTSP table for the Philadelphia-Camden-Wilmington MSA,
+    // Camden County = NJHMFA HUD Area 7. Set-aside split remains percentage-derived, not a confirmed unit list. UA still null.
     home:null,
-    hud:null
+    hud:null,
+    usda:{
+      program:"USDA Rural Development Section 515 — project-based Rental Assistance",
+      usdaProjectId:"25051", usdaCounty:"Camden (county code 7), NJ",
+      usdaNameOfRecord:"Brittany Woods",
+      usdaAddressOfRecord:"41 Prospect Ave, Erial, NJ 08081",
+      totalUnits:29, bedroomMixOnRecord:{"2BR":14,"3BR":15},
+      subsidizedUnits:24,
+      contractRents:null,
+      // VERIFIED 2026-07-27 against USDA's public MFH Rentals system (rdmfhrentals.sc.egov.usda.gov, project 25051):
+      // 29 total units and the 14x2BR / 15x3BR mix both confirmed, matching this file's rent-roll-derived unitMix.
+      // ⚠ DISCREPANCY: USDA's record shows 24 units with subsidy; this file's regulatoryAgreements entry says 23 of 29 (79%).
+      //   Unreconciled — RA unit counts do get adjusted over time, so confirm against the current Form RD 3560-9 before relying on either.
+      // ⚠ ADDRESS: USDA's address of record is 41 Prospect Ave, Erial NJ — the marketing/file address is 1 Edinshire Rd, Sicklerville.
+      //   Same site in Gloucester Township; do not treat as two properties.
+      // CONTRACT RENTS ARE NOT PUBLIC — confirmed, not assumed: neither the MFH Rentals property page nor the USDA RD Section 515/514
+      // Property Characteristics dataset (32 columns, header inspected) carries any basic-rent, note-rent or RA-contract-rent field.
+      // The figures live in the annual Form RD 3560-7 Project Budget/Utility Allowance and Form RD 3560-9 Rental Assistance Agreement,
+      // obtainable from the management agent or USDA RD Northeast MFH (MFHFODNortheast@usda.gov). Form RD 3560-7 would also settle
+      // this property's missing utility allowance, which is why uaType is still null.
+      managementOfRecord:"MRK Property Management LLC"
+    }
   },
 
 ];
@@ -13491,31 +14034,45 @@ function fmtDate(d, style="short") {
 
 // ── CERT LABELS & COLORS ──────────────────────────────────────────────────────
 const CERT_TYPE_LABELS = {
-  income_limits:    "Income Limit Update",
-  hud_contract:     "HUD Rent Schedule",
-  utility_allowance:"UA Update",
-  home_htf_limits:  "HOME/HTF Limit Update",
-  ua_change:        "UA Change",
-  lura_amendment:   "LURA Amendment",
-  other:            "Other"
+  income_limits:      "Income Limit Update",
+  income_limits_and_ua:"Income Limit + UA Update",
+  hcd_income_limits:  "CA HCD Limit Update",
+  mohcd_income_limits:"SF MOHCD Limit Update",
+  hud_contract:       "HUD Rent Schedule",
+  utility_allowance:  "UA Update",
+  utility_allowances: "UA Update",
+  home_htf_limits:    "HOME/HTF Limit Update",
+  ua_change:          "UA Change",
+  lura_amendment:     "LURA Amendment",
+  combined:           "Multiple Changes",
+  other:              "Other"
 };
 const TRIGGER_LABELS = {
-  income_limits:    "Income Limits",
-  hud_contract:     "HUD Contract",
-  utility_allowance:"UA Update",
-  home_htf_limits:  "HOME/HTF Limits",
-  ua_change:        "UA Change",
-  lura_amendment:   "LURA Amendment",
-  other:            "Other"
+  income_limits:      "Income Limits",
+  income_limits_and_ua:"Income Limits + UA",
+  hcd_income_limits:  "CA HCD Limits",
+  mohcd_income_limits:"SF MOHCD Limits",
+  hud_contract:       "HUD Contract",
+  utility_allowance:  "UA Update",
+  utility_allowances: "UA Update",
+  home_htf_limits:    "HOME/HTF Limits",
+  ua_change:          "UA Change",
+  lura_amendment:     "LURA Amendment",
+  combined:           "Multiple Changes",
+  other:              "Other"
 };
 const TRIGGER_COLORS = {
-  income_limits:    "#19394d",  // MRK navy — HUD MTSP/income limit releases
-  hud_contract:     "#5b21b6",  // purple — HUD contract changes
-  utility_allowance:"#0e7490",  // teal — UA updates
-  home_htf_limits:  "#7c3aed",  // violet — SHRA HOME/HTF limit releases
-  combined:         "#166534",  // green — multiple changes
-  lura_amendment:   "#c8601a",  // orange — LURA amendments
-  other:            "#64748b"
+  income_limits:      "#19394d",  // MRK navy — HUD MTSP/income limit releases
+  income_limits_and_ua:"#166534", // green — income limits + UA in one event
+  hcd_income_limits:  "#b45309",  // amber — California HCD State Income Limit releases
+  mohcd_income_limits:"#9d174d",  // magenta — SF MOHCD limit releases
+  hud_contract:       "#5b21b6",  // purple — HUD contract changes
+  utility_allowance:  "#0e7490",  // teal — UA updates
+  utility_allowances: "#0e7490",  // teal — UA updates (plural spelling used across most properties)
+  home_htf_limits:    "#7c3aed",  // violet — SHRA HOME/HTF limit releases
+  combined:           "#166534",  // green — multiple changes
+  lura_amendment:     "#c8601a",  // orange — LURA amendments
+  other:              "#64748b"
 };
 
 const PROGRAM_LABEL = { LIHTC:"LIHTC", HUD:"HUD", Both:"Both", "LIHTC/HOME":"LIHTC/HOME", Unknown:"Unknown" };
