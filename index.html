@@ -14626,6 +14626,20 @@ function buildPropertyCardHtml(p, st, prog, fromMap) {
     </div>`;
 }
 
+// Independent cities / consolidated jurisdictions that are NOT counties — appending
+// "County" to these produces a wrong label (e.g. "Baltimore City County — Maryland").
+// Key is "region__county" so a same-named real county elsewhere is unaffected.
+// Note: San Francisco is deliberately NOT listed — it is a consolidated city-and-county
+// and "San Francisco County" is the correct legal name used in CTCAC/HUD limit tables.
+const NON_COUNTY_JURISDICTIONS = new Set([
+  "Maryland__Baltimore City"
+]);
+
+function countyHeaderLabel(county, region) {
+  if (NON_COUNTY_JURISDICTIONS.has(region + "__" + county)) return county + " — " + region;
+  return county + " County — " + region;
+}
+
 function render() {
   const q      = document.getElementById("search").value.toLowerCase();
   const fReg   = document.getElementById("fRegion").value;
@@ -14657,14 +14671,42 @@ function render() {
   document.getElementById("header-meta").innerHTML =
     `${enriched.length} properties · ${totalUnits.toLocaleString()} units<br>Rent, Income &amp; Utility Allowance Monitor`;
 
-  // Group by region + county
-  const grouped = [];
-  let lastGroup = null;
-  filtered.forEach(p => {
-    const gk = p.region + "__" + p.county;
-    if (gk !== lastGroup) { grouped.push({ type:"header", label: p.county + " County — " + p.region, region: p.region }); lastGroup = gk; }
-    grouped.push({ type:"card", p });
-  });
+  // ── Group by region + county ──────────────────────────────────────────────
+  // FIXED 2026-08-04: this previously used run-length grouping (`if (gk !== lastGroup)`),
+  // which emitted a fresh header every time the county changed in PORTFOLIO array order.
+  // Because new properties are appended in dated batch blocks rather than sorted into
+  // their state's original section, non-contiguous counties rendered repeated headers
+  // (46 real county groups were rendering as 80 headers — Middlesex NJ appeared 7x,
+  // Cecil MD 5x, Burlington NJ 4x). Now a true group-by: one header per region+county.
+  // Ordering: states in PORTFOLIO first-appearance order (matches the All States
+  // dropdown), counties A-Z within a state, properties A-Z within a county.
+  const grouped = (() => {
+    // State order derived from full PORTFOLIO (not `filtered`) so headings keep a
+    // stable position regardless of which filters are active.
+    const stateOrder = new Map();
+    PORTFOLIO.forEach(p => { if (!stateOrder.has(p.region)) stateOrder.set(p.region, stateOrder.size); });
+
+    const groups = new Map(); // "region__county" -> { region, county, props: [] }
+    filtered.forEach(p => {
+      const gk = p.region + "__" + p.county;
+      if (!groups.has(gk)) groups.set(gk, { region: p.region, county: p.county, props: [] });
+      groups.get(gk).props.push(p);
+    });
+
+    const out = [];
+    [...groups.values()]
+      .sort((a, b) =>
+        (stateOrder.has(a.region) ? stateOrder.get(a.region) : 999) - (stateOrder.has(b.region) ? stateOrder.get(b.region) : 999)
+        || a.region.localeCompare(b.region)
+        || a.county.localeCompare(b.county))
+      .forEach(g => {
+        out.push({ type: "header", label: countyHeaderLabel(g.county, g.region), region: g.region });
+        g.props
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .forEach(p => out.push({ type: "card", p }));
+      });
+    return out;
+  })();
 
   document.getElementById("grid").innerHTML = grouped.map(item => {
     if (item.type === "header") {
